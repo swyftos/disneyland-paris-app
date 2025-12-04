@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Lo sentimos, parece que no hay conexión a Internet. Revisa tu configuración y vuelve a intentarlo.",
+      "ERROR_CONNECT": "Lo sentimos, hubo un problema con la conexión. Inténtalo de nuevo.",
+      "ERROR_UNEXPECTED_RESPONSE": "Lo sentimos, el sistema de cuentas tiene un problema.",
+      "ERROR_TIMEOUT": "Lo sentimos, el sistema de cuentas tiene un problema.",
+      "ERROR_WEB_BRIDGE_MISSING": "Lo sentimos, el sistema de cuentas tiene un problema.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Lo sentimos, el sistema de cuentas tiene un problema.",
+      "ERROR_JAVASCRIPT_ERROR": "Lo sentimos, el sistema de cuentas tiene un problema.",
+      "ERROR_INTERNAL": "Lo sentimos, el sistema de cuentas tiene un problema.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Lo sentimos, el sistema de cuentas tiene un problema.",
+      "CLIENT_NOT_FOUND": "Lo sentimos, el sistema de cuentas tiene un problema.",
+      "PROFILE_DISABLED": "Tu acceso a este sitio se bloqueó permanentemente por infringir los términos del acuerdo de servicio.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Tu perfil de cuenta incluye tu dirección de correo electrónico y la de uno de tus padres. Para continuar, necesitamos verificar las dos direcciones.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "El perfil de tu cuenta incluye una dirección de correo electrónico que requiere verificación. Para continuar, necesitamos verificar tu dirección de correo electrónico.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "El perfil de tu cuenta está asociado a la dirección de correo electrónico de uno de tus padres. Cuando tu padre o madre confirme tu correo electrónico, podrás iniciar sesión.",
+      "GUEST_GATED_UNKNOWN": "No cumples los requisitos para iniciar sesión o registrarte en este sitio.",
+      "GUEST_GATED_AGEBAND": "No cumples los requisitos para iniciar sesión en este sitio.",
+      "GUEST_GATED_LOCATION": "No cumples los requisitos para iniciar sesión o registrarte en este sitio.",
+      "GUEST_GATED_EMBARGOED": "No cumples los requisitos para registrarte en este sitio. No se recopiló la información.",
+      "MISSING_VALUE": "Tu perfil se creó sin toda la información que se requiere. Consulta el campo de entrada para conocer los detalles.",
+      "DISALLOWED_VALUE": "Tu perfil contiene un valor que no está permitido. Consulta el campo de entrada para conocer los detalles.",
+      "INVALID_VALUE_FILTHY": "Asegúrate de que tu nombre para mostrar no sea ofensivo ni malsonante. ¡Pórtate bien!",
+      "SYSTEM_UNAVAILABLE": "Servicio no disponible temporalmente.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Parece que no has usado nuestra aplicación por un tiempo.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "No pudimos autenticarte correctamente.",
+      "SSO_WELCOME_FIRSTNAME": "Hola, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Hola!",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Cancelar",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Iniciar sesión",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Para continuar, confirma la huella dactilar",
+      "FINGERPRINT_DIALOG_HINT": "Toca el sensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "No se reconoce la huella dactilar. Inténtalo de nuevo.",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Huella dactilar reconocida",
+      "FINGERPRINT_DIALOG_ICON": "Icono de huella dactilar",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "¿Abrir en el navegador web?",
+      "DIALOG_OK": "Aceptar",
+      "DIALOG_CANCEL": "Cancelar"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:importantForAccessibility="no"
+    style="@style/UrbanAirship.PreferenceCenter.Item.Header">
+    <TextView
+        android:id="@+id/ua_pref_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:accessibilityHeading="true"
+        style="@style/UrbanAirship.PreferenceCenter.Item.HeaderTitle"/>
+    <TextView
+        android:id="@+id/ua_pref_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/UrbanAirship.PreferenceCenter.Item.HeaderDescription"/>
+</LinearLayout>

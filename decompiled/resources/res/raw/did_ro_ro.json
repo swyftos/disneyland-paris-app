@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Ne pare rău, se pare că nu există o conexiune la internet. Verificați setările dvs. și încercați din nou.",
+      "ERROR_CONNECT": "Ne pare rău, a survenit o problemă la conectare. Încercați din nou.",
+      "ERROR_UNEXPECTED_RESPONSE": "Ne pare rău, a survenit o problemă legată de sistemul contului.",
+      "ERROR_TIMEOUT": "Ne pare rău, a survenit o problemă legată de sistemul contului.",
+      "ERROR_WEB_BRIDGE_MISSING": "Ne pare rău, a survenit o problemă legată de sistemul contului.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Ne pare rău, a survenit o problemă legată de sistemul contului.",
+      "ERROR_JAVASCRIPT_ERROR": "Ne pare rău, a survenit o problemă legată de sistemul contului.",
+      "ERROR_INTERNAL": "Ne pare rău, a survenit o problemă legată de sistemul contului.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Ne pare rău, a survenit o problemă legată de sistemul contului.",
+      "CLIENT_NOT_FOUND": "Ne pare rău, a survenit o problemă legată de sistemul contului.",
+      "PROFILE_DISABLED": "Accesul dvs. la acest site a fost blocat definitiv deoarece ați încălcat acordul privind furnizarea serviciilor.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Profilul contului dvs. include atât adresa dvs. de e-mail, cât și adresa de e-mail a părintelui dvs. Înainte să puteți continua, trebuie să verificăm ambele adrese de e-mail.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Profilul contului dvs. include o adresă de e-mail care trebuie verificată. Înainte să puteți continua, trebuie să verificați adresa dvs. de e-mail.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Profilul contului dvs. este asociat cu adresa de e-mail a părintelui dvs. După ce părintele confirmă e-mailul, vă veți putea conecta.",
+      "GUEST_GATED_UNKNOWN": "Nu sunteți eligibil pentru conectare sau înregistrare pe acest site.",
+      "GUEST_GATED_LOCATION": "Nu sunteți eligibil pentru conectare sau înregistrare pe acest site.",
+      "GUEST_GATED_EMBARGOED": "Nu sunteți eligibil pentru înregistrare pe acest site. Informațiile dvs. nu au fost colectate.",
+      "GUEST_GATED_AGEBAND": "Nu sunteți eligibil pentru înregistrare pe acest site. Informațiile dvs. nu au fost colectate.",
+      "MISSING_VALUE": "Profilul dvs. a fost creat fără să fie prezente toate informațiile obligatorii, consultați câmpul de introducere pentru detalii.",
+      "DISALLOWED_VALUE": "Profilul dvs. conține o valoare nepermisă, consultați câmpul de introducere pentru detalii.",
+      "INVALID_VALUE_FILTHY": "Asigurați-vă că numele afișat nu conține injurii sau vulgarități. Fiți amabil!",
+      "SYSTEM_UNAVAILABLE": "Serviciu indisponibil temporar.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Se pare că nu ați mai folosit aplicația de multă vreme.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Nu reușim să vă autentificăm corespunzător.",
+      "SSO_WELCOME_FIRSTNAME": "Salut, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Salut.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Anulați",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Conectare",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Confirmați amprenta pentru a continua",
+      "FINGERPRINT_DIALOG_HINT": "Senzor tactil",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Amprentă nerecunoscută. Încercați din nou",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Amprentă recunoscută",
+      "FINGERPRINT_DIALOG_ICON": "Pictogramă amprentă",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Deschidere în browser de web?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Anulați"
+    }
+  }
+}

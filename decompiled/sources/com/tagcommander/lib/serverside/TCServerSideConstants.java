@@ -1,0 +1,57 @@
+package com.tagcommander.lib.serverside;
+
+/* loaded from: classes4.dex */
+public final class TCServerSideConstants {
+    public static final String kTCPredefinedVariable_ApplicationBuild = "#TC_APPLICATION_BUILD#";
+    public static final String kTCPredefinedVariable_ApplicationName = "#TC_APPLICATION_NAME#";
+    public static final String kTCPredefinedVariable_ApplicationPreviousVersion = "#TC_APPLICATION_PREVIOUS_VERSION#";
+    public static final String kTCPredefinedVariable_ApplicationVersion = "#TC_APPLICATION_VERSION#";
+    public static final String kTCPredefinedVariable_BackgroundTime = "#TC_BACKGROUND_TIME#";
+    public static final String kTCPredefinedVariable_BundleID = "#TC_BUNDLE_IDENTIFIER#";
+    public static final String kTCPredefinedVariable_Charset = "#TC_CHARSET#";
+    public static final String kTCPredefinedVariable_ColdStarts = "#TC_APPLICATION_STARTS#";
+    public static final String kTCPredefinedVariable_CurVersionFirstVisitMs = "#TC_VERSION_FIRST_VISIT_MS#";
+    public static final String kTCPredefinedVariable_CurrencyCode = "#TC_CURRENCY_CODE#";
+    public static final String kTCPredefinedVariable_CurrencySymbol = "#TC_CURRENCY_SYMBOL#";
+    public static final String kTCPredefinedVariable_CurrentCallMs = "#TC_CURRENT_CALL_MS#";
+    public static final String kTCPredefinedVariable_CurrentSessionMs = "#TC_CURRENT_SESSION_MS#";
+    public static final String kTCPredefinedVariable_CurrentVisitMs = "#TC_CURRENT_VISIT_MS#";
+    public static final String kTCPredefinedVariable_DeltaBackgroundTime = "#TC_DELTA_BACKGROUND_TIME#";
+    public static final String kTCPredefinedVariable_DeltaForegroundTime = "#TC_DELTA_FOREGROUND_TIME#";
+    public static final String kTCPredefinedVariable_Device = "#TC_DEVICE#";
+    public static final String kTCPredefinedVariable_FirstExecute = "#TC_FIRST_EXECUTE#";
+    public static final String kTCPredefinedVariable_FirstVisitMs = "#TC_FIRST_VISIT_MS#";
+    public static final String kTCPredefinedVariable_ForegroundTime = "#TC_FOREGROUND_TIME#";
+    public static final String kTCPredefinedVariable_ForegroundTransitions = "#TC_FOREGROUNDS#";
+    public static final String kTCPredefinedVariable_InstallReferrer = "#TC_INSTALL_REFERRER#";
+    public static final String kTCPredefinedVariable_IsFirstVisit = "#TC_IS_FIRST_VISIT#";
+    public static final String kTCPredefinedVariable_IsNewSession = "#TC_NEW_SESSION#";
+    public static final String kTCPredefinedVariable_JailBroken = "#TC_JAILBROKEN#";
+    public static final String kTCPredefinedVariable_Language = "#TC_LANGUAGE#";
+    public static final String kTCPredefinedVariable_LastCallMs = "#TC_LAST_CALL_MS#";
+    public static final String kTCPredefinedVariable_LastForegroundTimeWithoutMeasurement = "#TC_CS_START_DFT#";
+    public static final String kTCPredefinedVariable_LastSessionLastHitMs = "#TC_LAST_SESSION_LAST_HIT_MS#";
+    public static final String kTCPredefinedVariable_LastSessionStartMs = "#TC_LAST_SESSION_START_MS#";
+    public static final String kTCPredefinedVariable_LastVisitMs = "#TC_LAST_VISIT_MS#";
+    public static final String kTCPredefinedVariable_Manufacturer = "#TC_MANUFACTURER#";
+    public static final String kTCPredefinedVariable_Model = "#TC_MODEL#";
+    public static final String kTCPredefinedVariable_ModelAndVersion = "#TC_MODEL_AND_VERSION#";
+    public static final String kTCPredefinedVariable_NumberSession = "#TC_NUMBER_SESSION#";
+    public static final String kTCPredefinedVariable_NumberVisit = "#TC_NUMBER_VISIT#";
+    public static final String kTCPredefinedVariable_Region = "#TC_REGION#";
+    public static final String kTCPredefinedVariable_RuntimeName = "#TC_RUNTIME_NAME#";
+    public static final String kTCPredefinedVariable_ScreenDensity = "#TC_SCREEN_DENSITY#";
+    public static final String kTCPredefinedVariable_ScreenHeight = "#TC_SCREEN_HEIGHT#";
+    public static final String kTCPredefinedVariable_ScreenResolution = "#TC_SCREEN#";
+    public static final String kTCPredefinedVariable_ScreenWidth = "#TC_SCREEN_WIDTH#";
+    public static final String kTCPredefinedVariable_SessionDurationMs = "#TC_SESSION_DURATION_MS#";
+    public static final String kTCPredefinedVariable_SessionID = "#TC_SESSION_ID#";
+    public static final String kTCPredefinedVariable_SystemName = "#TC_SYSNAME#";
+    public static final String kTCPredefinedVariable_SystemVersion = "#TC_SYSVERSION#";
+    public static final String kTCPredefinedVariable_TagCommanderVersion = "#TC_TAGCOMMANDER_VERSION#";
+    public static final String kTCPredefinedVariable_TimeSinceLastExit = "#TC_CS_START_DIT#";
+    public static final String kTCPredefinedVariable_UniqueID = "#TC_UNIQUEID#";
+    public static final String kTCRegexpScreenResolution = "[0-9]{1,4}x[0-9]{1,4}";
+    public static final String kTCRegexpSoftwareVersion = "[0-9]+(.[0-9]+)*";
+    public static final int kTCVisitDurationDefaultValue = 1800;
+}

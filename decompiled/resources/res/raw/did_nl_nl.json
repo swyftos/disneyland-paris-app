@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Er is zo te zien helaas geen internetverbinding. Controleer je instellingen en probeer het nog een keer.",
+      "ERROR_CONNECT": "Het spijt ons, maar er was een probleem met de verbinding. Probeer het nog eens.",
+      "ERROR_UNEXPECTED_RESPONSE": "Het spijt ons, maar er is een probleem met het accountsysteem.",
+      "ERROR_TIMEOUT": "Het spijt ons, maar er is een probleem met het accountsysteem.",
+      "ERROR_WEB_BRIDGE_MISSING": "Het spijt ons, maar er is een probleem met het accountsysteem.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Het spijt ons, maar er is een probleem met het accountsysteem.",
+      "ERROR_JAVASCRIPT_ERROR": "Het spijt ons, maar er is een probleem met het accountsysteem.",
+      "ERROR_INTERNAL": "Het spijt ons, maar er is een probleem met het accountsysteem.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Het spijt ons, maar er is een probleem met het accountsysteem.",
+      "CLIENT_NOT_FOUND": "Het spijt ons, maar er is een probleem met het accountsysteem.",
+      "PROFILE_DISABLED": "Toegang tot deze site is blijvend geblokkeerd vanwege het schenden van de Gebruiksvoorwaardenovereenkomst.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "In je accountprofiel staat jouw e-mailadres én dat van je ouders. Voordat je verder kunt gaan, moeten we beide e-mailadressen controleren.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "In je accountprofiel staat een e-mailadres dat moet worden geverifieerd. Voordat je verder kunt gaan, moeten we je e-mailadres verifiëren.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Je accountprofiel is aan het e-mailadres van je vader of moeder gekoppeld. Als je vader of moeder je e-mail heeft bevestigd, kun je je aanmelden.",
+      "GUEST_GATED_UNKNOWN": "Je komt niet in aanmerking om in te loggen of je aan te melden op deze site.",
+      "GUEST_GATED_LOCATION": "Je komt niet in aanmerking om in te loggen of je aan te melden op deze site.",
+      "GUEST_GATED_EMBARGOED": "Je komt niet in aanmerking om te registreren op deze site. Er zijn geen gegevens over jou verzameld.",
+      "GUEST_GATED_AGEBAND": "Je komt niet in aanmerking om te registreren op deze site. Er zijn geen gegevens over jou verzameld.",
+      "MISSING_VALUE": "Je profiel is zonder alle benodigde gegevens gemaakt. Zie het invoerveld voor meer informatie.",
+      "DISALLOWED_VALUE": "Je profiel bevat een waarde die niet is toegestaan. Zie het invoerveld voor meer informatie.",
+      "INVALID_VALUE_FILTHY": "Gebruik geen namen met schuttingtaal of scheldwoorden. Hou het netjes!",
+      "SYSTEM_UNAVAILABLE": "Dienst tijdelijk niet beschikbaar.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Zo te zien heb je deze app al een tijdje niet gebruikt.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "We konden je niet helemaal thuisbrengen.",
+      "SSO_WELCOME_FIRSTNAME": "Hallo {{ firstName }},",
+      "SSO_WELCOME_FALLBACK": "Hallo.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Annuleren",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Aanmelden",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Bevestig vingerafdruk om verder te gaan",
+      "FINGERPRINT_DIALOG_HINT": "Raak sensor aan",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Vingerafdruk niet herkend. Probeer het opnieuw",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Vingerafdruk herkend",
+      "FINGERPRINT_DIALOG_ICON": "Vingerafdrukpictogram",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Openen in webbrowser?",
+      "DIALOG_OK": "Oké",
+      "DIALOG_CANCEL": "Annuleren"
+    }
+  }
+}

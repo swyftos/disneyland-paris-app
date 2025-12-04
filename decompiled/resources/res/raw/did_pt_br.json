@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Parece que você não tem uma conexão com a internet. Verifique suas configurações e tente novamente.",
+      "ERROR_CONNECT": "Ocorreu um problema ao conectar. Tente novamente.",
+      "ERROR_UNEXPECTED_RESPONSE": "O sistema de contas está com um problema.",
+      "ERROR_TIMEOUT": "O sistema de contas está com um problema.",
+      "ERROR_WEB_BRIDGE_MISSING": "O sistema de contas está com um problema.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "O sistema de contas está com um problema.",
+      "ERROR_JAVASCRIPT_ERROR": "O sistema de contas está com um problema.",
+      "ERROR_INTERNAL": "O sistema de contas está com um problema.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "O sistema de contas está com um problema.",
+      "CLIENT_NOT_FOUND": "O sistema de contas está com um problema.",
+      "PROFILE_DISABLED": "Seu acesso a este site foi bloqueado permanentemente por violação do Acordo de Termos de Serviço.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "O perfil da sua conta inclui seu endereço de e-mail e o endereço de e-mail do seu responsável. Antes de continuar, precisamos verificar os dois endereços de e-mail.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "O perfil da sua conta inclui um endereço de e-mail que requer verificação. Antes de continuar, precisamos que você verifique o seu endereço de e-mail.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "O perfil da sua conta está associado ao endereço de e-mail do seu responsável. Assim que seu responsável confirmar o e-mail, você poderá entrar.",
+      "GUEST_GATED_UNKNOWN": "Você não está qualificado para entrar ou se registrar neste site.",
+      "GUEST_GATED_LOCATION": "Você não está qualificado para entrar ou se registrar neste site.",
+      "GUEST_GATED_EMBARGOED": "Você não está qualificado para se registrar neste site. Sua informação não foi coletada.",
+      "GUEST_GATED_AGEBAND": "Você não está qualificado para se registrar neste site. Sua informação não foi coletada.",
+      "MISSING_VALUE": "Seu perfil foi criado sem todas as informações necessárias, veja o campo de entrada para obter detalhes.",
+      "DISALLOWED_VALUE": "Seu perfil contém um valor não permitido, veja o campo de entrada para obter detalhes.",
+      "INVALID_VALUE_FILTHY": "Verifique se o seu nome de tela não contém insultos ou obscenidades. Seja legal!",
+      "SYSTEM_UNAVAILABLE": "O serviço se encontra temporariamente indisponível.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Parece que você não usa o nosso aplicativo há algum tempo.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Não foi possível autenticar você corretamente.",
+      "SSO_WELCOME_FIRSTNAME": "Olá, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Olá.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Cancelar",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Entrar",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Confirmar impressão digital para continuar",
+      "FINGERPRINT_DIALOG_HINT": "Sensor de toque",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Impressão digital não reconhecida. Tente novamente",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Impressão digital reconhecida",
+      "FINGERPRINT_DIALOG_ICON": "Ícone de impressão digital",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Abrir no navegador da web?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Cancelar"
+    }
+  }
+}

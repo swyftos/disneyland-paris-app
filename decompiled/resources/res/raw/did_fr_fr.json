@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Nous sommes désolés, il semble qu'il n'y ait pas de connexion internet. Veuillez vérifier vos paramètres et réessayer.",
+      "ERROR_CONNECT": "Nous sommes désolés, il y a eu un problème de connexion. Veuillez réessayer.",
+      "ERROR_UNEXPECTED_RESPONSE": "Nous sommes désolés, le système de comptes rencontre des problèmes.",
+      "ERROR_TIMEOUT": "Nous sommes désolés, le système de comptes rencontre des problèmes.",
+      "ERROR_WEB_BRIDGE_MISSING": "Nous sommes désolés, le système de comptes rencontre des problèmes.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Nous sommes désolés, le système de comptes rencontre des problèmes.",
+      "ERROR_JAVASCRIPT_ERROR": "Nous sommes désolés, le système de comptes rencontre des problèmes.",
+      "ERROR_INTERNAL": "Nous sommes désolés, le système de comptes rencontre des problèmes.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Nous sommes désolés, le système de comptes rencontre des problèmes.",
+      "CLIENT_NOT_FOUND": "Nous sommes désolés, le système de comptes rencontre des problèmes.",
+      "PROFILE_DISABLED": "Votre accès à ce sites a été bloqué définitivement pour violation des conditions d'utilisation.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Le profil de votre compte inclut votre adresse e-mail et celle de vos parents. Avant de continuer, nous devons vérifier les deux adresses e-mail.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Le profil de votre compte inclut une adresse e-mail qui doit être vérifiée. Avant de continuer, vous devez vérifier votre adresse e-mail.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Le profil de votre compte est associé à l'adresse e-mail de vos parents. Dès que vos parents auront confirmé votre e-mail, vous pourrez vous connecter.",
+      "GUEST_GATED_UNKNOWN": "Vous ne pouvez pas vous connecter ou vous enregistrer sur ce site.",
+      "GUEST_GATED_LOCATION": "Vous ne pouvez pas vous connecter ou vous enregistrer sur ce site.",
+      "GUEST_GATED_EMBARGOED": "Vous ne pouvez pas vous inscrire sur ce site. Vos informations n'ont pas été enregistrées.",
+      "GUEST_GATED_AGEBAND": "Vous ne pouvez pas vous inscrire sur ce site. Vos informations n'ont pas été enregistrées.",
+      "MISSING_VALUE": "Votre profil a été créé sans prendre en compte toutes les informations requises, reportez-vous au champ d'entrée pour les détails.",
+      "DISALLOWED_VALUE": "Votre profil contient une valeur non autorisée, reportez-vous au champ d'entrée pour les détails.",
+      "INVALID_VALUE_FILTHY": "Assurez-vous que votre pseudo ne contient ni insultes ni obscénités. Soyez aimable !",
+      "SYSTEM_UNAVAILABLE": "Service temporairement inaccessible.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Il semble que vous n'ayez plus utilisé notre application depuis un certain temps.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Nous n'avons pas été en mesure de vous authentifier correctement.",
+      "SSO_WELCOME_FIRSTNAME": "Bonjour, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Bonjour !",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Annuler",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Connexion",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Confirmer l'empreinte digitale pour continuer",
+      "FINGERPRINT_DIALOG_HINT": "Toucher le capteur",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Empreinte digitale non reconnue. Réessayez",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Empreinte digitale reconnue",
+      "FINGERPRINT_DIALOG_ICON": "Icône d'empreinte digitale",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Ouvrir dans un navigateur Web ?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Annuler"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+package com.google.firebase.platforminfo;
+
+import com.google.firebase.components.Component;
+import com.google.firebase.components.ComponentContainer;
+import com.google.firebase.components.Dependency;
+import java.util.Iterator;
+import java.util.Set;
+
+/* loaded from: classes4.dex */
+public class DefaultUserAgentPublisher implements UserAgentPublisher {
+    private final GlobalLibraryVersionRegistrar gamesSDKRegistrar;
+    private final String javaSDKVersionUserAgent;
+
+    DefaultUserAgentPublisher(Set set, GlobalLibraryVersionRegistrar globalLibraryVersionRegistrar) {
+        this.javaSDKVersionUserAgent = toUserAgent(set);
+        this.gamesSDKRegistrar = globalLibraryVersionRegistrar;
+    }
+
+    @Override // com.google.firebase.platforminfo.UserAgentPublisher
+    public String getUserAgent() {
+        if (this.gamesSDKRegistrar.getRegisteredVersions().isEmpty()) {
+            return this.javaSDKVersionUserAgent;
+        }
+        return this.javaSDKVersionUserAgent + ' ' + toUserAgent(this.gamesSDKRegistrar.getRegisteredVersions());
+    }
+
+    private static String toUserAgent(Set set) {
+        StringBuilder sb = new StringBuilder();
+        Iterator it = set.iterator();
+        while (it.hasNext()) {
+            LibraryVersion libraryVersion = (LibraryVersion) it.next();
+            sb.append(libraryVersion.getLibraryName());
+            sb.append('/');
+            sb.append(libraryVersion.getVersion());
+            if (it.hasNext()) {
+                sb.append(' ');
+            }
+        }
+        return sb.toString();
+    }
+
+    public static Component<UserAgentPublisher> component() {
+        return Component.builder(UserAgentPublisher.class).add(Dependency.setOf(LibraryVersion.class)).factory(DefaultUserAgentPublisher$$Lambda$1.instance).build();
+    }
+
+    static /* synthetic */ UserAgentPublisher lambda$component$0(ComponentContainer componentContainer) {
+        return new DefaultUserAgentPublisher(componentContainer.setOf(LibraryVersion.class), GlobalLibraryVersionRegistrar.getInstance());
+    }
+}

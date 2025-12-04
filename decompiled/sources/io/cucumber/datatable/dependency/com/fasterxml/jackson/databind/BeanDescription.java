@@ -1,0 +1,126 @@
+package io.cucumber.datatable.dependency.com.fasterxml.jackson.databind;
+
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.annotation.JsonFormat;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.annotation.JsonInclude;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect.AnnotatedClass;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect.AnnotatedConstructor;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect.AnnotatedField;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect.AnnotatedMember;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect.ObjectIdInfo;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.type.TypeBindings;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.util.Annotations;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.util.Converter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/* loaded from: classes5.dex */
+public abstract class BeanDescription {
+    protected final JavaType _type;
+
+    @Deprecated
+    public abstract TypeBindings bindingsForBeanType();
+
+    public abstract AnnotatedMember findAnyGetter();
+
+    public abstract AnnotatedMember findAnySetterAccessor();
+
+    @Deprecated
+    public abstract Map<String, AnnotatedMember> findBackReferenceProperties();
+
+    public abstract List<BeanPropertyDefinition> findBackReferences();
+
+    public String findClassDescription() {
+        return null;
+    }
+
+    public abstract AnnotatedConstructor findDefaultConstructor();
+
+    public abstract Class<?>[] findDefaultViews();
+
+    public abstract Converter<Object, Object> findDeserializationConverter();
+
+    public abstract JsonFormat.Value findExpectedFormat(JsonFormat.Value value);
+
+    public abstract Method findFactoryMethod(Class<?>... clsArr);
+
+    public abstract Map<Object, AnnotatedMember> findInjectables();
+
+    public abstract AnnotatedMember findJsonValueAccessor();
+
+    @Deprecated
+    public abstract AnnotatedMethod findJsonValueMethod();
+
+    public abstract AnnotatedMethod findMethod(String str, Class<?>[] clsArr);
+
+    public abstract Class<?> findPOJOBuilder();
+
+    public abstract JsonPOJOBuilder.Value findPOJOBuilderConfig();
+
+    public abstract List<BeanPropertyDefinition> findProperties();
+
+    public abstract JsonInclude.Value findPropertyInclusion(JsonInclude.Value value);
+
+    public abstract Converter<Object, Object> findSerializationConverter();
+
+    public abstract Constructor<?> findSingleArgConstructor(Class<?>... clsArr);
+
+    public abstract Annotations getClassAnnotations();
+
+    public abstract AnnotatedClass getClassInfo();
+
+    public abstract List<AnnotatedConstructor> getConstructors();
+
+    public abstract List<AnnotatedMethod> getFactoryMethods();
+
+    public abstract Set<String> getIgnoredPropertyNames();
+
+    public abstract ObjectIdInfo getObjectIdInfo();
+
+    public abstract boolean hasKnownClassAnnotations();
+
+    public abstract Object instantiateBean(boolean z);
+
+    @Deprecated
+    public abstract JavaType resolveType(Type type);
+
+    protected BeanDescription(JavaType javaType) {
+        this._type = javaType;
+    }
+
+    public JavaType getType() {
+        return this._type;
+    }
+
+    public Class<?> getBeanClass() {
+        return this._type.getRawClass();
+    }
+
+    public boolean isNonStaticInnerClass() {
+        return getClassInfo().isNonStaticInnerClass();
+    }
+
+    @Deprecated
+    public AnnotatedMethod findAnySetter() {
+        AnnotatedMember annotatedMemberFindAnySetterAccessor = findAnySetterAccessor();
+        if (annotatedMemberFindAnySetterAccessor instanceof AnnotatedMethod) {
+            return (AnnotatedMethod) annotatedMemberFindAnySetterAccessor;
+        }
+        return null;
+    }
+
+    @Deprecated
+    public AnnotatedMember findAnySetterField() {
+        AnnotatedMember annotatedMemberFindAnySetterAccessor = findAnySetterAccessor();
+        if (annotatedMemberFindAnySetterAccessor instanceof AnnotatedField) {
+            return annotatedMemberFindAnySetterAccessor;
+        }
+        return null;
+    }
+}

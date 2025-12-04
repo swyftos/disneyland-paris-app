@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Valitettavasti näyttää siltä, ettei Internet-yhteyttä ole. Tarkista asetuksesi ja yritä uudelleen.",
+      "ERROR_CONNECT": "Valitettavasti yhteyden muodostamisessa oli ongelma. Yritä uudelleen.",
+      "ERROR_UNEXPECTED_RESPONSE": "Valitettavasti tilijärjestelmässä on ongelma.",
+      "ERROR_TIMEOUT": "Valitettavasti tilijärjestelmässä on ongelma.",
+      "ERROR_WEB_BRIDGE_MISSING": "Valitettavasti tilijärjestelmässä on ongelma.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Valitettavasti tilijärjestelmässä on ongelma.",
+      "ERROR_JAVASCRIPT_ERROR": "Valitettavasti tilijärjestelmässä on ongelma.",
+      "ERROR_INTERNAL": "Valitettavasti tilijärjestelmässä on ongelma.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Valitettavasti tilijärjestelmässä on ongelma.",
+      "CLIENT_NOT_FOUND": "Valitettavasti tilijärjestelmässä on ongelma.",
+      "PROFILE_DISABLED": "Pääsysi tälle sivustolle on estetty pysyvästi palvelun käyttöehtojen rikkomisen vuoksi.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Tiliprofiiliisi sisältää sekä sähköpostiosoitteesi että huoltajasi sähköpostiosoitteen. Ennen kuin voit jatkaa, meidän on vahvistettava molemmat sähköpostiosoitteet.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Tiliprofiiliisi sisältää sähköpostiosoitteen, joka täytyy vahvistaa. Ennen kuin voit jatkaa, sinun on vahvistettava sähköpostiosoitteesi.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Tiliprofiiliisi liittyy huoltajasi sähköpostiosoitteeseen. Kun huoltajasi on vahvistanut sähköpostiosoitteesi, pystyt kirjautumaan sisään.",
+      "GUEST_GATED_UNKNOWN": "Et ole oikeutettu kirjautumaan tai rekisteröitymään tähän sivustoon.",
+      "GUEST_GATED_LOCATION": "Et ole oikeutettu kirjautumaan tai rekisteröitymään tähän sivustoon.",
+      "GUEST_GATED_EMBARGOED": "Et ole oikeutettu rekisteröitymään tähän sivustoon. Tietojasi ei ole kerätty.",
+      "GUEST_GATED_AGEBAND": "Et ole oikeutettu rekisteröitymään tähän sivustoon. Tietojasi ei ole kerätty.",
+      "MISSING_VALUE": "Profiilisi luotiin niin, että kaikkia tarvittavia tietoja ei annettu. Katso lisätietoja syötekentästä.",
+      "DISALLOWED_VALUE": "Profiilisi sisältää arvon, jota ei sallita. Katso lisätietoja syötekentästä.",
+      "INVALID_VALUE_FILTHY": "Varmista, että näyttönimesi ei sisällä loukkauksia tai kirosanoja. Ole mukava!",
+      "SYSTEM_UNAVAILABLE": "Palvelu on tilapäisesti poissa käytöstä.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Näyttää siltä, ettet ole käyttänyt sovellustamme vähään aikaan.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Emme pysty todentamaan sinua oikein.",
+      "SSO_WELCOME_FIRSTNAME": "Hei {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Hei.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Peruuta",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Kirjaudu sisään",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Jatka vahvistamalla sormenjälki",
+      "FINGERPRINT_DIALOG_HINT": "Kosketusanturi",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Sormenjälkeä ei tunnisteta. Yritä uudelleen",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Sormenjälki tunnistettiin",
+      "FINGERPRINT_DIALOG_ICON": "Sormenjälkikuvake",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Avataanko selaimessa?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Peruuta"
+    }
+  }
+}

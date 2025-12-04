@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Det ser ut som om du ikke er koblet til Internett. Kontroller innstillingene og prøv på nytt.",
+      "ERROR_CONNECT": "Beklager, det oppstod et problem med forbindelsen. Prøv på nytt.",
+      "ERROR_UNEXPECTED_RESPONSE": "Beklager, vi har problemer med kontosystemet.",
+      "ERROR_TIMEOUT": "Beklager, vi har problemer med kontosystemet.",
+      "ERROR_WEB_BRIDGE_MISSING": "Beklager, vi har problemer med kontosystemet.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Beklager, vi har problemer med kontosystemet.",
+      "ERROR_JAVASCRIPT_ERROR": "Beklager, vi har problemer med kontosystemet.",
+      "ERROR_INTERNAL": "Beklager, vi har problemer med kontosystemet.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Beklager, vi har problemer med kontosystemet.",
+      "CLIENT_NOT_FOUND": "Beklager, vi har problemer med kontosystemet.",
+      "PROFILE_DISABLED": "Din tilgang til denne siden har blitt blokkert permanent for brudd på bruksavtalen.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Kontoprofilen din inneholder både din e-postadresse og e-postadressen til en av foreldrene dine. Før du kan fortsette må vi bekrefte at begge e-postadressene er gyldige.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Kontoprofilen din inneholder en e-postadresse som må bekreftes. Før du kan fortsette må du bekrefte at e-postadressen er gyldig.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Kontoprofilen din er knyttet til e-postadressen til en av foreldrene dine. Når han/hun har bekreftet e-postadressen din, kan du logge på.",
+      "GUEST_GATED_UNKNOWN": "Du kan ikke logge deg inn eller registrere deg på dette nettstedet.",
+      "GUEST_GATED_LOCATION": "Du kan ikke logge deg inn eller registrere deg på dette nettstedet.",
+      "GUEST_GATED_EMBARGOED": "Du kan ikke registrere deg på dette nettstedet. Informasjonen din er ikke samlet inn.",
+      "GUEST_GATED_AGEBAND": "Du kan ikke registrere deg på dette nettstedet. Informasjonen din er ikke samlet inn.",
+      "MISSING_VALUE": "Profilen din ble opprettet uten all den nødvendige informasjonen. Se mer informasjon i inndatafeltet.",
+      "DISALLOWED_VALUE": "Profilen din inneholder en verdi som ikke er tillatt. Se mer informasjon i inndatafeltet.",
+      "INVALID_VALUE_FILTHY": "Skjermnavnet må ikke inneholde fornærmelser eller stygge ord. Vær hyggelig!",
+      "SYSTEM_UNAVAILABLE": "Tjenesten er midlertidig utilgjengelig.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Det ser ut som om du ikke har brukt appen vår på en stund.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Vi klarer ikke å godkjenne deg på korrekt måte.",
+      "SSO_WELCOME_FIRSTNAME": "Hei, {{ firstName }}!",
+      "SSO_WELCOME_FALLBACK": "Hei!",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Avbryt",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Logg på",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Bekreft fingeravtrykk for å fortsette",
+      "FINGERPRINT_DIALOG_HINT": "Berør sensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Fingeravtrykket ble ikke gjenkjent. Prøv på nytt",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Fingeravtrykket ble gjenkjent",
+      "FINGERPRINT_DIALOG_ICON": "Ikon for fingeravtrykk",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Vil du åpne i nettleser?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Avbryt"
+    }
+  }
+}

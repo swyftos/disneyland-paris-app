@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Przykro nam, wygląda na to, że nie ma połączenia internetowego. Sprawdź swoje ustawienia i spróbuj ponownie.",
+      "ERROR_CONNECT": "Przepraszamy, wystąpił problem podczas połączenia. Spróbuj ponownie.",
+      "ERROR_UNEXPECTED_RESPONSE": "Przepraszamy, wystąpił problem z systemem konta.",
+      "ERROR_TIMEOUT": "Przepraszamy, wystąpił problem z systemem konta.",
+      "ERROR_WEB_BRIDGE_MISSING": "Przepraszamy, wystąpił problem z systemem konta.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Przepraszamy, wystąpił problem z systemem konta.",
+      "ERROR_JAVASCRIPT_ERROR": "Przepraszamy, wystąpił problem z systemem konta.",
+      "ERROR_INTERNAL": "Przepraszamy, wystąpił problem z systemem konta.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Przepraszamy, wystąpił problem z systemem konta.",
+      "CLIENT_NOT_FOUND": "Przepraszamy, wystąpił problem z systemem konta.",
+      "PROFILE_DISABLED": "Dostęp do tej strony został zawieszony na stałe za naruszenie warunków świadczenia usługi.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Profil Twojego konta zawiera zarówno Twój adres e-mail, jak i adres e-mail Twojego rodzica. Zanim będziesz mógł przejść dalej, musimy potwierdzić oba adresy e-mail.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Profil Twojego konta zawiera adres e-mail, który wymaga potwierdzenia. Zanim będziesz mógł przejść dalej, musisz potwierdzić swój adres e-mail.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Profil Twojego konta jest powiązany z adresem e-mail Twojego rodzica. Twoje zalogowanie się na koncie będzie możliwe dopiero po tym, jak Twój rodzic potwierdzi Twój adres e-mail.",
+      "GUEST_GATED_UNKNOWN": "Nie masz uprawnień, aby zalogować się lub zarejestrować w tej witrynie.",
+      "GUEST_GATED_LOCATION": "Nie masz uprawnień, aby zalogować się lub zarejestrować w tej witrynie.",
+      "GUEST_GATED_EMBARGOED": "Nie masz uprawnień, aby zarejestrować się w tej witrynie. Twoje dane nie zostały zgromadzone.",
+      "GUEST_GATED_AGEBAND": "Nie masz uprawnień, aby zarejestrować się w tej witrynie. Twoje dane nie zostały zgromadzone.",
+      "MISSING_VALUE": "Twój profil został stworzony bez wszystkich wymaganych informacji. Sprawdź pole edycji, aby uzyskać więcej informacji.",
+      "DISALLOWED_VALUE": "Twój profil zawiera niedozwoloną wartość. Sprawdź pole edycji, aby uzyskać więcej informacji.",
+      "INVALID_VALUE_FILTHY": "Upewnij się, że nazwa wyświetlana nie zawiera zniewag lub przekleństw. Bądź uprzejmy!",
+      "SYSTEM_UNAVAILABLE": "Usługa tymczasowo niedostępna.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Nie używałeś naszej aplikacji od jakiegoś czasu.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Nie mieliśmy możliwości właściwie uwierzytelnić Twojego konta.",
+      "SSO_WELCOME_FIRSTNAME": "Cześć, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Cześć!",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Anuluj",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Zaloguj się",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Potwierdź odcisk palca, aby kontynuować",
+      "FINGERPRINT_DIALOG_HINT": "Czujnik dotykowy",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Nie rozpoznano odcisku palca. Spróbuj ponownie",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Rozpoznano odcisk palca",
+      "FINGERPRINT_DIALOG_ICON": "Ikona odcisku palca",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Otworzyć w przeglądarce?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Anuluj"
+    }
+  }
+}

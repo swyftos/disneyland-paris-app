@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Vi beklager, det ser ud til, at der ikke er en internetforbindelse. Kontrollér dine indstillinger, og prøv igen.",
+      "ERROR_CONNECT": "Vi beklager, der var et problem med at oprette forbindelse. Prøv igen.",
+      "ERROR_UNEXPECTED_RESPONSE": "Vi beklager, der er et problem med kontosystemet.",
+      "ERROR_TIMEOUT": "Vi beklager, der er et problem med kontosystemet.",
+      "ERROR_WEB_BRIDGE_MISSING": "Vi beklager, der er et problem med kontosystemet.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Vi beklager, der er et problem med kontosystemet.",
+      "ERROR_JAVASCRIPT_ERROR": "Vi beklager, der er et problem med kontosystemet.",
+      "ERROR_INTERNAL": "Vi beklager, der er et problem med kontosystemet.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Vi beklager, der er et problem med kontosystemet.",
+      "CLIENT_NOT_FOUND": "Vi beklager, der er et problem med kontosystemet.",
+      "PROFILE_DISABLED": "Din adgang til denne side er blevet permanent blokeret for brud på servicevilkåraftalen.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Din kontoprofil indeholder både din e-mailadresse og en af dine forældres e-mailadresse. Før du kan fortsætte, er vi nødt til at bekræfte begge e-mailadresser.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Din kontoprofil indeholder en e-mailadresse, der kræver bekræftelse. Før du kan fortsætte, skal du bekræfte din e-mailadresse.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Din kontoprofil er forbundet til en af dine forældres e-mailadresse. Når din forælder har bekræftet din e-mail, kan du logge på.",
+      "GUEST_GATED_UNKNOWN": "Du er ikke berettiget til at logge på eller tilmelde dig denne side.",
+      "GUEST_GATED_LOCATION": "Du er ikke berettiget til at logge på eller tilmelde dig denne side.",
+      "GUEST_GATED_EMBARGOED": "Du er ikke berettiget til at tilmelde dig denne side. Dine oplysninger er ikke blevet indsamlet.",
+      "GUEST_GATED_AGEBAND": "Du er ikke berettiget til at tilmelde dig denne side. Dine oplysninger er ikke blevet indsamlet.",
+      "MISSING_VALUE": "Din profil blev oprettet uden alle de nødvendige oplysninger. Se indtastningsfeltet for detaljer.",
+      "DISALLOWED_VALUE": "Din profil indeholder en værdi, som ikke er tilladt. Se indtastningsfeltet for detaljer.",
+      "INVALID_VALUE_FILTHY": "Sørg for, at dit skærmnavn ikke indeholder fornærmelser eller ukvemsord. Opfør dig pænt!",
+      "SYSTEM_UNAVAILABLE": "Tjenesten er midlertidigt utilgængelig.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Det ser til, at du ikke har brugt vores app i et stykke tid.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Vi var ikke i stand til at godkende dig.",
+      "SSO_WELCOME_FIRSTNAME": "Hej {{ firstName }}",
+      "SSO_WELCOME_FALLBACK": "Hej",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Annuller",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Log på",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Bekræft fingeraftryk for at fortsætte",
+      "FINGERPRINT_DIALOG_HINT": "Berøringssensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Fingeraftryk blev ikke genkendt Prøv igen",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Fingeraftryk blev genkendt",
+      "FINGERPRINT_DIALOG_ICON": "Fingeraftryks-ikon",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Åbn i webbrowser?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Annuller"
+    }
+  }
+}

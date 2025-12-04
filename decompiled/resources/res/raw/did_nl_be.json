@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Sorry, blijkbaar is er geen internetverbinding. Controleer uw instellingen en probeer het opnieuw.",
+      "ERROR_CONNECT": "Sorry, blijkbaar is er een verbindingsprobleem. Probeer het opnieuw.",
+      "ERROR_UNEXPECTED_RESPONSE": "In het accountsysteem is helaas een probleem opgetreden.",
+      "ERROR_TIMEOUT": "In het accountsysteem is helaas een probleem opgetreden.",
+      "ERROR_WEB_BRIDGE_MISSING": "In het accountsysteem is helaas een probleem opgetreden.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "In het accountsysteem is helaas een probleem opgetreden.",
+      "ERROR_JAVASCRIPT_ERROR": "In het accountsysteem is helaas een probleem opgetreden.",
+      "ERROR_INTERNAL": "In het accountsysteem is helaas een probleem opgetreden.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "In het accountsysteem is helaas een probleem opgetreden.",
+      "CLIENT_NOT_FOUND": "In het accountsysteem is helaas een probleem opgetreden.",
+      "PROFILE_DISABLED": "Uw toegang tot deze website werd definitief geblokkeerd omdat de voorwaarden van het dienstencontract zijn geschonden.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Uw accountprofiel bevat het e-mailadres van uzelf en dat van uw ouder. Om verder te gaan, moeten we beide e-mailadressen controleren.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Uw accountprofiel bevat een e-mailadres dat moet worden gecontroleerd. Om verder te gaan, vragen we u om uw e-mailadres te controleren.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Uw accountprofiel is gekoppeld aan het e-mailadres van uw ouder. Zodra uw ouder uw e-mail bevestigt, kunt u zich aanmelden.",
+      "GUEST_GATED_UNKNOWN": "U komt niet in aanmerking voor aanmelding of registratie op deze website.",
+      "GUEST_GATED_LOCATION": "U komt niet in aanmerking voor aanmelding of registratie op deze website.",
+      "GUEST_GATED_EMBARGOED": "U komt niet in aanmerking voor registratie op deze website. Uw gegevens werden niet verzameld.",
+      "GUEST_GATED_AGEBAND": "U komt niet in aanmerking voor registratie op deze website. Uw gegevens werden niet verzameld.",
+      "MISSING_VALUE": "Uw profiel is gemaakt zonder alle vereiste gegevens; zie het invoerveld voor meer informatie.",
+      "DISALLOWED_VALUE": "Uw profiel bevat een waarde die niet is toegestaan; zie het invoerveld voor meer informatie.",
+      "INVALID_VALUE_FILTHY": "Zorg ervoor dat uw weergavenaam niet beledigend of lasterlijk is. Wees beleefd!",
+      "SYSTEM_UNAVAILABLE": "Deze dienst is tijdelijk niet beschikbaar.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Blijkbaar hebt u onze app al een tijdje niet meer gebruikt.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "We kunnen uw identiteit niet naar behoren controleren.",
+      "SSO_WELCOME_FIRSTNAME": "Hallo {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Hallo.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Annuleren",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Inloggen",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Vingerafdruk bevestigen om verder te gaan",
+      "FINGERPRINT_DIALOG_HINT": "Touch sensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Vingerafdruk niet herkend. Opnieuw proberen",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Vingerafdruk herkend.",
+      "FINGERPRINT_DIALOG_ICON": "Icoon vingerafdruk",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Openen in webbrowser",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Annuleren"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "很抱歉，看來並沒有網際網路連線。請檢查您的設定，然後再試一次。",
+      "ERROR_CONNECT": "很抱歉，連線發生問題。請重試。",
+      "ERROR_UNEXPECTED_RESPONSE": "很抱歉，帳戶系統出現問題。",
+      "ERROR_TIMEOUT": "很抱歉，帳戶系統出現問題。",
+      "ERROR_WEB_BRIDGE_MISSING": "很抱歉，帳戶系統出現問題。",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "很抱歉，帳戶系統出現問題。",
+      "ERROR_JAVASCRIPT_ERROR": "很抱歉，帳戶系統出現問題。",
+      "ERROR_INTERNAL": "很抱歉，帳戶系統出現問題。",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "很抱歉，帳戶系統出現問題。",
+      "CLIENT_NOT_FOUND": "很抱歉，帳戶系統出現問題。",
+      "PROFILE_DISABLED": "因為違反服務條款合約，所以您對這個網站的存取權已遭到永久封鎖。",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "您的帳戶設定檔包含您的電子郵件地址與家長電子郵件地址。在您能夠繼續之前，我們需要驗證這兩個電子郵件地址。",
+      "GUEST_GATED_EMAIL_VERIFICATION": "您的帳戶設定檔包含需要驗證的電子郵件地址。在您能夠繼續之前，我們需要驗證您的電子郵件地址。",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "您的帳戶設定檔與家長電子郵件地址建立了關聯。一旦您的家長確認您的電子郵件之後，您就可以登入。",
+      "GUEST_GATED_UNKNOWN": "您沒有資格登入這個網站或在這裡註冊。",
+      "GUEST_GATED_LOCATION": "您沒有資格登入這個網站或在這裡註冊。",
+      "GUEST_GATED_EMBARGOED": "您沒有資格在這個網站註冊。我們尚未收集您的資訊。",
+      "GUEST_GATED_AGEBAND": "您沒有資格在這個網站註冊。我們尚未收集您的資訊。",
+      "MISSING_VALUE": "您建立的設定檔並未包含所有必要資訊，請查看輸入欄位以取得詳細資訊。",
+      "DISALLOWED_VALUE": "您的設定檔包含不允許的值，請查看輸入欄位以取得詳細資訊。",
+      "INVALID_VALUE_FILTHY": "請確定您的顯示名稱沒有包含侮辱或褻瀆字眼。請使用好的名稱！",
+      "SYSTEM_UNAVAILABLE": "服務暫時無法使用。",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "看來您已經有一陣子未使用我們的應用程式了。",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "我們無法適當地驗證您的身分。",
+      "SSO_WELCOME_FIRSTNAME": "{{ firstName }}，您好。",
+      "SSO_WELCOME_FALLBACK": "您好。",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "取消",
+      "FINGERPRINT_DIALOG_SIGN_IN": "登入",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "確認指紋並繼續",
+      "FINGERPRINT_DIALOG_HINT": "觸碰感測器",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "無法辨識指紋。再試一次。",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "指紋辨識成功",
+      "FINGERPRINT_DIALOG_ICON": "指紋圖示",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "在網頁瀏覽器中開啟？",
+      "DIALOG_OK": "確定",
+      "DIALOG_CANCEL": "取消"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/oneid_lightbox"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/lightbox">
+    <ImageView
+        android:id="@+id/oneid_lightbox_background"
+        android:focusable="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/lightbox_background_image"/>
+    <TextView
+        android:textSize="18sp"
+        android:textColor="#ff0000"
+        android:id="@+id/force_version_message"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:text="UI version is being overridden and is for testing purposes only"
+        android:textAlignment="center"/>
+    <FrameLayout
+        android:id="@+id/oneid_loader_view"
+        android:focusable="true"
+        android:visibility="invisible"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/loader">
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:contentDescription="@string/loader_spinner"/>
+    </FrameLayout>
+</FrameLayout>

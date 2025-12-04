@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Sajnáljuk, úgy tűnik, hogy nincs internetkapcsolat. Ellenőrizd a beállításaidat, és próbáld meg újra.",
+      "ERROR_CONNECT": "Sajnáljuk, probléma történt a csatlakozás közben. Próbáld meg újra.",
+      "ERROR_UNEXPECTED_RESPONSE": "Sajnáljuk, problémák vannak a felhasználói fiókokat kezelő rendszerrel.",
+      "ERROR_TIMEOUT": "Sajnáljuk, problémák vannak a felhasználói fiókokat kezelő rendszerrel.",
+      "ERROR_WEB_BRIDGE_MISSING": "Sajnáljuk, problémák vannak a felhasználói fiókokat kezelő rendszerrel.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Sajnáljuk, problémák vannak a felhasználói fiókokat kezelő rendszerrel.",
+      "ERROR_JAVASCRIPT_ERROR": "Sajnáljuk, problémák vannak a felhasználói fiókokat kezelő rendszerrel.",
+      "ERROR_INTERNAL": "Sajnáljuk, problémák vannak a felhasználói fiókokat kezelő rendszerrel.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Sajnáljuk, problémák vannak a felhasználói fiókokat kezelő rendszerrel.",
+      "CLIENT_NOT_FOUND": "Sajnáljuk, problémák vannak a felhasználói fiókokat kezelő rendszerrel.",
+      "PROFILE_DISABLED": "Véglegesen kitiltottunk Téged erről a webhelyről a Felhasználási feltételek megsértése miatt.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "A te e-mail címed és az egyik szülőd e-mail címe is meg van adva a fiókod profiladatai között. Mielőtt továbblépnénk, ellenőriznünk kell mindkét e-mail címet.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "A profiladatai között szerepel egy e-mail cím, amelyet ellenőrizni kell. Mielőtt továbblépnénk, meg kell erősítened az e-mail címed.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "A profiladataid szerint a fiókod az egyik szülőd e-mail címéhez tartozik. Amint a szülő megerősíti az e-mail címedet, máris bejelentkezhetsz.",
+      "GUEST_GATED_UNKNOWN": "Nem vagy jogosult rá, hogy belépj vagy regisztrálj ezen a webhelyen.",
+      "GUEST_GATED_LOCATION": "Nem vagy jogosult rá, hogy belépj vagy regisztrálj ezen a webhelyen.",
+      "GUEST_GATED_EMBARGOED": "Nem vagy jogosult rá, hogy regisztrálj ezen a webhelyen. Még nem történt meg az adataid begyűjtése.",
+      "GUEST_GATED_AGEBAND": "Nem vagy jogosult rá, hogy regisztrálj ezen a webhelyen. Még nem történt meg az adataid begyűjtése.",
+      "MISSING_VALUE": "A profil létrehozásakor nem adtak meg minden szükséges információt; a részletekért lásd a beviteli mezőt.",
+      "DISALLOWED_VALUE": "A profil egy nem engedélyezett értéket tartalmaz; a részletekért lásd a beviteli mezőt.",
+      "INVALID_VALUE_FILTHY": "Ügyelj rá, hogy a megjelenő neved ne legyen sértő vagy trágár. Legyél kedves!",
+      "SYSTEM_UNAVAILABLE": "A szolgáltatás átmenetileg nem áll rendelkezésre.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Úgy tűnik, jó ideje nem használtad az alkalmazást.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Nem sikerült megfelelően hitelesítenünk Téged.",
+      "SSO_WELCOME_FIRSTNAME": "Üdvözlünk, {{ firstName }}!",
+      "SSO_WELCOME_FALLBACK": "Köszöntünk.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Mégse",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Bejelentkezés",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Ujjlenyomat jóváhagyása a folytatáshoz",
+      "FINGERPRINT_DIALOG_HINT": "Érintésérzékelő",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Az ujjlenyomat nem ismerhető fel. Újra",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Ujjlenyomat azonosítva",
+      "FINGERPRINT_DIALOG_ICON": "Ujjlenyomat ikon",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Megnyitás böngészőben?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Mégse"
+    }
+  }
+}

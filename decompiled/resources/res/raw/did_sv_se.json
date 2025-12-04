@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Det verkar tyvärr inte finnas en internetanslutning. Kontrollera dina inställningar och försök igen.",
+      "ERROR_CONNECT": "Det gick tyvärr inte att ansluta. Försök igen.",
+      "ERROR_UNEXPECTED_RESPONSE": "Tyvärr. Kontosystemet har ett problem.",
+      "ERROR_TIMEOUT": "Tyvärr. Kontosystemet har ett problem.",
+      "ERROR_WEB_BRIDGE_MISSING": "Tyvärr. Kontosystemet har ett problem.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Tyvärr. Kontosystemet har ett problem.",
+      "ERROR_JAVASCRIPT_ERROR": "Tyvärr. Kontosystemet har ett problem.",
+      "ERROR_INTERNAL": "Tyvärr. Kontosystemet har ett problem.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Tyvärr. Kontosystemet har ett problem.",
+      "CLIENT_NOT_FOUND": "Tyvärr. Kontosystemet har ett problem.",
+      "PROFILE_DISABLED": "Din åtkomst till den här webbplatsen är permanent blockerad på grund av överträdelse av användarvillkoren.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Din kontoprofil innehåller både din e-postadress och din förälders e-postadress. Vi måste bekräfta båda e-postadresserna innan du kan fortsätta.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Din kontoprofil innehåller en e-postadress som kräver verifiering. Du måste bekräfta din e-postadress innan du kan fortsätta.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Din kontoprofil är kopplad till din förälders e-postadress. Du kan logga in när din förälder har bekräftat din e-postadress.",
+      "GUEST_GATED_UNKNOWN": "Du är inte berättigad att logga in eller registrera dig på den här webbplatsen.",
+      "GUEST_GATED_LOCATION": "Du är inte berättigad att logga in eller registrera dig på den här webbplatsen.",
+      "GUEST_GATED_EMBARGOED": "Du är inte berättigad att registrera dig på den här webbplatsen. Din information har inte samlats in.",
+      "GUEST_GATED_AGEBAND": "Du är inte berättigad att registrera dig på den här webbplatsen. Din information har inte samlats in.",
+      "MISSING_VALUE": "Din profil skapades utan alla nödvändig information. Se inmatningsfälten för mer information.",
+      "DISALLOWED_VALUE": "Din profil innehåller ett värde som inte tillåts. Se inmatningsfältet för mer information.",
+      "INVALID_VALUE_FILTHY": "Se till att ditt visningsnamn inte innehåller svordomar eller förolämpningar. Var snäll!",
+      "SYSTEM_UNAVAILABLE": "Tjänsten är för tillfälligt inte tillgänglig.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Du har inte använt vår app på ett tag.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Vi kunde tyvärr inte verifiera dig.",
+      "SSO_WELCOME_FIRSTNAME": "Hej {{ firstName }}!",
+      "SSO_WELCOME_FALLBACK": "Hej!",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Avbryt",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Logga in",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Bekräfta fingeravtrycket för att fortsätta",
+      "FINGERPRINT_DIALOG_HINT": "Touch-sensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Fingeravtrycket kan inte identifieras. Försök igen.",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Fingeravtrycket har identifierats.",
+      "FINGERPRINT_DIALOG_ICON": "Fingeravtrycksikon",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Öppna i en webbläsare?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Avbryt"
+    }
+  }
+}

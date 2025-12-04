@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Maaf, sepertinya tidak ada sambungan internet. Periksa pengaturan Anda dan coba lagi.",
+      "ERROR_CONNECT": "Maaf, terjadi masalah saat terhubung ke internet. Silakan coba lagi.",
+      "ERROR_UNEXPECTED_RESPONSE": "Maaf, sistem akun sedang mengalami masalah.",
+      "ERROR_TIMEOUT": "Maaf, sistem akun sedang mengalami masalah.",
+      "ERROR_WEB_BRIDGE_MISSING": "Maaf, sistem akun sedang mengalami masalah.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Maaf, sistem akun sedang mengalami masalah.",
+      "ERROR_JAVASCRIPT_ERROR": "Maaf, sistem akun sedang mengalami masalah.",
+      "ERROR_INTERNAL": "Maaf, sistem akun sedang mengalami masalah.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Maaf, sistem akun sedang mengalami masalah.",
+      "CLIENT_NOT_FOUND": "Maaf, sistem akun sedang mengalami masalah.",
+      "PROFILE_DISABLED": "Akses Anda ke situs ini telah diblokir secara permanen karena melanggar Perjanjian Persyaratan Layanan.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Profil akun Anda berisi alamat email Anda dan alamat email orang tua Anda. Sebelum Anda dapat melanjutkan, kami harus memverifikasi kedua alamat email tersebut.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Profil akun Anda berisi alamat email yang memerlukan verifikasi. Sebelum Anda dapat melanjutkan, kami harus memverifikasi alamat email Anda.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Profil akun Anda dikaitkan dengan alamat email orang tua Anda. Anda dapat masuk bila orang tua telah mengonfirmasi email Anda.",
+      "GUEST_GATED_UNKNOWN": "Anda tidak memenuhi syarat untuk masuk atau mendaftar di situs ini.",
+      "GUEST_GATED_LOCATION": "Anda tidak memenuhi syarat untuk masuk atau mendaftar di situs ini.",
+      "GUEST_GATED_EMBARGOED": "Anda tidak memenuhi syarat untuk mendaftar di situs ini. Informasi Anda belum terkumpul.",
+      "GUEST_GATED_AGEBAND": "Anda tidak memenuhi syarat untuk mendaftar di situs ini. Informasi Anda belum terkumpul.",
+      "MISSING_VALUE": "Profil Anda dibuat tanpa semua informasi yang diperlukan, lihat bidang input untuk rinciannya.",
+      "DISALLOWED_VALUE": "Profil Anda berisi nilai yang tidak diizinkan, lihat bidang input untuk rinciannya.",
+      "INVALID_VALUE_FILTHY": "Pastikan nama tampilan Anda tidak berisi umpatan atau kata-kata jorok. Harus sopan!",
+      "SYSTEM_UNAVAILABLE": "Layanan tidak tersedia untuk sementara.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Sepertinya Anda sudah cukup lama tidak menggunakan aplikasi kami.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Kami tidak dapat mengautentikasi Anda dengan benar.",
+      "SSO_WELCOME_FIRSTNAME": "Hai, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Hai.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Batal",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Masuk",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Konfirmasikan sidik jari untuk melanjutkan",
+      "FINGERPRINT_DIALOG_HINT": "Sensor sentuhan",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Sidik jari tidak dikenal. Coba lagi",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Sidik jari dikenal",
+      "FINGERPRINT_DIALOG_ICON": "Ikon sidik jari",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Buka di Browser Web?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Batal"
+    }
+  }
+}

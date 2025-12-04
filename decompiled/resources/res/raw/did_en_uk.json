@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "We're sorry, it looks like there isn't an Internet connection. Please check your settings and try again.",
+      "ERROR_CONNECT": "We're sorry, there was a problem connecting. Please try again.",
+      "ERROR_UNEXPECTED_RESPONSE": "We're sorry. The account system is having a problem.",
+      "ERROR_TIMEOUT": "We're sorry. The account system is having a problem.",
+      "ERROR_WEB_BRIDGE_MISSING": "We're sorry. The account system is having a problem.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "We're sorry. The account system is having a problem.",
+      "ERROR_JAVASCRIPT_ERROR": "We're sorry. The account system is having a problem.",
+      "ERROR_INTERNAL": "We're sorry. The account system is having a problem.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "We're sorry. The account system is having a problem.",
+      "CLIENT_NOT_FOUND": "We're sorry. The account system is having a problem.",
+      "PROFILE_DISABLED": "Your access to this site has been permanently blocked for violating the Terms of Service Agreement.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Your account profile includes both your email address, and your parent's email address. Before you can continue, we need to verify both email addresses.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Your account profile includes an email address that requires verification. Before you can continue, we need you to verify your email address.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Your account profile is associated with your parent's email address. Once your parent confirms your email, you'll be able to sign in.",
+      "GUEST_GATED_UNKNOWN": "You are not eligible to sign in or register on this site.",
+      "GUEST_GATED_LOCATION": "You are not eligible to sign in or register on this site.",
+      "GUEST_GATED_EMBARGOED": "You are not eligible to register on this site. Your information has not been collected.",
+      "GUEST_GATED_AGEBAND": "You are not eligible to register on this site. Your information has not been collected.",
+      "MISSING_VALUE": "Your profile was created without all required information, see input field for details.",
+      "DISALLOWED_VALUE": "Your profile contains a value which is not allowed. Please see the input field for details.",
+      "INVALID_VALUE_FILTHY": "Make sure that your display name does not contain insults or profanity. Be nice!",
+      "SYSTEM_UNAVAILABLE": "Service temporarily unavailable.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "It looks like you haven't used our app in a while.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "We were not able to properly authenticate you.",
+      "SSO_WELCOME_FIRSTNAME": "Hello, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Hello.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Cancel",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Sign In",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Confirm fingerprint to continue",
+      "FINGERPRINT_DIALOG_HINT": "Touch sensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Fingerprint not recognised. Try again",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Fingerprint recognised",
+      "FINGERPRINT_DIALOG_ICON": "Fingerprint icon",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Open In Web Browser?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Cancel"
+    }
+  }
+}

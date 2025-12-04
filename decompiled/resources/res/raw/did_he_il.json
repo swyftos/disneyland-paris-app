@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "אנו מצטערים, נראה שאין חיבור לאינטרנט. בדקו את ההגדרות שלכם ונסו שוב.",
+      "ERROR_CONNECT": "מצטערים, אירעה תקלה בהתחברות. נסו שוב.",
+      "ERROR_UNEXPECTED_RESPONSE": "מצטערים, יש תקלה במערכת החשבונות.",
+      "ERROR_TIMEOUT": "מצטערים, יש תקלה במערכת החשבונות.",
+      "ERROR_WEB_BRIDGE_MISSING": "מצטערים, יש תקלה במערכת החשבונות.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "מצטערים, יש תקלה במערכת החשבונות.",
+      "ERROR_JAVASCRIPT_ERROR": "מצטערים, יש תקלה במערכת החשבונות.",
+      "ERROR_INTERNAL": "מצטערים, יש תקלה במערכת החשבונות.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "מצטערים, יש תקלה במערכת החשבונות.",
+      "CLIENT_NOT_FOUND": "מצטערים, יש תקלה במערכת החשבונות.",
+      "PROFILE_DISABLED": "הגישה שלכם לאתר נחסמה לצמיתות עקב הפרת הסכם תנאי השירות.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "פרופיל החשבון שלכם כולל הן את כתובת הדוא\"ל שלכם והן את כתובת הדוא\"ל להורה שלכם. לפני שתוכלו להמשיך, עלינו לאמת את שתי כתובות הדוא\"ל שלכם.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "פרופיל החשבון שלכם כולל כתובת דוא\"ל שדורשת אימות. לפני שתוכלו להמשיך, עלינו לאמת את כתובת הדוא\"ל שלכם.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "פרופיל החשבון שלכם משויך לכתובת הדוא\"ל של ההורה שלכם. ברגע שההורה שלכם יאשר את הדוא\"ל, תוכלו להיכנס.",
+      "GUEST_GATED_UNKNOWN": "אינכם רשאים להיכנס או להירשם לאתר זה.",
+      "GUEST_GATED_LOCATION": "אינכם רשאים להיכנס או להירשם לאתר זה.",
+      "GUEST_GATED_EMBARGOED": "אינכם רשאים להירשם לאתר זה. המידע שלכם לא נאסף.",
+      "GUEST_GATED_AGEBAND": "אינכם רשאים להירשם לאתר זה. המידע שלכם לא נאסף.",
+      "MISSING_VALUE": "הפרופיל שלכם נוצר ללא כל המידע הדרוש, עיינו בשדה הקלט לקבלת פרטים.",
+      "DISALLOWED_VALUE": "הפרופיל שלכם כולל ערך שאינו מורשה, עיינו בשדה הקלט לקבלת פרטים.",
+      "INVALID_VALUE_FILTHY": "שימו לב ששמות התצוגה שלכם אינם מכילים העלבות או גסויות. תהיו נחמדים!",
+      "SYSTEM_UNAVAILABLE": "השירות אינו זמין כעת.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "נראה שלא השתמשתם באפליקציה שלנו כבר זמן מה.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "לא הצלחנו לאמת אתכם כהלכה.",
+      "SSO_WELCOME_FIRSTNAME": "שלום, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "שלום.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "ביטול",
+      "FINGERPRINT_DIALOG_SIGN_IN": "כניסה",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "אשרו את טביעת האצבע כדי להמשיך",
+      "FINGERPRINT_DIALOG_HINT": "געו בחיישן",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "טביעת האצבע לא ניתנת לזיהוי. נסו שוב",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "טביעת האצבע מזוהה",
+      "FINGERPRINT_DIALOG_ICON": "סמל טביעת אצבע",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "לפתוח בדפדפן האינטרנט?",
+      "DIALOG_OK": "אישור",
+      "DIALOG_CANCEL": "ביטול"
+    }
+  }
+}

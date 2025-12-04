@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Žao nam je, izgleda da veza sa Internetom nije uspostavljena. Proverite Vaša podešavanja i pokušajte ponovo.",
+      "ERROR_CONNECT": "Žao nam je, došlo je do problema prilikom uspostavljanja veze. Pokušajte ponovo.",
+      "ERROR_UNEXPECTED_RESPONSE": "Žao nam je, došlo je do problema sa sistemom naloga.",
+      "ERROR_TIMEOUT": "Žao nam je, došlo je do problema sa sistemom naloga.",
+      "ERROR_WEB_BRIDGE_MISSING": "Žao nam je, došlo je do problema sa sistemom naloga.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Žao nam je, došlo je do problema sa sistemom naloga.",
+      "ERROR_JAVASCRIPT_ERROR": "Žao nam je, došlo je do problema sa sistemom naloga.",
+      "ERROR_INTERNAL": "Žao nam je, došlo je do problema sa sistemom naloga.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Žao nam je, došlo je do problema sa sistemom naloga.",
+      "CLIENT_NOT_FOUND": "Žao nam je, došlo je do problema sa sistemom naloga.",
+      "PROFILE_DISABLED": "Vaš pristup ovom sajtu je trajno blokiran zbog kršenja uslova Ugovora o korišćenju usluga.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Tvoj profil naloga je sadrži tvoju adrese e-pošte i adresu e-pošte tvojih roditelja. Pre nego što nastavite, moramo da potvrdimo obe adrese e-pošte.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Tvoj profil naloga je sadrži adresu e-pošte koja zahteva proveru. Pre nego što nastavite, moramo da potvrdimo Vašu adresu e-pošte.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Tvoj profil naloga je povezan sa adresom e-pošte tvojih roditelja. Nakon što tvoji roditelji potvrde tvoju e-poštu, moći ćeš da se prijaviš.",
+      "GUEST_GATED_UNKNOWN": "Nemate pravo da se prijavite na ovaj sajt i registrujete za njega.",
+      "GUEST_GATED_LOCATION": "Nemate pravo da se prijavite na ovaj sajt i registrujete za njega.",
+      "GUEST_GATED_EMBARGOED": "Nemate pravo da se registrujete za ovaj sajt. Vaše informacije nisu prikupljane.",
+      "GUEST_GATED_AGEBAND": "Nemate pravo da se registrujete za ovaj sajt. Vaše informacije nisu prikupljane.",
+      "MISSING_VALUE": "Vaš profil je kreiran bez svih obaveznih informacija – detalje potražite u polju za unos.",
+      "DISALLOWED_VALUE": "Vaš profil sadrži vrednost koja nije dozvoljena – detalje potražite u polju za unos.",
+      "INVALID_VALUE_FILTHY": "Uverite se da Vaše ime za prikaz ne sadrži uvrede i vulgarnost. Budite fini!",
+      "SYSTEM_UNAVAILABLE": "Usluga je privremeno nedostupna.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Izgleda da niste dugo koristili našu aplikaciju.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Nismo uspeli da potvrdimo Vaš identitet kako treba.",
+      "SSO_WELCOME_FIRSTNAME": "Zdravo, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Zdravo.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Otkaži",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Prijavite se",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Potvrdite otisak prsta da biste nastavili",
+      "FINGERPRINT_DIALOG_HINT": "Dodirnite senzor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Otisak prsta nije prepoznat. Pokušajte ponovo",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Otisak prsta je prepoznat",
+      "FINGERPRINT_DIALOG_ICON": "Ikona otiska prsta",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Otvoriti u veb pregledaču?",
+      "DIALOG_OK": "U redu",
+      "DIALOG_CANCEL": "Otkaži"
+    }
+  }
+}

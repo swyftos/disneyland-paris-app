@@ -1,0 +1,44 @@
+package androidx.camera.core.impl.utils.executor;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
+/* loaded from: classes.dex */
+final class HighPriorityExecutor implements Executor {
+    private static volatile Executor sExecutor;
+    private final ExecutorService mHighPriorityService = Executors.newSingleThreadExecutor(new ThreadFactory() { // from class: androidx.camera.core.impl.utils.executor.HighPriorityExecutor.1
+        @Override // java.util.concurrent.ThreadFactory
+        public Thread newThread(Runnable runnable) {
+            Thread thread = new Thread(runnable);
+            thread.setPriority(10);
+            thread.setName("CameraX-camerax_high_priority");
+            return thread;
+        }
+    });
+
+    HighPriorityExecutor() {
+    }
+
+    static Executor getInstance() {
+        if (sExecutor != null) {
+            return sExecutor;
+        }
+        synchronized (HighPriorityExecutor.class) {
+            try {
+                if (sExecutor == null) {
+                    sExecutor = new HighPriorityExecutor();
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return sExecutor;
+    }
+
+    @Override // java.util.concurrent.Executor
+    public void execute(Runnable runnable) {
+        this.mHighPriorityService.execute(runnable);
+    }
+}

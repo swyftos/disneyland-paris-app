@@ -1,0 +1,47 @@
+package com.allegion.accesssdk.exceptions;
+
+import androidx.constraintlayout.core.motion.utils.TypedValues;
+import com.google.mlkit.common.MlKitException;
+import kotlin.Metadata;
+
+@Metadata(bv = {1, 0, 3}, d1 = {"\u0000\u0010\n\u0002\u0018\u0002\n\u0002\u0010\u0010\n\u0002\u0010\b\n\u0002\b \b\u0086\u0001\u0018\u00002\b\u0012\u0004\u0012\u00020\u00000\u0001B\u0011\b\u0002\u0012\u0006\u0010\u0003\u001a\u00020\u0002¢\u0006\u0004\b\t\u0010\nR\"\u0010\u0003\u001a\u00020\u00028\u0006@\u0006X\u0086\u000e¢\u0006\u0012\n\u0004\b\u0003\u0010\u0004\u001a\u0004\b\u0005\u0010\u0006\"\u0004\b\u0007\u0010\bj\u0002\b\u000bj\u0002\b\fj\u0002\b\rj\u0002\b\u000ej\u0002\b\u000fj\u0002\b\u0010j\u0002\b\u0011j\u0002\b\u0012j\u0002\b\u0013j\u0002\b\u0014j\u0002\b\u0015j\u0002\b\u0016j\u0002\b\u0017j\u0002\b\u0018j\u0002\b\u0019j\u0002\b\u001aj\u0002\b\u001bj\u0002\b\u001cj\u0002\b\u001dj\u0002\b\u001ej\u0002\b\u001fj\u0002\b j\u0002\b!¨\u0006\""}, d2 = {"Lcom/allegion/accesssdk/exceptions/MobileAccessExceptionType;", "", "", "errorCode", "I", "getErrorCode", "()I", "setErrorCode", "(I)V", "<init>", "(Ljava/lang/String;II)V", "GENERAL_ERROR", "OPERATION_FAILED", "CONNECTED_ACCOUNT_NOT_FOUND", "UNABLE_TO_UPDATE_ACCESS_TOKEN", "UNABLE_TO_SELECT_CONNECTED_ACCOUNT", "NO_CONNECTED_ACCOUNT_SELECTED", "ACCOUNT_NOT_FOUND", "PLENARY_IDENTITY_NOT_FOUND", "TOKEN_MISSING_REQUIRED_CLAIM", "ILLEGAL_STATE", "SDK_NOT_INITIALIZED", "SDK_NOT_ENROLLED", "REQUESTED_OPERATION_IN_PROGRESS", "UNKNOWN_STATE", "GENERAL_STATE_MANAGEMENT_ERROR", "FAILED_TO_STORE_MODEL", "FAILED_TO_RETRIEVE_MODEL", "FAILED_TO_SERIALIZE_MODEL", "FAILED_TO_DESERIALIZE_MODEL", "UNKNOWN_MODEL_TYPE", "MODEL_EXISTS", "MODEL_DOES_NOT_EXIST", "MODEL_CONTENT", "AccessSdk_qaRelease"}, k = 1, mv = {1, 4, 0})
+/* loaded from: classes2.dex */
+public enum MobileAccessExceptionType {
+    GENERAL_ERROR(100),
+    OPERATION_FAILED(101),
+    CONNECTED_ACCOUNT_NOT_FOUND(200),
+    UNABLE_TO_UPDATE_ACCESS_TOKEN(MlKitException.CODE_SCANNER_CANCELLED),
+    UNABLE_TO_SELECT_CONNECTED_ACCOUNT(MlKitException.CODE_SCANNER_CAMERA_PERMISSION_NOT_GRANTED),
+    NO_CONNECTED_ACCOUNT_SELECTED(203),
+    ACCOUNT_NOT_FOUND(MlKitException.CODE_SCANNER_TASK_IN_PROGRESS),
+    PLENARY_IDENTITY_NOT_FOUND(MlKitException.CODE_SCANNER_PIPELINE_INITIALIZATION_ERROR),
+    TOKEN_MISSING_REQUIRED_CLAIM(MlKitException.CODE_SCANNER_PIPELINE_INFERENCE_ERROR),
+    ILLEGAL_STATE(300),
+    SDK_NOT_INITIALIZED(301),
+    SDK_NOT_ENROLLED(302),
+    REQUESTED_OPERATION_IN_PROGRESS(303),
+    UNKNOWN_STATE(304),
+    GENERAL_STATE_MANAGEMENT_ERROR(305),
+    FAILED_TO_STORE_MODEL(400),
+    FAILED_TO_RETRIEVE_MODEL(TypedValues.CycleType.TYPE_CURVE_FIT),
+    FAILED_TO_SERIALIZE_MODEL(TypedValues.CycleType.TYPE_VISIBILITY),
+    FAILED_TO_DESERIALIZE_MODEL(403),
+    UNKNOWN_MODEL_TYPE(404),
+    MODEL_EXISTS(405),
+    MODEL_DOES_NOT_EXIST(406),
+    MODEL_CONTENT(407);
+
+    private int errorCode;
+
+    MobileAccessExceptionType(int i) {
+        this.errorCode = i;
+    }
+
+    public final int getErrorCode() {
+        return this.errorCode;
+    }
+
+    public final void setErrorCode(int i) {
+        this.errorCode = i;
+    }
+}

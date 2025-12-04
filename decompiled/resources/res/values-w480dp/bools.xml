@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="ua_iam_html_allow_fullscreen_display">false</bool>
+    <bool name="ua_iam_modal_allow_fullscreen_display">false</bool>
+</resources>

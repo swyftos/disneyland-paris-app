@@ -1,0 +1,170 @@
+package io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.impl;
+
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.core.JsonGenerator;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.BeanProperty;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JavaType;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonMappingException;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonNode;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.SerializationFeature;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.SerializerProvider;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitorWrapper;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.ContainerSerializer;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.ContextualSerializer;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std.ArraySerializerBase;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.type.TypeFactory;
+import java.io.IOException;
+import java.lang.reflect.Type;
+
+@JacksonStdImpl
+/* loaded from: classes5.dex */
+public class StringArraySerializer extends ArraySerializerBase<String[]> implements ContextualSerializer {
+    private static final JavaType VALUE_TYPE = TypeFactory.defaultInstance().uncheckedSimpleType(String.class);
+    public static final StringArraySerializer instance = new StringArraySerializer();
+    protected final JsonSerializer<Object> _elementSerializer;
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.ContainerSerializer
+    public ContainerSerializer<?> _withValueTypeSerializer(TypeSerializer typeSerializer) {
+        return this;
+    }
+
+    protected StringArraySerializer() {
+        super(String[].class);
+        this._elementSerializer = null;
+    }
+
+    public StringArraySerializer(StringArraySerializer stringArraySerializer, BeanProperty beanProperty, JsonSerializer<?> jsonSerializer, Boolean bool) {
+        super(stringArraySerializer, beanProperty, bool);
+        this._elementSerializer = jsonSerializer;
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std.ArraySerializerBase
+    public JsonSerializer<?> _withResolved(BeanProperty beanProperty, Boolean bool) {
+        return new StringArraySerializer(this, beanProperty, this._elementSerializer, bool);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0018  */
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std.ArraySerializerBase, io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.ContextualSerializer
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct code enable 'Show inconsistent code' option in preferences
+    */
+    public io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer<?> createContextual(io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.SerializerProvider r5, io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.BeanProperty r6) throws io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonMappingException {
+        /*
+            r4 = this;
+            r0 = 0
+            if (r6 == 0) goto L18
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.AnnotationIntrospector r1 = r5.getAnnotationIntrospector()
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.introspect.AnnotatedMember r2 = r6.getMember()
+            if (r2 == 0) goto L18
+            java.lang.Object r1 = r1.findContentSerializer(r2)
+            if (r1 == 0) goto L18
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer r1 = r5.serializerInstance(r2, r1)
+            goto L19
+        L18:
+            r1 = r0
+        L19:
+            java.lang.Class<java.lang.String[]> r2 = java.lang.String[].class
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.annotation.JsonFormat$Feature r3 = io.cucumber.datatable.dependency.com.fasterxml.jackson.annotation.JsonFormat.Feature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED
+            java.lang.Boolean r2 = r4.findFormatFeature(r5, r6, r2, r3)
+            if (r1 != 0) goto L25
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer<java.lang.Object> r1 = r4._elementSerializer
+        L25:
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer r1 = r4.findContextualConvertingSerializer(r5, r6, r1)
+            if (r1 != 0) goto L31
+            java.lang.Class<java.lang.String> r1 = java.lang.String.class
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer r1 = r5.findValueSerializer(r1, r6)
+        L31:
+            boolean r5 = r4.isDefaultSerializer(r1)
+            if (r5 == 0) goto L38
+            goto L39
+        L38:
+            r0 = r1
+        L39:
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer<java.lang.Object> r5 = r4._elementSerializer
+            if (r0 != r5) goto L42
+            java.lang.Boolean r5 = r4._unwrapSingle
+            if (r2 != r5) goto L42
+            return r4
+        L42:
+            io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.impl.StringArraySerializer r5 = new io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.impl.StringArraySerializer
+            r5.<init>(r4, r6, r0, r2)
+            return r5
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.impl.StringArraySerializer.createContextual(io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.SerializerProvider, io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.BeanProperty):io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer");
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.ContainerSerializer
+    public JavaType getContentType() {
+        return VALUE_TYPE;
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.ContainerSerializer
+    public JsonSerializer<?> getContentSerializer() {
+        return this._elementSerializer;
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer
+    public boolean isEmpty(SerializerProvider serializerProvider, String[] strArr) {
+        return strArr.length == 0;
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.ContainerSerializer
+    public boolean hasSingleElement(String[] strArr) {
+        return strArr.length == 1;
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std.ArraySerializerBase, io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std.StdSerializer, io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer
+    public final void serialize(String[] strArr, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        int length = strArr.length;
+        if (length == 1 && ((this._unwrapSingle == null && serializerProvider.isEnabled(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED)) || this._unwrapSingle == Boolean.TRUE)) {
+            serializeContents(strArr, jsonGenerator, serializerProvider);
+            return;
+        }
+        jsonGenerator.writeStartArray(length);
+        serializeContents(strArr, jsonGenerator, serializerProvider);
+        jsonGenerator.writeEndArray();
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std.ArraySerializerBase
+    public void serializeContents(String[] strArr, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        if (strArr.length == 0) {
+            return;
+        }
+        JsonSerializer<Object> jsonSerializer = this._elementSerializer;
+        if (jsonSerializer != null) {
+            serializeContentsSlow(strArr, jsonGenerator, serializerProvider, jsonSerializer);
+            return;
+        }
+        for (String str : strArr) {
+            if (str == null) {
+                jsonGenerator.writeNull();
+            } else {
+                jsonGenerator.writeString(str);
+            }
+        }
+    }
+
+    private void serializeContentsSlow(String[] strArr, JsonGenerator jsonGenerator, SerializerProvider serializerProvider, JsonSerializer jsonSerializer) throws IOException {
+        for (String str : strArr) {
+            if (str == null) {
+                serializerProvider.defaultSerializeNull(jsonGenerator);
+            } else {
+                jsonSerializer.serialize(str, jsonGenerator, serializerProvider);
+            }
+        }
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std.StdSerializer, io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsonschema.SchemaAware
+    public JsonNode getSchema(SerializerProvider serializerProvider, Type type) {
+        return createSchemaNode("array", true).set("items", createSchemaNode("string"));
+    }
+
+    @Override // io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ser.std.StdSerializer, io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.JsonSerializer, io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitable
+    public void acceptJsonFormatVisitor(JsonFormatVisitorWrapper jsonFormatVisitorWrapper, JavaType javaType) throws JsonMappingException {
+        visitArrayFormat(jsonFormatVisitorWrapper, javaType, JsonFormatTypes.STRING);
+    }
+}

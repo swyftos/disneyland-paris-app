@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Siamo spiacenti, sembra non sia disponibile una connessione Internet. Verifica le impostazioni e riprova.",
+      "ERROR_CONNECT": "Siamo spiacenti, si è verificato un problema durante la connessione. Riprova.",
+      "ERROR_UNEXPECTED_RESPONSE": "Siamo spiacenti, ma si è verificato un problema nel sistema degli account.",
+      "ERROR_TIMEOUT": "Siamo spiacenti, ma si è verificato un problema nel sistema degli account.",
+      "ERROR_WEB_BRIDGE_MISSING": "Siamo spiacenti, ma si è verificato un problema nel sistema degli account.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Siamo spiacenti, ma si è verificato un problema nel sistema degli account.",
+      "ERROR_JAVASCRIPT_ERROR": "Siamo spiacenti, ma si è verificato un problema nel sistema degli account.",
+      "ERROR_INTERNAL": "Siamo spiacenti, ma si è verificato un problema nel sistema degli account.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Siamo spiacenti, ma si è verificato un problema nel sistema degli account.",
+      "CLIENT_NOT_FOUND": "Siamo spiacenti, ma si è verificato un problema nel sistema degli account.",
+      "PROFILE_DISABLED": "L'accesso a questo sito è stato definitivamente bloccato a causa della violazione dell'accordo sulle condizioni di utilizzo.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Il tuo profilo dell'account include il tuo indirizzo email e l'indirizzo email del tuo genitore. Prima di continuare, dobbiamo verificare entrambi gli indirizzi email.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Il tuo profilo dell'account include un indirizzo email che richiede una verifica. Prima di continuare, è necessario che verifichi il tuo indirizzo email.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Il tuo profilo dell'account è associato all'indirizzo email del tuo genitore. Quando il genitore confermerà il tuo indirizzo email, potrai effettuare l'accesso.",
+      "GUEST_GATED_UNKNOWN": "Non puoi accedere o registrarti a questo sito.",
+      "GUEST_GATED_LOCATION": "Non puoi accedere o registrarti a questo sito.",
+      "GUEST_GATED_EMBARGOED": "Non puoi registrarti a questo sito. Le informazioni non sono state raccolte.",
+      "GUEST_GATED_AGEBAND": "Non puoi registrarti a questo sito. Le informazioni non sono state raccolte.",
+      "MISSING_VALUE": "Il tuo profilo è stato creato senza tutte le informazioni richieste, per i dettagli vedi il campo di input.",
+      "DISALLOWED_VALUE": "Il tuo profilo contiene un valore non consentito, per i dettagli vedi il campo di input.",
+      "INVALID_VALUE_FILTHY": "Accertati che il tuo nome per il sito non contenga insulti o volgarità. Grazie!",
+      "SYSTEM_UNAVAILABLE": "Servizio temporaneamente non disponibile.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Sembra che non usi la nostra app da un po' di tempo.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Non è stato possibile autenticarti correttamente.",
+      "SSO_WELCOME_FIRSTNAME": "Ciao, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Ciao.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Annulla",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Accedi",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Conferma impronta digitale per continuare",
+      "FINGERPRINT_DIALOG_HINT": "Sensore a sfioramento",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Impronta digitale non riconosciuta. Riprova",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Impronta digitale riconosciuta",
+      "FINGERPRINT_DIALOG_ICON": "Icona impronta digitale",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Apri nel browser Web?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Annulla"
+    }
+  }
+}

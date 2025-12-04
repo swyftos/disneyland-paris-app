@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Paumanhin, mukhang walang koneksyon sa internet. Pakitingnan ang iyong mga setting at subukan ulit.",
+      "ERROR_CONNECT": "Paumanhin, nagkaproblema sa pagkonekta. Pakisubukan ulit.",
+      "ERROR_UNEXPECTED_RESPONSE": "Paumanhin, nagkakaproblema sa account system.",
+      "ERROR_TIMEOUT": "Paumanhin, nagkakaproblema sa account system.",
+      "ERROR_WEB_BRIDGE_MISSING": "Paumanhin, nagkakaproblema sa account system.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Paumanhin, nagkakaproblema sa account system.",
+      "ERROR_JAVASCRIPT_ERROR": "Paumanhin, nagkakaproblema sa account system.",
+      "ERROR_INTERNAL": "Paumanhin, nagkakaproblema sa account system.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Paumanhin, nagkakaproblema sa account system.",
+      "CLIENT_NOT_FOUND": "Paumanhin, nagkakaproblema sa account system.",
+      "PROFILE_DISABLED": "Permanente ng na-block ang access mo sa site na ito dahil sa paglabag sa Kasunduan sa Mga Tuntunin ng Serbisyo.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Kasama sa account profile mo a ang iyong email address, at ang email address ng magulang mo. Bago magpatuloy, kailangan naming patunayan ang parehong email address.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Kasama sa account profile mo a ang iyong email address, na kailangang patunayan. Bago ka magpatuloy, kailangan naming patunayan mo ang iyong email address.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Ang account profile mo ay nauugnay sa email address ng magulang mo. Kapag kinumpirma ng magulang mo ang email mo, makakapag-sign in ka na.",
+      "GUEST_GATED_UNKNOWN": "Hindi ka kwalipikadong mag-sign in o magrehistro sa site na ito.",
+      "GUEST_GATED_LOCATION": "Hindi ka kwalipikadong mag-sign in o magrehistro sa site na ito.",
+      "GUEST_GATED_EMBARGOED": "Hindi ka kwalipikadong mag-rehistro sa site na ito. Hindi pa nakolekta ang impormasyon mo.",
+      "GUEST_GATED_AGEBAND": "Hindi ka kwalipikadong mag-rehistro sa site na ito. Hindi pa nakolekta ang impormasyon mo.",
+      "MISSING_VALUE": "Ginawa ang profile mo ma wala ang lahat ng impormasyon, tingnan ang input field para sa mga detalye.",
+      "DISALLOWED_VALUE": "Naglalaman ang profile mo ng value na hindi pinapayagan, tingnan ang input field para sa mga detalye.",
+      "INVALID_VALUE_FILTHY": "Siguraduhin na hindi naglalaman ng mga pang-iinsulto o pagmumura ang display na pangalan. Maging magalang!",
+      "SYSTEM_UNAVAILABLE": "Pansamantalabg walang serbisyo.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Mukhang hindi mo na nagagamit ang iyong app.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Hindi ka namin napatunayan ng tama.",
+      "SSO_WELCOME_FIRSTNAME": "Kamusta, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Kamusta.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Kanselahin",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Mag-sign In",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Kumpirmahin ang fingerprint upang magpatuloy",
+      "FINGERPRINT_DIALOG_HINT": "Touch sensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Hindi nakilala ang fingerprint. Subukang muli",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Nakilala ang fingerprint",
+      "FINGERPRINT_DIALOG_ICON": "Icon na fingerprint",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Buksan sa Web Browser?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Kanselahin"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.urbanairship.iam.view.BannerDismissLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.urbanairship.iam.view.BoundedLinearLayout
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="yes"
+        style="@style/UrbanAirship.InAppBanner.Layout.Bottom">
+        <View
+            android:id="@+id/banner_pull"
+            style="@style/UrbanAirship.InAppBanner.Pull.Bottom"/>
+        <ViewStub
+            android:id="@+id/banner_content"
+            android:inflatedId="@+id/ua_iam_banner_content_left_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <com.urbanairship.iam.view.InAppButtonLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/UrbanAirship.InAppBanner.ButtonLayout"/>
+    </com.urbanairship.iam.view.BoundedLinearLayout>
+</com.urbanairship.iam.view.BannerDismissLayout>

@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "對不起，你似乎未有連接互聯網。請檢查設定，然後再試一次。",
+      "ERROR_CONNECT": "對不起，連線時出現問題。請再試一次。",
+      "ERROR_UNEXPECTED_RESPONSE": "對不起，帳戶系統出現問題。",
+      "ERROR_TIMEOUT": "對不起，帳戶系統出現問題。",
+      "ERROR_WEB_BRIDGE_MISSING": "對不起，帳戶系統出現問題。",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "對不起，帳戶系統出現問題。",
+      "ERROR_JAVASCRIPT_ERROR": "對不起，帳戶系統出現問題。",
+      "ERROR_INTERNAL": "對不起，帳戶系統出現問題。",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "對不起，帳戶系統出現問題。",
+      "CLIENT_NOT_FOUND": "對不起，帳戶系統出現問題。",
+      "PROFILE_DISABLED": "你違反了《服務協議條款》，所以你在此網站的存取權已被永久終止。",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "你的帳戶檔案包含你個人與父母的電郵地址。我們必須先驗證兩組電郵地址，才可讓你繼續。",
+      "GUEST_GATED_EMAIL_VERIFICATION": "你的帳戶檔案包含有待驗證的電郵地址。我們必須先驗證你的電郵地址，才可讓你繼續。",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "你的帳戶檔案與你父母的電郵地址相連。你父母確認電郵地址後，你就能登入。",
+      "GUEST_GATED_UNKNOWN": "你不合資格在此網站上登入或登記。",
+      "GUEST_GATED_LOCATION": "你不合資格在此網站上登入或登記。",
+      "GUEST_GATED_EMBARGOED": "你不合資格在此網站上登記。我們並無收集你的資料。",
+      "GUEST_GATED_AGEBAND": "你不合資格在此網站上登記。我們並無收集你的資料。",
+      "MISSING_VALUE": "你建立個人檔案時，未有填妥所有必填資料。詳情請見輸入欄。",
+      "DISALLOWED_VALUE": "你的個人檔案包含不獲允許的值。詳情請見輸入欄。",
+      "INVALID_VALUE_FILTHY": "請確保你的顯示名稱不具冒犯性或淫褻成分—要做個親切友善的人啊！",
+      "SYSTEM_UNAVAILABLE": "暫時無法提供服務。",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "你最近似乎沒有使用我們的應用程式。",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "我們無法妥為驗證你的身分。",
+      "SSO_WELCOME_FIRSTNAME": "你好，{{ firstName }}：",
+      "SSO_WELCOME_FALLBACK": "你好：",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "取消",
+      "FINGERPRINT_DIALOG_SIGN_IN": "登入",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "確認指紋以繼續",
+      "FINGERPRINT_DIALOG_HINT": "觸控感應器",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "指紋無法辨認；請再試一次",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "指紋已辨認",
+      "FINGERPRINT_DIALOG_ICON": "指紋圖示",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "在網頁瀏覽器中開啟？",
+      "DIALOG_OK": "確定",
+      "DIALOG_CANCEL": "取消"
+    }
+  }
+}

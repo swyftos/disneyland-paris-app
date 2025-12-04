@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Üzgünüz, İnternet bağlantısı yok gibi görünüyor. Lütfen ayarlarınızı kontrol edin ve yeniden deneyin.",
+      "ERROR_CONNECT": "Üzgünüz, bağlanırken bir sorun oluştu. Lütfen tekrar deneyin.",
+      "ERROR_UNEXPECTED_RESPONSE": "Üzgünüz, hesap sistemi ile ilgili bir sorun var.",
+      "ERROR_TIMEOUT": "Üzgünüz, hesap sistemi ile ilgili bir sorun var.",
+      "ERROR_WEB_BRIDGE_MISSING": "Üzgünüz, hesap sistemi ile ilgili bir sorun var.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Üzgünüz, hesap sistemi ile ilgili bir sorun var.",
+      "ERROR_JAVASCRIPT_ERROR": "Üzgünüz, hesap sistemi ile ilgili bir sorun var.",
+      "ERROR_INTERNAL": "Üzgünüz, hesap sistemi ile ilgili bir sorun var.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Üzgünüz, hesap sistemi ile ilgili bir sorun var.",
+      "CLIENT_NOT_FOUND": "Üzgünüz, hesap sistemi ile ilgili bir sorun var.",
+      "PROFILE_DISABLED": "Hizmet Anlaşması Koşulları'nı ihlal ettiğiniz için siteye erişiminiz kalıcı olarak engellendi.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Hesap profiliniz, hem sizin hem de ebeveyninizin e-posta adresini içeriyor. Devam etmeden önce her iki e-posta adresini doğrulamamız gerekiyor.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Hesap profiliniz, onay gerektiren bir e-posta adresi içeriyor. Devam etmeden önce e-posta adresinizi doğrulamamız gerekiyor.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Hesap profiliniz, ebeveyninizin e-posta adresi ile ilişkilendirilmiş. Ebeveyniniz e-postanızı onayladığında oturum açabileceksiniz.",
+      "GUEST_GATED_UNKNOWN": "Bu sitede oturum açma veya siteye kaydolma yetkiniz yok.",
+      "GUEST_GATED_LOCATION": "Bu sitede oturum açma veya siteye kaydolma yetkiniz yok.",
+      "GUEST_GATED_EMBARGOED": "Bu siteye kaydolma yetkiniz yok. Bilgileriniz toplanmadı.",
+      "GUEST_GATED_AGEBAND": "Bu siteye kaydolma yetkiniz yok. Bilgileriniz toplanmadı.",
+      "MISSING_VALUE": "Profiliniz gerekli bilgiler olmadan oluşturuldu, ayrıntılar için veri giriş alanına bakın.",
+      "DISALLOWED_VALUE": "Profiliniz izin verilmeyen bir değer içeriyor, ayrıntılar için veri giriş alanına bakın.",
+      "INVALID_VALUE_FILTHY": "Ekran adınızın hakaret veya küfür içermediğinden emin olun. Kötü kelimeler kullanmayın!",
+      "SYSTEM_UNAVAILABLE": "Hizmet geçici olarak kullanılamıyor.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Görünüşe göre uygulamamızı bir süredir kullanmamışsınız.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Kimlik doğrulamanızı tam olarak gerçekleştiremedik.",
+      "SSO_WELCOME_FIRSTNAME": "Merhaba {{ firstName }},",
+      "SSO_WELCOME_FALLBACK": "Merhaba.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "İptal",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Oturum Aç",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Devam etmek için parmak izini onaylayın",
+      "FINGERPRINT_DIALOG_HINT": "Dokunmatik sensör",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Parmak izi tanınmıyor. Tekrar deneyin",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Parmak izi tanındı",
+      "FINGERPRINT_DIALOG_ICON": "Parmak izi simgesi",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Tarayıcıda açılsın mı?",
+      "DIALOG_OK": "Tamam",
+      "DIALOG_CANCEL": "İptal"
+    }
+  }
+}

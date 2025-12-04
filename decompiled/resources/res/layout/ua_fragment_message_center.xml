@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.slidingpanelayout.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/UrbanAirship.MessageCenter.Fragment"
+    android:id="@+id/message_center_sliding_pane_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/message_list_pane_container"
+        android:layout_width="@dimen/message_center_list_pane_width"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:accessibilityPaneTitle="@string/ua_description_message_list_pane">
+        <androidx.fragment.app.FragmentContainerView
+            android:name="com.urbanairship.messagecenter.ui.MessageCenterListFragment"
+            android:id="@+id/message_list_pane"
+            android:tag="message_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:name="com.urbanairship.messagecenter.ui.MessageCenterMessageFragment"
+        android:id="@+id/message_pane"
+        android:tag="message_view"
+        android:layout_width="@dimen/message_center_message_pane_width"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:accessibilityPaneTitle="@string/ua_description_message_pane"/>
+</androidx.slidingpanelayout.widget.SlidingPaneLayout>

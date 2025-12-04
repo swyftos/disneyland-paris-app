@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <com.urbanairship.iam.view.MediaView
+        android:id="@+id/media"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        style="@style/UrbanAirship.InAppBanner.MediaView.Right"/>
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/media"
+        android:layout_alignParentLeft="true"
+        android:layout_toStartOf="@+id/media"
+        android:layout_alignParentStart="true"
+        android:accessibilityHeading="true"
+        style="@style/UrbanAirship.InAppBanner.Heading"/>
+    <TextView
+        android:id="@+id/body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/media"
+        android:layout_below="@+id/heading"
+        android:layout_alignParentLeft="true"
+        android:layout_toStartOf="@+id/media"
+        android:layout_alignParentStart="true"
+        style="@style/UrbanAirship.InAppBanner.Body"/>
+</RelativeLayout>

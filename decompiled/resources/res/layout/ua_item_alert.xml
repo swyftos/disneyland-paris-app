@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/UrbanAirship.PreferenceCenter.Item.Alert">
+    <ImageView
+        android:layout_gravity="end|center_vertical"
+        android:id="@+id/ua_pref_icon"
+        android:visibility="gone"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:scaleType="centerInside"
+        style="@style/UrbanAirship.PreferenceCenter.Item.AlertIcon"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/UrbanAirship.PreferenceCenter.Item.AlertContent">
+        <TextView
+            android:id="@+id/ua_pref_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/UrbanAirship.PreferenceCenter.Item.AlertTitle"/>
+        <TextView
+            android:id="@+id/ua_pref_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/UrbanAirship.PreferenceCenter.Item.AlertDescription"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ua_pref_button"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/UrbanAirship.PreferenceCenter.Item.AlertButton"/>
+    </LinearLayout>
+</LinearLayout>

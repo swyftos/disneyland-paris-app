@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Je nám líto, ale zdá se, že vypadlo připojení k internetu. Zkontroluj u sebe nastavení a zkus to znovu.",
+      "ERROR_CONNECT": "Je nám líto, ale nastal problém s přihlášením. Zkus to znovu později.",
+      "ERROR_UNEXPECTED_RESPONSE": "Je nám líto, ale v systému účtů došlo k problému.",
+      "ERROR_TIMEOUT": "Je nám líto, ale v systému účtů došlo k problému.",
+      "ERROR_WEB_BRIDGE_MISSING": "Je nám líto, ale v systému účtů došlo k problému.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Je nám líto, ale v systému účtů došlo k problému.",
+      "ERROR_JAVASCRIPT_ERROR": "Je nám líto, ale v systému účtů došlo k problému.",
+      "ERROR_INTERNAL": "Je nám líto, ale v systému účtů došlo k problému.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Je nám líto, ale v systému účtů došlo k problému.",
+      "CLIENT_NOT_FOUND": "Je nám líto, ale v systému účtů došlo k problému.",
+      "PROFILE_DISABLED": "Tvůj přístup na tento web byl trvale zablokován kvůli porušování podmínek smlouvy o poskytování služeb.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Tvůj účet obsahuje tvoji e-mailovou adresu a e-mailovou adresu jednoho z tvých rodičů. Než bude možné pokračovat, potřebujeme obě tyto adresy ověřit.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Tvůj účet obsahuje tvoji e-mailovou adresu, kterou je nutné ověřit. Než bude možné pokračovat, potřebujeme tuto e-mailovou adresu ověřit.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Tvůj účet je spojen s e-mailovou adresou jednoho z tvých rodičů. Až tvůj rodič e-mailovou adresu potvrdí, budeš se moci přihlásit.",
+      "GUEST_GATED_UNKNOWN": "Nemáš oprávnění k přihlášení ani k registraci k tomuto webu.",
+      "GUEST_GATED_LOCATION": "Nemáš oprávnění k přihlášení ani k registraci k tomuto webu.",
+      "GUEST_GATED_EMBARGOED": "Nemáš oprávnění k registraci k tomuto webu. Tvé informace nebyly shromážděny.",
+      "GUEST_GATED_AGEBAND": "Nemáš oprávnění k registraci k tomuto webu. Tvé informace nebyly shromážděny.",
+      "MISSING_VALUE": "Tvůj profil byl vytvořen, neobsahuje však všechny vyžadované informace. Další informace nalezneš v zadávacím poli.",
+      "DISALLOWED_VALUE": "Tvůj profil obsahuje nepovolenou hodnotu. Další informace nalezneš v zadávacím poli.",
+      "INVALID_VALUE_FILTHY": "Ujisti se, že tvoje jméno neobsahuje urážky ani sprostá slova. Buď ohleduplný!",
+      "SYSTEM_UNAVAILABLE": "Služba je dočasně nedostupná.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Zdá se, že jsi naši aplikaci delší dobu nepoužil.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Nepodařilo se nám tě správně ověřit.",
+      "SSO_WELCOME_FIRSTNAME": "Ahoj, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Ahoj.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Zrušit",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Přihlásit se",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Pokračuj potvrzením otisku prstu",
+      "FINGERPRINT_DIALOG_HINT": "Dotykový senzor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Otisk prstu nebyl rozpoznán. Zkus to znovu.",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Otisk prstu byl rozpoznán",
+      "FINGERPRINT_DIALOG_ICON": "Ikona otisku prstu",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Otevřít v prohlížeči?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Zrušit"
+    }
+  }
+}

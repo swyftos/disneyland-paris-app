@@ -1,0 +1,51 @@
+package com.tagcommander.lib.core;
+
+/* loaded from: classes4.dex */
+public final class TCCoreConstants {
+    public static final String IAB_TRANSLATE_FILE_PREFIX = "purposes-";
+    public static String TCN_BLUETOOTH = "bluetooth";
+    public static String TCN_CARRIER = "carrier";
+    public static String TCN_CELLULAR = "cellular";
+    public static String TCN_WIFI = "wifi";
+    public static final String TCU_ANONYMOUS_ID = "consistent_anonymous_id";
+    public static String TCU_BIRTHDATE = "birthdate";
+    public static String TCU_CITY = "city";
+    public static String TCU_CONSENTCATEGORIES = "consent_categories";
+    public static String TCU_CONSENTVENDORS = "refused_vendors";
+    public static String TCU_COUNTRY = "country";
+    public static String TCU_EMAIL = "email";
+    public static String TCU_EMAIL_MD5 = "email_md5";
+    public static String TCU_EMAIL_SHA256 = "email_sha256";
+    public static String TCU_EXTERNALCONSENT = "external_consent";
+    public static String TCU_FIRSTNAME = "firstname";
+    public static String TCU_GENDER = "gender";
+    public static String TCU_GOOGLE_CONSENT_MODE = "google_consent_mode";
+    public static String TCU_ID = "id";
+    public static String TCU_LASTNAME = "lastname";
+    public static String TCU_PHONE = "phone";
+    public static String TCU_STATE = "state";
+    public static String TCU_ZIPCODE = "zipcode";
+    public static final String TC_ConsentVersion = "#TC_CONSENT_VERSION#";
+    public static final String TC_WAITING_FOR_CONSENT = "{waiting_for_consent}";
+    public static final String kTCCategoryPrefix = "PRIVACY_CAT_";
+    public static final String kTCConfigurationFilesLastUpdated = "tc_last_update_for_configuration_";
+    public static final String kTCConfigurationFilesPrefix = "configuration_";
+    public static final int kTCCorePoolSize = 1;
+    public static final String kTCDefaultOfflineFileNameHTTPOperations = "offlineHTTPOperations";
+    public static final String kTCFeaturePrefix = "PRIVACY_FEAT_";
+    public static final String kTCGoogleAtpListConfiguration = "google-atp-list";
+    public static final String kTCGoogleVendorPrefix = "acm_";
+    public static final String kTCIABDisclosuresJsonPrefix = "tc_iab_disclosures_json_prefix";
+    public static final String kTCLogTag = "CommandersAct";
+    public static final String kTCPredefinedVariable_AddTrackingEnabled = "#ADD_TRACKING_ENABLED#";
+    public static final String kTCPredefinedVariable_IDFA = "#ADVERTISING_ID#";
+    public static final String kTCPredefinedVariable_SDKID = "#TC_SDK_ID#";
+    public static final String kTCPredefinedVariable_UserAgent = "#TC_USER_AGENT#";
+    public static final String kTCPrivacyConfiguration = "privacy";
+    public static final String kTCPublisherRestrictionConfiguration = "TCIABPublisherRestrictions";
+    public static final int kTCQueueMaxLifetime = 2592000;
+    public static final int kTCQueueMaxSize = 2000;
+    public static final String kTCSharedPreferencesName = "MySharedPreferencesTC";
+    public static final String kTCVendorListConfiguration = "vendor-list";
+    public static final String kTCVendorPrefix = "PRIVACY_VEN_";
+}

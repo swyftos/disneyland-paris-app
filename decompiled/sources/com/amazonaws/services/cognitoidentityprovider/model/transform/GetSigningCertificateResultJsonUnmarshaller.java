@@ -1,0 +1,35 @@
+package com.amazonaws.services.cognitoidentityprovider.model.transform;
+
+import com.amazonaws.services.cognitoidentityprovider.model.GetSigningCertificateResult;
+import com.amazonaws.transform.JsonUnmarshallerContext;
+import com.amazonaws.transform.SimpleTypeJsonUnmarshallers;
+import com.amazonaws.transform.Unmarshaller;
+import com.amazonaws.util.json.AwsJsonReader;
+
+/* loaded from: classes2.dex */
+public class GetSigningCertificateResultJsonUnmarshaller implements Unmarshaller<GetSigningCertificateResult, JsonUnmarshallerContext> {
+    private static GetSigningCertificateResultJsonUnmarshaller instance;
+
+    @Override // com.amazonaws.transform.Unmarshaller
+    public GetSigningCertificateResult unmarshall(JsonUnmarshallerContext jsonUnmarshallerContext) throws Exception {
+        GetSigningCertificateResult getSigningCertificateResult = new GetSigningCertificateResult();
+        AwsJsonReader reader = jsonUnmarshallerContext.getReader();
+        reader.beginObject();
+        while (reader.hasNext()) {
+            if (reader.nextName().equals("Certificate")) {
+                getSigningCertificateResult.setCertificate(SimpleTypeJsonUnmarshallers.StringJsonUnmarshaller.getInstance().unmarshall(jsonUnmarshallerContext));
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return getSigningCertificateResult;
+    }
+
+    public static GetSigningCertificateResultJsonUnmarshaller getInstance() {
+        if (instance == null) {
+            instance = new GetSigningCertificateResultJsonUnmarshaller();
+        }
+        return instance;
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "申し訳ございませんが、インターネットに接続されていないようです。設定を確認して、もう一度お試しください。",
+      "ERROR_CONNECT": "申し訳ございませんが、接続時に問題が発生しました。もう一度お試しください。",
+      "ERROR_UNEXPECTED_RESPONSE": "申し訳ございません。アカウント・システムに問題が発生しました。",
+      "ERROR_TIMEOUT": "申し訳ございません。アカウント・システムに問題が発生しました。",
+      "ERROR_WEB_BRIDGE_MISSING": "申し訳ございません。アカウント・システムに問題が発生しました。",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "申し訳ございません。アカウント・システムに問題が発生しました。",
+      "ERROR_JAVASCRIPT_ERROR": "申し訳ございません。アカウント・システムに問題が発生しました。",
+      "ERROR_INTERNAL": "申し訳ございません。アカウント・システムに問題が発生しました。",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "申し訳ございません。アカウント・システムに問題が発生しました。",
+      "CLIENT_NOT_FOUND": "申し訳ございません。アカウント・システムに問題が発生しました。",
+      "PROFILE_DISABLED": "サービス利用規約に対する違反行為があったため、このサイトへのアクセスは永久にブロックされています。",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "次に進む前に、あなたのアカウントに登録されているあなたと、あなたの保護者の方のEmailアドレスを確認する必要があります。",
+      "GUEST_GATED_EMAIL_VERIFICATION": "あなたのアカウントに確認を必要とするEmailアドレスが含まれています。続行するには、Emailアドレスを確認する必要があります。",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "あなたのアカウントに保護者の方のEmailアドレスが登録されています。保護者の方がEmailを確認すると、あなたはサインインできるようになります。",
+      "GUEST_GATED_UNKNOWN": "お客様にはこのサイトにサインインまたは登録する資格がありません。",
+      "GUEST_GATED_LOCATION": "お客様にはこのサイトにサインインまたは登録する資格がありません。",
+      "GUEST_GATED_EMBARGOED": "お客様にはこのサイトに登録する資格がありません。お客様の情報は収集されていません。",
+      "GUEST_GATED_AGEBAND": "お客様にはこのサイトに登録する資格がありません。お客様の情報は収集されていません。",
+      "MISSING_VALUE": "お客様のプロファイルが作成されましたが、必要な情報が一部入力されていません。詳細については、入力フィールドをご覧ください。",
+      "DISALLOWED_VALUE": "お客様のプロファイルに使用できない値が含まれています。詳細については、入力フィールドをご覧ください。",
+      "SYSTEM_UNAVAILABLE": "ただ今、サービスをご利用頂けません。",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "しばらく当社のアプリのご利用がなかったようです。",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "お客様を正しく認証できませんでした。",
+      "SSO_WELCOME_FIRSTNAME": "こんにちは、{{ firstName }}さん。",
+      "SSO_WELCOME_FALLBACK": "こんにちは。",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "取り消し",
+      "FINGERPRINT_DIALOG_SIGN_IN": "サインイン",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "指紋を承認して次に進みます",
+      "FINGERPRINT_DIALOG_HINT": "センサーに触れてください",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "指紋が認識されませんでした。もう一度お試しください",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "指紋が認識されました",
+      "FINGERPRINT_DIALOG_ICON": "指紋アイコン",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "ウェブ・ブラウザーで開きますか？",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "取り消し"
+    }
+  }
+}

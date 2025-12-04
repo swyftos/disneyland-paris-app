@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "抱歉，似乎没有网络连接。请检查您的网络设置，然后重试。",
+      "ERROR_CONNECT": "抱歉，连接网络时遇到问题。请重试。",
+      "ERROR_UNEXPECTED_RESPONSE": "很抱歉，帐户系统目前遇到问题。",
+      "ERROR_TIMEOUT": "很抱歉，帐户系统目前遇到问题。",
+      "ERROR_WEB_BRIDGE_MISSING": "很抱歉，帐户系统目前遇到问题。",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "很抱歉，帐户系统目前遇到问题。",
+      "ERROR_JAVASCRIPT_ERROR": "很抱歉，帐户系统目前遇到问题。",
+      "ERROR_INTERNAL": "很抱歉，帐户系统目前遇到问题。",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "很抱歉，帐户系统目前遇到问题。",
+      "CLIENT_NOT_FOUND": "很抱歉，帐户系统目前遇到问题。",
+      "PROFILE_DISABLED": "您因违反服务协议条款而被永久阻止访问此网站。",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "您的帐户资料同时包含您和您家长的电子邮件地址。我们需要验证这两个电子邮件地址，然后您才能继续使用。",
+      "GUEST_GATED_EMAIL_VERIFICATION": "您的帐户资料包含需要验证的电子邮件地址。我们需要验证您的电子邮件地址，然后您才能继续。",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "您的帐户资料与您家长的电子邮件地址相关联。在您的家长确认您的电子邮件地址后，您即可登录我们的网站。",
+      "GUEST_GATED_UNKNOWN": "您没有资格在此网站上登录或注册。",
+      "GUEST_GATED_LOCATION": "您没有资格在此网站上登录或注册。",
+      "GUEST_GATED_EMBARGOED": "您没有资格在此网站上注册。我们未收集您的信息。",
+      "GUEST_GATED_AGEBAND": "您没有资格在此网站上注册。我们未收集您的信息。",
+      "MISSING_VALUE": "您在创建个人资料时未提供所有必需信息，请查看输入字段以了解详细信息。",
+      "DISALLOWED_VALUE": "您的个人资料包含不允许使用的值，请查看输入字段以了解详细信息。",
+      "INVALID_VALUE_FILTHY": "确保您的显示名称没有包含侮辱或亵渎性内容。太棒了！",
+      "SYSTEM_UNAVAILABLE": "暂停服务。",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "您似乎已有一段时间未使用我们的应用了。",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "我们无法正确验证您的身份。",
+      "SSO_WELCOME_FIRSTNAME": "尊敬的 {{ firstName }}，您好！",
+      "SSO_WELCOME_FALLBACK": "您好！",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "取消",
+      "FINGERPRINT_DIALOG_SIGN_IN": "登录",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "确认指纹以继续操作",
+      "FINGERPRINT_DIALOG_HINT": "请触摸感应器",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "未识别出指纹。请重试",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "已识别出指纹",
+      "FINGERPRINT_DIALOG_ICON": "指纹图标",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "使用网页浏览器打开？",
+      "DIALOG_OK": "确定",
+      "DIALOG_CANCEL": "取消"
+    }
+  }
+}

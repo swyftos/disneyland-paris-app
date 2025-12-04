@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Es tut uns leid. Es konnte keine Verbindung zum Internet hergestellt werden. Bitte überprüfen Sie Ihre Einstellungen und versuchen Sie es erneut.",
+      "ERROR_CONNECT": "Es tut uns leid. Beim Herstellen der Verbindung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "ERROR_UNEXPECTED_RESPONSE": "Es tut uns leid. Beim Kontensystem ist ein Fehler aufgetreten.",
+      "ERROR_TIMEOUT": "Es tut uns leid. Beim Kontensystem ist ein Fehler aufgetreten.",
+      "ERROR_WEB_BRIDGE_MISSING": "Es tut uns leid. Beim Kontensystem ist ein Fehler aufgetreten.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Es tut uns leid. Beim Kontensystem ist ein Fehler aufgetreten.",
+      "ERROR_JAVASCRIPT_ERROR": "Es tut uns leid. Beim Kontensystem ist ein Fehler aufgetreten.",
+      "ERROR_INTERNAL": "Es tut uns leid. Beim Kontensystem ist ein Fehler aufgetreten.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Es tut uns leid. Beim Kontensystem ist ein Fehler aufgetreten.",
+      "CLIENT_NOT_FOUND": "Es tut uns leid. Beim Kontensystem ist ein Fehler aufgetreten.",
+      "PROFILE_DISABLED": "Dein Zugriff auf diese Webseite wurde dauerhaft gesperrt, da gegen die Nutzungsbedingungen verstoßen wurde.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Dein Kontoprofil enthält sowohl deine E-Mail-Adresse als auch die E-Mail-Adresse deines Elternteils. Bevor der Vorgang fortgesetzt werden kann, müssen wir beide E-Mail-Adressen überprüfen.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Dein Kontoprofil enthält eine E-Mail-Adresse, die noch bestätigt werden muss. Bevor der Vorgang fortgesetzt werden kann, müssen Sie Ihre E-Mail-Adresse bestätigen.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Dein Kontoprofil ist mit der E-Mail-Adresse eines Elternteils verknüpft. Nachdem dein Elternteil deine E-Mail-Adresse bestätigt hat, kannst du dich anmelden.",
+      "GUEST_GATED_UNKNOWN": "Sie sind leider nicht berechtigt, sich auf dieser Webseite anzumelden oder zu registrieren.",
+      "GUEST_GATED_LOCATION": "Sie sind leider nicht berechtigt, sich auf dieser Webseite anzumelden oder zu registrieren.",
+      "GUEST_GATED_EMBARGOED": "Sie sind leider nicht berechtigt, sich auf dieser Website zu registrieren. Ihre Informationen wurden nicht erfasst.",
+      "GUEST_GATED_AGEBAND": "Sie sind leider nicht berechtigt, sich auf dieser Website zu registrieren. Ihre Informationen wurden nicht erfasst.",
+      "MISSING_VALUE": "Das erstellte Profil enthält noch nicht alle erforderlichen Informationen (siehe Eingabefelder).",
+      "DISALLOWED_VALUE": "Das erstellte Profil enthält einen nicht zulässigen Wert (siehe Eingabefelder).",
+      "INVALID_VALUE_FILTHY": "Verwenden Sie keine Namen, die beleidigend oder obszön sind. Wählen Sie einen netten Namen aus.",
+      "SYSTEM_UNAVAILABLE": "Dieser Dienst ist vorübergehend nicht verfügbar.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Anscheinend haben Sie unsere App eine Weile nicht verwendet.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Wir konnten Sie nicht authentifizieren.",
+      "SSO_WELCOME_FIRSTNAME": "Hallo, {{ firstName }},",
+      "SSO_WELCOME_FALLBACK": "Hallo!",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Abbrechen",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Anmelden",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Fingerabdruck zum Fortfahren bestätigen",
+      "FINGERPRINT_DIALOG_HINT": "Berührungssensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Fingerabdruck nicht erkannt Erneut versuchen",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Fingerabdruck erkannt",
+      "FINGERPRINT_DIALOG_ICON": "Fingerabdrucksymbol",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Im Webbrowser öffnen?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Abbrechen"
+    }
+  }
+}

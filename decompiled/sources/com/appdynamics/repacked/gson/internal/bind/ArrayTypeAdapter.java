@@ -1,0 +1,75 @@
+package com.appdynamics.repacked.gson.internal.bind;
+
+import com.appdynamics.repacked.gson.Gson;
+import com.appdynamics.repacked.gson.TypeAdapter;
+import com.appdynamics.repacked.gson.TypeAdapterFactory;
+import com.appdynamics.repacked.gson.internal.C$Gson$Types;
+import com.appdynamics.repacked.gson.reflect.TypeToken;
+import com.appdynamics.repacked.gson.stream.JsonReader;
+import com.appdynamics.repacked.gson.stream.JsonToken;
+import com.appdynamics.repacked.gson.stream.JsonWriter;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+/* loaded from: classes2.dex */
+public final class ArrayTypeAdapter<E> extends TypeAdapter<Object> {
+    public static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() { // from class: com.appdynamics.repacked.gson.internal.bind.ArrayTypeAdapter.1
+        @Override // com.appdynamics.repacked.gson.TypeAdapterFactory
+        public TypeAdapter create(Gson gson, TypeToken typeToken) {
+            Type type = typeToken.getType();
+            if (!(type instanceof GenericArrayType) && (!(type instanceof Class) || !((Class) type).isArray())) {
+                return null;
+            }
+            Type arrayComponentType = C$Gson$Types.getArrayComponentType(type);
+            return new ArrayTypeAdapter(gson, gson.getAdapter(TypeToken.get(arrayComponentType)), C$Gson$Types.getRawType(arrayComponentType));
+        }
+    };
+    private final Class componentType;
+    private final TypeAdapter componentTypeAdapter;
+
+    public ArrayTypeAdapter(Gson gson, TypeAdapter<E> typeAdapter, Class<E> cls) {
+        this.componentTypeAdapter = new TypeAdapterRuntimeTypeWrapper(gson, typeAdapter, cls);
+        this.componentType = cls;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // com.appdynamics.repacked.gson.TypeAdapter
+    public Object read(JsonReader jsonReader) throws IOException, ArrayIndexOutOfBoundsException, IllegalArgumentException, NegativeArraySizeException {
+        if (jsonReader.peek() == JsonToken.NULL) {
+            jsonReader.nextNull();
+            return null;
+        }
+        ArrayList arrayList = new ArrayList();
+        jsonReader.beginArray();
+        while (jsonReader.hasNext()) {
+            arrayList.add(this.componentTypeAdapter.read(jsonReader));
+        }
+        jsonReader.endArray();
+        int size = arrayList.size();
+        if (this.componentType.isPrimitive()) {
+            Object objNewInstance = Array.newInstance((Class<?>) this.componentType, size);
+            for (int i = 0; i < size; i++) {
+                Array.set(objNewInstance, i, arrayList.get(i));
+            }
+            return objNewInstance;
+        }
+        return arrayList.toArray((Object[]) Array.newInstance((Class<?>) this.componentType, size));
+    }
+
+    @Override // com.appdynamics.repacked.gson.TypeAdapter
+    public void write(JsonWriter jsonWriter, Object obj) throws IOException, ArrayIndexOutOfBoundsException, IllegalArgumentException {
+        if (obj == null) {
+            jsonWriter.nullValue();
+            return;
+        }
+        jsonWriter.beginArray();
+        int length = Array.getLength(obj);
+        for (int i = 0; i < length; i++) {
+            this.componentTypeAdapter.write(jsonWriter, Array.get(obj, i));
+        }
+        jsonWriter.endArray();
+    }
+}

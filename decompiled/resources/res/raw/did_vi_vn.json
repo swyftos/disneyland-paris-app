@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Chúng tôi rất tiếc, có vẻ như không có kết nối internet. Vui lòng kiểm tra cài đặt và thử lại.",
+      "ERROR_CONNECT": "Chúng tôi rất tiếc, đã xảy ra sự cố kết nối. Vui lòng thử lại.",
+      "ERROR_UNEXPECTED_RESPONSE": "Chúng tôi rất tiếc, hệ thống tài khoản đang gặp sự cố.",
+      "ERROR_TIMEOUT": "Chúng tôi rất tiếc, hệ thống tài khoản đang gặp sự cố.",
+      "ERROR_WEB_BRIDGE_MISSING": "Chúng tôi rất tiếc, hệ thống tài khoản đang gặp sự cố.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Chúng tôi rất tiếc, hệ thống tài khoản đang gặp sự cố.",
+      "ERROR_JAVASCRIPT_ERROR": "Chúng tôi rất tiếc, hệ thống tài khoản đang gặp sự cố.",
+      "ERROR_INTERNAL": "Chúng tôi rất tiếc, hệ thống tài khoản đang gặp sự cố.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Chúng tôi rất tiếc, hệ thống tài khoản đang gặp sự cố.",
+      "CLIENT_NOT_FOUND": "Chúng tôi rất tiếc, hệ thống tài khoản đang gặp sự cố.",
+      "PROFILE_DISABLED": "Quyền truy cập các trang này đã bị khóa vĩnh viễn do vi phạm Thỏa thuận Điều khoản Dịch vụ.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Hồ sơ tài khoản của bạn bao gồm cả địa chỉ email của bạn và của phụ huynh. Trước khi bạn có thể tiếp tục, chúng tôi cần phải xác minh cả hai địa chỉ email.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Hồ sơ tài khoản của bạn bao gồm địa chỉ email cần có xác minh. Trước khi bạn có thể tiếp tục, chúng tôi cần bạn xác minh địa chỉ email của bạn.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Hồ sơ tài khoản của bạn được liên kết với địa chỉ email của phụ huynh của bạn. Sau khi phụ huynh xác nhận email, bạn sẽ có thể đăng nhập.",
+      "GUEST_GATED_UNKNOWN": "Bạn chưa đủ điều kiện đăng nhập hoặc đăng ký trên trang này.",
+      "GUEST_GATED_LOCATION": "Bạn chưa đủ điều kiện đăng nhập hoặc đăng ký trên trang này.",
+      "GUEST_GATED_EMBARGOED": "Bạn chưa đủ điều kiện đăng ký trên trang này. Thông tin của bạn chưa được thu thập.",
+      "GUEST_GATED_AGEBAND": "Bạn chưa đủ điều kiện đăng ký trên trang này. Thông tin của bạn chưa được thu thập.",
+      "MISSING_VALUE": "Hồ sơ của bạn đã được tạo mà không có tất cả thông tin bắt buộc, hãy xem trường nhập để biết chi tiết.",
+      "DISALLOWED_VALUE": "Hồ sơ của bạn chưa giá trị không được cho phép, hãy xem trường nhập để biết chi tiết.",
+      "INVALID_VALUE_FILTHY": "Hãy đảm bảo tên hiển thị của bạn không chứa từ ngữ xúc phạm hoặc dung tục. Hãy cư xử đúng mực!",
+      "SYSTEM_UNAVAILABLE": "Dịch vụ tạm thời không khả dụng.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Có vẻ như đã lâu rồi bạn không sử dụng ứng dụng của chúng tôi.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Chúng tôi không thể xác thực bạn đúng cách.",
+      "SSO_WELCOME_FIRSTNAME": "Xin chào {{ firstName }}!",
+      "SSO_WELCOME_FALLBACK": "Xin chào.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Hủy",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Đăng nhập",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Xác nhận vân tay để tiếp tục",
+      "FINGERPRINT_DIALOG_HINT": "Cảm biến chạm",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Không nhận diện được vân tay. Thử lại",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Đã nhận diện vân tay",
+      "FINGERPRINT_DIALOG_ICON": "Biểu tượng vân tay",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Mở trong trình duyệt web?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Hủy"
+    }
+  }
+}

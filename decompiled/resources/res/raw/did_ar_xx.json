@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "INVALID_VALUE_FILTHY": "تأكد من أن اسم العرض الخاص بك لا يحتوي على إهانات أو بذاءات. كن لطيفاً!",
+      "ERROR_NO_INTERNET": "معذرة، يبدو أنه ليس هناك اتصال بالإنترنت. يُرجى التحقق من الإعدادات الخاصة بك والمحاولة مرة أخرى.",
+      "ERROR_CONNECT": "‏‫عذرًا، ‏‫حدثت مشكلة أثناء الاتصال. الرجاء المحاولة مرة أخرى.",
+      "ERROR_UNEXPECTED_RESPONSE": "‏‫نأسف لوجود مشكلة في نظام الحساب.‬",
+      "ERROR_TIMEOUT": "‏‫نأسف لوجود مشكلة في نظام الحساب.‬",
+      "ERROR_WEB_BRIDGE_MISSING": "‏‫نأسف لوجود مشكلة في نظام الحساب.‬",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "‏‫نأسف لوجود مشكلة في نظام الحساب.‬",
+      "ERROR_JAVASCRIPT_ERROR": "‏‫نأسف لوجود مشكلة في نظام الحساب.‬",
+      "ERROR_INTERNAL": "‏‫نأسف لوجود مشكلة في نظام الحساب.‬",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "‏‫نأسف لوجود مشكلة في نظام الحساب.‬",
+      "CLIENT_NOT_FOUND": "‏‫نأسف لوجود مشكلة في نظام الحساب.‬",
+      "PROFILE_DISABLED": "تم حظر وصولك إلى هذا الموقع إلى الأبد بسبب انتهاك اتفاقية شروط الخدمة.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "‏‫يحتوي ملف تعريف حسابك على كل من عنوان بريدك الإلكتروني، وعنوان البريد الإلكتروني لأحد والديك. نحتاج إلى التأكد من عنواني البريد الإلكتروني هذين قبل المتابعة.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "يحتوي ملف تعريف حسابك على عنوان البريد الإلكتروني الذي يتطلب التأكيد. عليك التأكد من عنوان البريد الإلكتروني الخاص بك قبل المتابعة.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "‏‫يرتبط ملف تعريف حسابك بعنوان البريد الإلكتروني لأحد والديك. بمجرد أن يقوم أحد والديك بتأكيد البريد الإلكتروني الخاص بك، يمكنك تسجيل الدخول.",
+      "GUEST_GATED_UNKNOWN": "لست مؤهلاً لتسجيل الدخول أو التسجيل إلى هذا الموقع.",
+      "GUEST_GATED_LOCATION": "لست مؤهلاً لتسجيل الدخول أو التسجيل إلى هذا الموقع.",
+      "GUEST_GATED_EMBARGOED": "لست مؤهلاً للتسجيل على هذا الموقع. لم يتم جمع معلوماتك.",
+      "GUEST_GATED_AGEBAND": "لست مؤهلاً للتسجيل على هذا الموقع. لم يتم جمع معلوماتك.",
+      "MISSING_VALUE": "تم إنشاء ملف التعريف الخاص بك دون كل المعلومات المطلوبة، راجع حقل الإدخال لمزيد من التفاصيل.",
+      "DISALLOWED_VALUE": "يحتوي ملف التعريف الخاص بك على قيمة غير مسموح بها، راجع حقل الإدخال لمزيد من التفاصيل.",
+      "SYSTEM_UNAVAILABLE": "الخدمة غير متوفرة مؤقتًا.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "يبدو أنك لم تستخدم التطبيق الخاص بنا منذ فترة.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "لم نتمكن من المصادقة عليك بشكل مناسب.",
+      "SSO_WELCOME_FIRSTNAME": "مرحبًا {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "مرحبًا،",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "إلغاء",
+      "FINGERPRINT_DIALOG_SIGN_IN": "تسجيل الدخول",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "تأكيد بصمة الإصبع للمتابعة",
+      "FINGERPRINT_DIALOG_HINT": "مستشعر باللمس",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "لم يتم التعرف على بصمة الإصبع. حاول مرة أخرى",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "تم التعرف على بصمة الإصبع",
+      "FINGERPRINT_DIALOG_ICON": "أيقونة بصمة الإصبع",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "هل تريد الفتح في مستعرض ويب؟",
+      "DIALOG_OK": "موافق",
+      "DIALOG_CANCEL": "إلغاء"
+    }
+  }
+}

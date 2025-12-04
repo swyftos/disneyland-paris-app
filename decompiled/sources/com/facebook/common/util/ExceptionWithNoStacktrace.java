@@ -1,0 +1,16 @@
+package com.facebook.common.util;
+
+import com.facebook.infer.annotation.Nullsafe;
+
+@Nullsafe(Nullsafe.Mode.LOCAL)
+/* loaded from: classes3.dex */
+public class ExceptionWithNoStacktrace extends Exception {
+    @Override // java.lang.Throwable
+    public synchronized Throwable fillInStackTrace() {
+        return this;
+    }
+
+    public ExceptionWithNoStacktrace(String str) {
+        super(str);
+    }
+}

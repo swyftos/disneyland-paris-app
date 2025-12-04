@@ -1,0 +1,406 @@
+package com.amazonaws.services.cognitoidentityprovider;
+
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonWebServiceRequest;
+import com.amazonaws.ResponseMetadata;
+import com.amazonaws.regions.Region;
+import com.amazonaws.services.cognitoidentityprovider.model.AddCustomAttributesRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AddCustomAttributesResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminAddUserToGroupRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminConfirmSignUpRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminConfirmSignUpResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminCreateUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminCreateUserResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminDeleteUserAttributesRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminDeleteUserAttributesResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminDeleteUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminDisableProviderForUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminDisableProviderForUserResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminDisableUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminDisableUserResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminEnableUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminEnableUserResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminForgetDeviceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminGetDeviceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminGetDeviceResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminGetUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminGetUserResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminInitiateAuthRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminInitiateAuthResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminLinkProviderForUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminLinkProviderForUserResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminListDevicesRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminListDevicesResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminListGroupsForUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminListGroupsForUserResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminListUserAuthEventsRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminListUserAuthEventsResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminRemoveUserFromGroupRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminResetUserPasswordRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminResetUserPasswordResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminRespondToAuthChallengeRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminRespondToAuthChallengeResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminSetUserMFAPreferenceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminSetUserMFAPreferenceResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminSetUserPasswordRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminSetUserPasswordResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminSetUserSettingsRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminSetUserSettingsResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminUpdateAuthEventFeedbackRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminUpdateAuthEventFeedbackResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminUpdateDeviceStatusRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminUpdateDeviceStatusResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminUpdateUserAttributesRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminUpdateUserAttributesResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminUserGlobalSignOutRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AdminUserGlobalSignOutResult;
+import com.amazonaws.services.cognitoidentityprovider.model.AssociateSoftwareTokenRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.AssociateSoftwareTokenResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ChangePasswordRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ChangePasswordResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ConfirmDeviceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ConfirmDeviceResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ConfirmForgotPasswordRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ConfirmForgotPasswordResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ConfirmSignUpResult;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateGroupRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateGroupResult;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateIdentityProviderRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateIdentityProviderResult;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateResourceServerRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateResourceServerResult;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateUserImportJobRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateUserImportJobResult;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateUserPoolClientRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateUserPoolClientResult;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateUserPoolDomainRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateUserPoolDomainResult;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateUserPoolRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.CreateUserPoolResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteGroupRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteIdentityProviderRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteResourceServerRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteUserAttributesRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteUserAttributesResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteUserPoolClientRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteUserPoolDomainRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteUserPoolDomainResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteUserPoolRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeIdentityProviderRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeIdentityProviderResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeResourceServerRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeResourceServerResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeRiskConfigurationRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeRiskConfigurationResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeUserImportJobRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeUserImportJobResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeUserPoolClientRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeUserPoolClientResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeUserPoolDomainRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeUserPoolDomainResult;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeUserPoolRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.DescribeUserPoolResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ForgetDeviceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ForgotPasswordRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ForgotPasswordResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetCSVHeaderRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetCSVHeaderResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetDeviceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetDeviceResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetGroupRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetGroupResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetIdentityProviderByIdentifierRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetIdentityProviderByIdentifierResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetSigningCertificateRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetSigningCertificateResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetUICustomizationRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetUICustomizationResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetUserAttributeVerificationCodeRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetUserAttributeVerificationCodeResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetUserPoolMfaConfigRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetUserPoolMfaConfigResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GetUserRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GetUserResult;
+import com.amazonaws.services.cognitoidentityprovider.model.GlobalSignOutRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.GlobalSignOutResult;
+import com.amazonaws.services.cognitoidentityprovider.model.InitiateAuthRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.InitiateAuthResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListDevicesRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListDevicesResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListGroupsRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListGroupsResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListIdentityProvidersRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListIdentityProvidersResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListResourceServersRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListResourceServersResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListTagsForResourceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListTagsForResourceResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUserImportJobsRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUserImportJobsResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUserPoolClientsRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUserPoolClientsResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUserPoolsRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUserPoolsResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUsersInGroupRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUsersInGroupResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUsersRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ListUsersResult;
+import com.amazonaws.services.cognitoidentityprovider.model.ResendConfirmationCodeRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ResendConfirmationCodeResult;
+import com.amazonaws.services.cognitoidentityprovider.model.RespondToAuthChallengeRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.RespondToAuthChallengeResult;
+import com.amazonaws.services.cognitoidentityprovider.model.SetRiskConfigurationRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.SetRiskConfigurationResult;
+import com.amazonaws.services.cognitoidentityprovider.model.SetUICustomizationRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.SetUICustomizationResult;
+import com.amazonaws.services.cognitoidentityprovider.model.SetUserMFAPreferenceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.SetUserMFAPreferenceResult;
+import com.amazonaws.services.cognitoidentityprovider.model.SetUserPoolMfaConfigRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.SetUserPoolMfaConfigResult;
+import com.amazonaws.services.cognitoidentityprovider.model.SetUserSettingsRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.SetUserSettingsResult;
+import com.amazonaws.services.cognitoidentityprovider.model.SignUpRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
+import com.amazonaws.services.cognitoidentityprovider.model.StartUserImportJobRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.StartUserImportJobResult;
+import com.amazonaws.services.cognitoidentityprovider.model.StopUserImportJobRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.StopUserImportJobResult;
+import com.amazonaws.services.cognitoidentityprovider.model.TagResourceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.TagResourceResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UntagResourceRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UntagResourceResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateAuthEventFeedbackRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateAuthEventFeedbackResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateDeviceStatusRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateDeviceStatusResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateGroupRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateGroupResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateIdentityProviderRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateIdentityProviderResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateResourceServerRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateResourceServerResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateUserAttributesRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateUserAttributesResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateUserPoolClientRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateUserPoolClientResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateUserPoolDomainRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateUserPoolDomainResult;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateUserPoolRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.UpdateUserPoolResult;
+import com.amazonaws.services.cognitoidentityprovider.model.VerifySoftwareTokenRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.VerifySoftwareTokenResult;
+import com.amazonaws.services.cognitoidentityprovider.model.VerifyUserAttributeRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.VerifyUserAttributeResult;
+
+/* loaded from: classes2.dex */
+public interface AmazonCognitoIdentityProvider {
+    AddCustomAttributesResult addCustomAttributes(AddCustomAttributesRequest addCustomAttributesRequest) throws AmazonClientException;
+
+    void adminAddUserToGroup(AdminAddUserToGroupRequest adminAddUserToGroupRequest) throws AmazonClientException;
+
+    AdminConfirmSignUpResult adminConfirmSignUp(AdminConfirmSignUpRequest adminConfirmSignUpRequest) throws AmazonClientException;
+
+    AdminCreateUserResult adminCreateUser(AdminCreateUserRequest adminCreateUserRequest) throws AmazonClientException;
+
+    void adminDeleteUser(AdminDeleteUserRequest adminDeleteUserRequest) throws AmazonClientException;
+
+    AdminDeleteUserAttributesResult adminDeleteUserAttributes(AdminDeleteUserAttributesRequest adminDeleteUserAttributesRequest) throws AmazonClientException;
+
+    AdminDisableProviderForUserResult adminDisableProviderForUser(AdminDisableProviderForUserRequest adminDisableProviderForUserRequest) throws AmazonClientException;
+
+    AdminDisableUserResult adminDisableUser(AdminDisableUserRequest adminDisableUserRequest) throws AmazonClientException;
+
+    AdminEnableUserResult adminEnableUser(AdminEnableUserRequest adminEnableUserRequest) throws AmazonClientException;
+
+    void adminForgetDevice(AdminForgetDeviceRequest adminForgetDeviceRequest) throws AmazonClientException;
+
+    AdminGetDeviceResult adminGetDevice(AdminGetDeviceRequest adminGetDeviceRequest) throws AmazonClientException;
+
+    AdminGetUserResult adminGetUser(AdminGetUserRequest adminGetUserRequest) throws AmazonClientException;
+
+    AdminInitiateAuthResult adminInitiateAuth(AdminInitiateAuthRequest adminInitiateAuthRequest) throws AmazonClientException;
+
+    AdminLinkProviderForUserResult adminLinkProviderForUser(AdminLinkProviderForUserRequest adminLinkProviderForUserRequest) throws AmazonClientException;
+
+    AdminListDevicesResult adminListDevices(AdminListDevicesRequest adminListDevicesRequest) throws AmazonClientException;
+
+    AdminListGroupsForUserResult adminListGroupsForUser(AdminListGroupsForUserRequest adminListGroupsForUserRequest) throws AmazonClientException;
+
+    AdminListUserAuthEventsResult adminListUserAuthEvents(AdminListUserAuthEventsRequest adminListUserAuthEventsRequest) throws AmazonClientException;
+
+    void adminRemoveUserFromGroup(AdminRemoveUserFromGroupRequest adminRemoveUserFromGroupRequest) throws AmazonClientException;
+
+    AdminResetUserPasswordResult adminResetUserPassword(AdminResetUserPasswordRequest adminResetUserPasswordRequest) throws AmazonClientException;
+
+    AdminRespondToAuthChallengeResult adminRespondToAuthChallenge(AdminRespondToAuthChallengeRequest adminRespondToAuthChallengeRequest) throws AmazonClientException;
+
+    AdminSetUserMFAPreferenceResult adminSetUserMFAPreference(AdminSetUserMFAPreferenceRequest adminSetUserMFAPreferenceRequest) throws AmazonClientException;
+
+    AdminSetUserPasswordResult adminSetUserPassword(AdminSetUserPasswordRequest adminSetUserPasswordRequest) throws AmazonClientException;
+
+    AdminSetUserSettingsResult adminSetUserSettings(AdminSetUserSettingsRequest adminSetUserSettingsRequest) throws AmazonClientException;
+
+    AdminUpdateAuthEventFeedbackResult adminUpdateAuthEventFeedback(AdminUpdateAuthEventFeedbackRequest adminUpdateAuthEventFeedbackRequest) throws AmazonClientException;
+
+    AdminUpdateDeviceStatusResult adminUpdateDeviceStatus(AdminUpdateDeviceStatusRequest adminUpdateDeviceStatusRequest) throws AmazonClientException;
+
+    AdminUpdateUserAttributesResult adminUpdateUserAttributes(AdminUpdateUserAttributesRequest adminUpdateUserAttributesRequest) throws AmazonClientException;
+
+    AdminUserGlobalSignOutResult adminUserGlobalSignOut(AdminUserGlobalSignOutRequest adminUserGlobalSignOutRequest) throws AmazonClientException;
+
+    AssociateSoftwareTokenResult associateSoftwareToken(AssociateSoftwareTokenRequest associateSoftwareTokenRequest) throws AmazonClientException;
+
+    ChangePasswordResult changePassword(ChangePasswordRequest changePasswordRequest) throws AmazonClientException;
+
+    ConfirmDeviceResult confirmDevice(ConfirmDeviceRequest confirmDeviceRequest) throws AmazonClientException;
+
+    ConfirmForgotPasswordResult confirmForgotPassword(ConfirmForgotPasswordRequest confirmForgotPasswordRequest) throws AmazonClientException;
+
+    ConfirmSignUpResult confirmSignUp(ConfirmSignUpRequest confirmSignUpRequest) throws AmazonClientException;
+
+    CreateGroupResult createGroup(CreateGroupRequest createGroupRequest) throws AmazonClientException;
+
+    CreateIdentityProviderResult createIdentityProvider(CreateIdentityProviderRequest createIdentityProviderRequest) throws AmazonClientException;
+
+    CreateResourceServerResult createResourceServer(CreateResourceServerRequest createResourceServerRequest) throws AmazonClientException;
+
+    CreateUserImportJobResult createUserImportJob(CreateUserImportJobRequest createUserImportJobRequest) throws AmazonClientException;
+
+    CreateUserPoolResult createUserPool(CreateUserPoolRequest createUserPoolRequest) throws AmazonClientException;
+
+    CreateUserPoolClientResult createUserPoolClient(CreateUserPoolClientRequest createUserPoolClientRequest) throws AmazonClientException;
+
+    CreateUserPoolDomainResult createUserPoolDomain(CreateUserPoolDomainRequest createUserPoolDomainRequest) throws AmazonClientException;
+
+    void deleteGroup(DeleteGroupRequest deleteGroupRequest) throws AmazonClientException;
+
+    void deleteIdentityProvider(DeleteIdentityProviderRequest deleteIdentityProviderRequest) throws AmazonClientException;
+
+    void deleteResourceServer(DeleteResourceServerRequest deleteResourceServerRequest) throws AmazonClientException;
+
+    void deleteUser(DeleteUserRequest deleteUserRequest) throws AmazonClientException;
+
+    DeleteUserAttributesResult deleteUserAttributes(DeleteUserAttributesRequest deleteUserAttributesRequest) throws AmazonClientException;
+
+    void deleteUserPool(DeleteUserPoolRequest deleteUserPoolRequest) throws AmazonClientException;
+
+    void deleteUserPoolClient(DeleteUserPoolClientRequest deleteUserPoolClientRequest) throws AmazonClientException;
+
+    DeleteUserPoolDomainResult deleteUserPoolDomain(DeleteUserPoolDomainRequest deleteUserPoolDomainRequest) throws AmazonClientException;
+
+    DescribeIdentityProviderResult describeIdentityProvider(DescribeIdentityProviderRequest describeIdentityProviderRequest) throws AmazonClientException;
+
+    DescribeResourceServerResult describeResourceServer(DescribeResourceServerRequest describeResourceServerRequest) throws AmazonClientException;
+
+    DescribeRiskConfigurationResult describeRiskConfiguration(DescribeRiskConfigurationRequest describeRiskConfigurationRequest) throws AmazonClientException;
+
+    DescribeUserImportJobResult describeUserImportJob(DescribeUserImportJobRequest describeUserImportJobRequest) throws AmazonClientException;
+
+    DescribeUserPoolResult describeUserPool(DescribeUserPoolRequest describeUserPoolRequest) throws AmazonClientException;
+
+    DescribeUserPoolClientResult describeUserPoolClient(DescribeUserPoolClientRequest describeUserPoolClientRequest) throws AmazonClientException;
+
+    DescribeUserPoolDomainResult describeUserPoolDomain(DescribeUserPoolDomainRequest describeUserPoolDomainRequest) throws AmazonClientException;
+
+    void forgetDevice(ForgetDeviceRequest forgetDeviceRequest) throws AmazonClientException;
+
+    ForgotPasswordResult forgotPassword(ForgotPasswordRequest forgotPasswordRequest) throws AmazonClientException;
+
+    GetCSVHeaderResult getCSVHeader(GetCSVHeaderRequest getCSVHeaderRequest) throws AmazonClientException;
+
+    ResponseMetadata getCachedResponseMetadata(AmazonWebServiceRequest amazonWebServiceRequest);
+
+    GetDeviceResult getDevice(GetDeviceRequest getDeviceRequest) throws AmazonClientException;
+
+    GetGroupResult getGroup(GetGroupRequest getGroupRequest) throws AmazonClientException;
+
+    GetIdentityProviderByIdentifierResult getIdentityProviderByIdentifier(GetIdentityProviderByIdentifierRequest getIdentityProviderByIdentifierRequest) throws AmazonClientException;
+
+    GetSigningCertificateResult getSigningCertificate(GetSigningCertificateRequest getSigningCertificateRequest) throws AmazonClientException;
+
+    GetUICustomizationResult getUICustomization(GetUICustomizationRequest getUICustomizationRequest) throws AmazonClientException;
+
+    GetUserResult getUser(GetUserRequest getUserRequest) throws AmazonClientException;
+
+    GetUserAttributeVerificationCodeResult getUserAttributeVerificationCode(GetUserAttributeVerificationCodeRequest getUserAttributeVerificationCodeRequest) throws AmazonClientException;
+
+    GetUserPoolMfaConfigResult getUserPoolMfaConfig(GetUserPoolMfaConfigRequest getUserPoolMfaConfigRequest) throws AmazonClientException;
+
+    GlobalSignOutResult globalSignOut(GlobalSignOutRequest globalSignOutRequest) throws AmazonClientException;
+
+    InitiateAuthResult initiateAuth(InitiateAuthRequest initiateAuthRequest) throws AmazonClientException;
+
+    ListDevicesResult listDevices(ListDevicesRequest listDevicesRequest) throws AmazonClientException;
+
+    ListGroupsResult listGroups(ListGroupsRequest listGroupsRequest) throws AmazonClientException;
+
+    ListIdentityProvidersResult listIdentityProviders(ListIdentityProvidersRequest listIdentityProvidersRequest) throws AmazonClientException;
+
+    ListResourceServersResult listResourceServers(ListResourceServersRequest listResourceServersRequest) throws AmazonClientException;
+
+    ListTagsForResourceResult listTagsForResource(ListTagsForResourceRequest listTagsForResourceRequest) throws AmazonClientException;
+
+    ListUserImportJobsResult listUserImportJobs(ListUserImportJobsRequest listUserImportJobsRequest) throws AmazonClientException;
+
+    ListUserPoolClientsResult listUserPoolClients(ListUserPoolClientsRequest listUserPoolClientsRequest) throws AmazonClientException;
+
+    ListUserPoolsResult listUserPools(ListUserPoolsRequest listUserPoolsRequest) throws AmazonClientException;
+
+    ListUsersResult listUsers(ListUsersRequest listUsersRequest) throws AmazonClientException;
+
+    ListUsersInGroupResult listUsersInGroup(ListUsersInGroupRequest listUsersInGroupRequest) throws AmazonClientException;
+
+    ResendConfirmationCodeResult resendConfirmationCode(ResendConfirmationCodeRequest resendConfirmationCodeRequest) throws AmazonClientException;
+
+    RespondToAuthChallengeResult respondToAuthChallenge(RespondToAuthChallengeRequest respondToAuthChallengeRequest) throws AmazonClientException;
+
+    void setEndpoint(String str) throws IllegalArgumentException;
+
+    void setRegion(Region region) throws IllegalArgumentException;
+
+    SetRiskConfigurationResult setRiskConfiguration(SetRiskConfigurationRequest setRiskConfigurationRequest) throws AmazonClientException;
+
+    SetUICustomizationResult setUICustomization(SetUICustomizationRequest setUICustomizationRequest) throws AmazonClientException;
+
+    SetUserMFAPreferenceResult setUserMFAPreference(SetUserMFAPreferenceRequest setUserMFAPreferenceRequest) throws AmazonClientException;
+
+    SetUserPoolMfaConfigResult setUserPoolMfaConfig(SetUserPoolMfaConfigRequest setUserPoolMfaConfigRequest) throws AmazonClientException;
+
+    SetUserSettingsResult setUserSettings(SetUserSettingsRequest setUserSettingsRequest) throws AmazonClientException;
+
+    void shutdown();
+
+    SignUpResult signUp(SignUpRequest signUpRequest) throws AmazonClientException;
+
+    StartUserImportJobResult startUserImportJob(StartUserImportJobRequest startUserImportJobRequest) throws AmazonClientException;
+
+    StopUserImportJobResult stopUserImportJob(StopUserImportJobRequest stopUserImportJobRequest) throws AmazonClientException;
+
+    TagResourceResult tagResource(TagResourceRequest tagResourceRequest) throws AmazonClientException;
+
+    UntagResourceResult untagResource(UntagResourceRequest untagResourceRequest) throws AmazonClientException;
+
+    UpdateAuthEventFeedbackResult updateAuthEventFeedback(UpdateAuthEventFeedbackRequest updateAuthEventFeedbackRequest) throws AmazonClientException;
+
+    UpdateDeviceStatusResult updateDeviceStatus(UpdateDeviceStatusRequest updateDeviceStatusRequest) throws AmazonClientException;
+
+    UpdateGroupResult updateGroup(UpdateGroupRequest updateGroupRequest) throws AmazonClientException;
+
+    UpdateIdentityProviderResult updateIdentityProvider(UpdateIdentityProviderRequest updateIdentityProviderRequest) throws AmazonClientException;
+
+    UpdateResourceServerResult updateResourceServer(UpdateResourceServerRequest updateResourceServerRequest) throws AmazonClientException;
+
+    UpdateUserAttributesResult updateUserAttributes(UpdateUserAttributesRequest updateUserAttributesRequest) throws AmazonClientException;
+
+    UpdateUserPoolResult updateUserPool(UpdateUserPoolRequest updateUserPoolRequest) throws AmazonClientException;
+
+    UpdateUserPoolClientResult updateUserPoolClient(UpdateUserPoolClientRequest updateUserPoolClientRequest) throws AmazonClientException;
+
+    UpdateUserPoolDomainResult updateUserPoolDomain(UpdateUserPoolDomainRequest updateUserPoolDomainRequest) throws AmazonClientException;
+
+    VerifySoftwareTokenResult verifySoftwareToken(VerifySoftwareTokenRequest verifySoftwareTokenRequest) throws AmazonClientException;
+
+    VerifyUserAttributeResult verifyUserAttribute(VerifyUserAttributeRequest verifyUserAttributeRequest) throws AmazonClientException;
+}

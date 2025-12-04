@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Lamentamos, mas parece que não tem ligação à Internet. Verifique as suas definições e tente novamente.",
+      "ERROR_CONNECT": "Lamentamos, mas ocorreu um problema com a ligação. Tente novamente.",
+      "ERROR_UNEXPECTED_RESPONSE": "Lamentamos, mas o sistema da conta está a ter problemas.",
+      "ERROR_TIMEOUT": "Lamentamos, mas o sistema da conta está a ter problemas.",
+      "ERROR_WEB_BRIDGE_MISSING": "Lamentamos, mas o sistema da conta está a ter problemas.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Lamentamos, mas o sistema da conta está a ter problemas.",
+      "ERROR_JAVASCRIPT_ERROR": "Lamentamos, mas o sistema da conta está a ter problemas.",
+      "ERROR_INTERNAL": "Lamentamos, mas o sistema da conta está a ter problemas.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Lamentamos, mas o sistema da conta está a ter problemas.",
+      "CLIENT_NOT_FOUND": "Lamentamos, mas o sistema da conta está a ter problemas.",
+      "PROFILE_DISABLED": "O seu acesso a este site foi bloqueado permanentemente por violar os Termos de Utilização.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "O seu perfil de conta inclui o seu endereço de e-mail e o do seu pai/mãe. Antes de poder continuar, necessitamos de validar os dois endereços de e-mail.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "O seu perfil de conta inclui um endereço de e-mail que necessita de ser validado. Antes de poder continuar, necessitamos que valide o seu endereço de e-mail.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "O seu perfil de conta está associado ao endereço de e-mail do seu pai/mãe. Assim que o seu pai/mãe valide o respetivo e-mail, poderá iniciar sessão.",
+      "GUEST_GATED_UNKNOWN": "Não é elegível para iniciar sessão ou para se inscrever neste site.",
+      "GUEST_GATED_LOCATION": "Não é elegível para iniciar sessão ou para se inscrever neste site.",
+      "GUEST_GATED_EMBARGOED": "Não é elegível para se inscrever neste site. As suas informações não foram recolhidas.",
+      "GUEST_GATED_AGEBAND": "Não é elegível para se inscrever neste site. As suas informações não foram recolhidas.",
+      "MISSING_VALUE": "O seu perfil foi criado sem todas as informações exigidas; verifique os campos de entrada para mais detalhes.",
+      "DISALLOWED_VALUE": "O seu perfil contém um valor que não é permitido; verifique o campo de entrada para mais detalhes.",
+      "INVALID_VALUE_FILTHY": "Certifique-se de que o seu nome a apresentar não contém insultos nem é de caráter profano. Seja simpático!",
+      "SYSTEM_UNAVAILABLE": "Serviço temporariamente indisponível.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Parece que já não usa a nossa aplicação há algum tempo.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Não conseguimos autenticá-lo da forma adequada.",
+      "SSO_WELCOME_FIRSTNAME": "Olá, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Olá.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Cancelar",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Iniciar Sessão",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Confirme a impressão digital para continuar",
+      "FINGERPRINT_DIALOG_HINT": "Toque no sensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Impressão digital não reconhecida. Tente novamente",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Impressão digital reconhecida",
+      "FINGERPRINT_DIALOG_ICON": "Ícone de impressão digital",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Abrir no Browser?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Cancelar"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="@dimen/message_item_checkable_no_thumbnail_size"
+    android:layout_height="match_parent"
+    style="@style/UrbanAirship.MessageCenter.Item.NoThumbnail">
+    <FrameLayout
+        android:id="@+id/unread_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/unread_indicator"
+            android:visibility="gone"
+            android:layout_width="@dimen/message_item_checkable_no_thumbnail_size"
+            android:layout_height="@dimen/message_item_checkable_no_thumbnail_size"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
+            style="@style/UrbanAirship.MessageCenter.Item.NoThumbnail.UnreadIndicator"/>
+    </FrameLayout>
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:layout_gravity="top|center_horizontal"
+        android:id="@+id/checkable"
+        android:focusable="false"
+        android:clickable="false"
+        android:duplicateParentState="true"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:alpha="0"
+        style="@style/UrbanAirship.MessageCenter.Item.CheckBox"/>
+</FrameLayout>

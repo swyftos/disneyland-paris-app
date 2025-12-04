@@ -1,0 +1,89 @@
+package com.facebook.react.fabric.internal.interop;
+
+import com.facebook.react.bridge.UIManager;
+import com.facebook.react.bridge.UIManagerListener;
+import com.facebook.react.fabric.interop.UIBlock;
+import com.facebook.react.fabric.interop.UIBlockViewResolver;
+import java.util.ArrayList;
+import java.util.List;
+import kotlin.Metadata;
+import kotlin.jvm.internal.Intrinsics;
+import kotlin.jvm.internal.SourceDebugExtension;
+import org.jetbrains.annotations.NotNull;
+
+@Metadata(d1 = {"\u0000(\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010!\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0010\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\b\u0005\b\u0000\u0018\u00002\u00020\u0001B\u0007¢\u0006\u0004\b\u0002\u0010\u0003J\u000e\u0010\u000b\u001a\u00020\f2\u0006\u0010\r\u001a\u00020\u0006J\u000e\u0010\u000e\u001a\u00020\f2\u0006\u0010\r\u001a\u00020\u0006J\u0010\u0010\u000f\u001a\u00020\f2\u0006\u0010\u0010\u001a\u00020\u0011H\u0016J\u0010\u0010\u0012\u001a\u00020\f2\u0006\u0010\u0010\u001a\u00020\u0011H\u0016J\u0010\u0010\u0013\u001a\u00020\f2\u0006\u0010\u0010\u001a\u00020\u0011H\u0016J\u0010\u0010\u0014\u001a\u00020\f2\u0006\u0010\u0010\u001a\u00020\u0011H\u0016J\u0010\u0010\u0015\u001a\u00020\f2\u0006\u0010\u0010\u001a\u00020\u0011H\u0016R\u001a\u0010\u0004\u001a\b\u0012\u0004\u0012\u00020\u00060\u0005X\u0080\u0004¢\u0006\b\n\u0000\u001a\u0004\b\u0007\u0010\bR\u001a\u0010\t\u001a\b\u0012\u0004\u0012\u00020\u00060\u0005X\u0080\u0004¢\u0006\b\n\u0000\u001a\u0004\b\n\u0010\b¨\u0006\u0016"}, d2 = {"Lcom/facebook/react/fabric/internal/interop/InteropUIBlockListener;", "Lcom/facebook/react/bridge/UIManagerListener;", "<init>", "()V", "beforeUIBlocks", "", "Lcom/facebook/react/fabric/interop/UIBlock;", "getBeforeUIBlocks$ReactAndroid_release", "()Ljava/util/List;", "afterUIBlocks", "getAfterUIBlocks$ReactAndroid_release", "prependUIBlock", "", "block", "addUIBlock", "willMountItems", "uiManager", "Lcom/facebook/react/bridge/UIManager;", "didMountItems", "didDispatchMountItems", "willDispatchViewUpdates", "didScheduleMountItems", "ReactAndroid_release"}, k = 1, mv = {2, 0, 0}, xi = 48)
+@SourceDebugExtension({"SMAP\nInteropUiBlockListener.kt\nKotlin\n*S Kotlin\n*F\n+ 1 InteropUiBlockListener.kt\ncom/facebook/react/fabric/internal/interop/InteropUIBlockListener\n+ 2 _Collections.kt\nkotlin/collections/CollectionsKt___CollectionsKt\n*L\n1#1,71:1\n1863#2,2:72\n1863#2,2:74\n*S KotlinDebug\n*F\n+ 1 InteropUiBlockListener.kt\ncom/facebook/react/fabric/internal/interop/InteropUIBlockListener\n*L\n45#1:72,2\n57#1:74,2\n*E\n"})
+/* loaded from: classes3.dex */
+public final class InteropUIBlockListener implements UIManagerListener {
+
+    @NotNull
+    private final List<UIBlock> beforeUIBlocks = new ArrayList();
+
+    @NotNull
+    private final List<UIBlock> afterUIBlocks = new ArrayList();
+
+    @Override // com.facebook.react.bridge.UIManagerListener
+    public void didScheduleMountItems(@NotNull UIManager uiManager) {
+        Intrinsics.checkNotNullParameter(uiManager, "uiManager");
+    }
+
+    @NotNull
+    public final List<UIBlock> getBeforeUIBlocks$ReactAndroid_release() {
+        return this.beforeUIBlocks;
+    }
+
+    @NotNull
+    public final List<UIBlock> getAfterUIBlocks$ReactAndroid_release() {
+        return this.afterUIBlocks;
+    }
+
+    public final synchronized void prependUIBlock(@NotNull UIBlock block) {
+        Intrinsics.checkNotNullParameter(block, "block");
+        this.beforeUIBlocks.add(block);
+    }
+
+    public final synchronized void addUIBlock(@NotNull UIBlock block) {
+        Intrinsics.checkNotNullParameter(block, "block");
+        this.afterUIBlocks.add(block);
+    }
+
+    @Override // com.facebook.react.bridge.UIManagerListener
+    public void willMountItems(@NotNull UIManager uiManager) {
+        Intrinsics.checkNotNullParameter(uiManager, "uiManager");
+        if (this.beforeUIBlocks.isEmpty()) {
+            return;
+        }
+        for (UIBlock uIBlock : this.beforeUIBlocks) {
+            if (uiManager instanceof UIBlockViewResolver) {
+                uIBlock.execute((UIBlockViewResolver) uiManager);
+            }
+        }
+        this.beforeUIBlocks.clear();
+    }
+
+    @Override // com.facebook.react.bridge.UIManagerListener
+    public void didMountItems(@NotNull UIManager uiManager) {
+        Intrinsics.checkNotNullParameter(uiManager, "uiManager");
+        if (this.afterUIBlocks.isEmpty()) {
+            return;
+        }
+        for (UIBlock uIBlock : this.afterUIBlocks) {
+            if (uiManager instanceof UIBlockViewResolver) {
+                uIBlock.execute((UIBlockViewResolver) uiManager);
+            }
+        }
+        this.afterUIBlocks.clear();
+    }
+
+    @Override // com.facebook.react.bridge.UIManagerListener
+    public void didDispatchMountItems(@NotNull UIManager uiManager) {
+        Intrinsics.checkNotNullParameter(uiManager, "uiManager");
+        didMountItems(uiManager);
+    }
+
+    @Override // com.facebook.react.bridge.UIManagerListener
+    public void willDispatchViewUpdates(@NotNull UIManager uiManager) {
+        Intrinsics.checkNotNullParameter(uiManager, "uiManager");
+        willMountItems(uiManager);
+    }
+}

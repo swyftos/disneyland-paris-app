@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:duration="@integer/ua_iam_banner_animation_duration"
+    android:valueFrom="1"
+    android:valueTo="0"
+    android:valueType="floatType"
+    android:propertyName="yFraction"/>

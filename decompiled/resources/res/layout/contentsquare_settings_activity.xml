@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.Toolbar
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:layout_gravity="start"
+        android:id="@+id/settings_toolbar"
+        android:background="@color/contentsquare_settings_toolbar_background_color"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:elevation="@dimen/contentsquare_value_4dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/contentsquare_settings_screen_title"
+        app:titleTextColor="@color/contentsquare_settings_toolbar_title_color"/>
+    <ScrollView
+        android:id="@+id/settings_scrollview"
+        android:background="@color/contentsquare_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_above="@+id/settings_footer"
+        android:layout_below="@+id/settings_toolbar">
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+    <RelativeLayout
+        android:id="@+id/settings_footer"
+        android:background="@color/contentsquare_white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:textSize="14sp"
+            android:id="@+id/contentsquare_footer_version_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contentsquare_settings_sdk_version_title"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+</RelativeLayout>

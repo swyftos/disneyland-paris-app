@@ -1,0 +1,16 @@
+package androidx.media3.exoplayer.upstream;
+
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.DataSpec;
+
+@UnstableApi
+/* loaded from: classes.dex */
+public interface TimeToFirstByteEstimator {
+    long getTimeToFirstByteEstimateUs();
+
+    void onTransferInitializing(DataSpec dataSpec);
+
+    void onTransferStart(DataSpec dataSpec);
+
+    void reset();
+}

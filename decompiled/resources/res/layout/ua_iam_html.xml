@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/UrbanAirship.InAppHtml.Layout">
+    <com.urbanairship.iam.view.BoundedFrameLayout
+        android:id="@+id/content_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/UrbanAirship.InAppHtml.Content">
+        <com.urbanairship.webkit.AirshipWebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/UrbanAirship.InAppHtml.WebView"/>
+        <ImageButton
+            android:id="@+id/dismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/ua_cancel"
+            style="@style/UrbanAirship.InAppHtml.DismissButton"/>
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/UrbanAirship.InAppHtml.Progress"/>
+    </com.urbanairship.iam.view.BoundedFrameLayout>
+</FrameLayout>

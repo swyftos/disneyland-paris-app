@@ -1,0 +1,43 @@
+{
+  "mobile": {
+    "message": {
+      "ERROR_NO_INTERNET": "Harap maaf, kelihatan seperti tiada sambungan internet. Sila periksa tetapan anda dan cuba lagi.",
+      "ERROR_CONNECT": "Maaf, ada masalah menyambung. Sila cuba lagi.",
+      "ERROR_UNEXPECTED_RESPONSE": "Harap maaf, sistem akaun sedang menghadapi masalah.",
+      "ERROR_TIMEOUT": "Harap maaf, sistem akaun sedang menghadapi masalah.",
+      "ERROR_WEB_BRIDGE_MISSING": "Harap maaf, sistem akaun sedang menghadapi masalah.",
+      "ERROR_WEB_BRIDGE_TIMEOUT": "Harap maaf, sistem akaun sedang menghadapi masalah.",
+      "ERROR_JAVASCRIPT_ERROR": "Harap maaf, sistem akaun sedang menghadapi masalah.",
+      "ERROR_INTERNAL": "Harap maaf, sistem akaun sedang menghadapi masalah.",
+      "AUTHORIZATION_UNEXPECTED_ERROR": "Harap maaf, sistem akaun sedang menghadapi masalah.",
+      "CLIENT_NOT_FOUND": "Harap maaf, sistem akaun sedang menghadapi masalah.",
+      "PROFILE_DISABLED": "Akses anda ke laman ini telah disekat secara kekal kerana melanggar Terma Perjanjian Perkhidmatan.",
+      "GUEST_GATED_BOTH_EMAIL_VERIFICATION": "Profil akaun anda termasuk alamat e-mel anda dan alamat e-mel ibu bapa anda. Sebelum anda boleh teruskan, kami perlu mengesahkan kedua-dua alamat e-mel.",
+      "GUEST_GATED_EMAIL_VERIFICATION": "Profil akaun anda termasuk alamat e-mel yang memerlukan pengesahan. Sebelum anda boleh teruskan, kami memerlukan anda untuk mengesahkan alamat e-mel anda.",
+      "GUEST_GATED_PARENT_EMAIL_VERIFICATION": "Profil akaun anda dikaitkan dengan alamat e-mel ibu bapa anda. Sebaik saja ibu bapa anda mengesahkan e-mel anda, anda boleh mendaftar masuk.",
+      "GUEST_GATED_UNKNOWN": "Anda tidak layak untuk mendaftar masuk atau mendaftar di laman ini.",
+      "GUEST_GATED_LOCATION": "Anda tidak layak untuk mendaftar masuk atau mendaftar di laman ini.",
+      "GUEST_GATED_EMBARGOED": "Anda tidak layak untuk mendaftar di laman ini. Maklumat anda belum dikumpulkan.",
+      "GUEST_GATED_AGEBAND": "Anda tidak layak untuk mendaftar di laman ini. Maklumat anda belum dikumpulkan.",
+      "MISSING_VALUE": "Profil anda telah dicipta tanpa semua maklumat yang diperlukan, lihat medan input untuk butirannya.",
+      "DISALLOWED_VALUE": "Profil anda mengandungi nilai yang tidak dibenarkan, lihat medan input tersebut untuk butirannya.",
+      "INVALID_VALUE_FILTHY": "Pastikan nama paparan anda tidak mengandungi penghinaan atau tidak senonoh. Bersikap baik!",
+      "SYSTEM_UNAVAILABLE": "Khidmat tergendala buat sementara.",
+      "AUTHORIZATION_INVALID_REFRESH_TOKEN": "Kelihatan sudah lama anda tidak menggunakan aplikasi kami.",
+      "AUTHORIZATION_BLUE_COOKIE_INVALID": "Kami tidak dapat mengesahkan anda dengan sempurna.",
+      "SSO_WELCOME_FIRSTNAME": "Hai, {{ firstName }}.",
+      "SSO_WELCOME_FALLBACK": "Hai.",
+      "SSO_EMAIL_OR_USERNAME": "{{ emailOrUsername }}",
+      "FINGERPRINT_DIALOG_CANCEL": "Batalkan",
+      "FINGERPRINT_DIALOG_SIGN_IN": "Daftar Masuk",
+      "FINGERPRINT_DIALOG_DESCRIPTION": "Sahkan cap jari untuk teruskan",
+      "FINGERPRINT_DIALOG_HINT": "Sentuh sensor",
+      "FINGERPRINT_DIALOG_NOT_RECOGNIZED": "Cap jari tidak dapat dikenali. Cuba lagi",
+      "FINGERPRINT_DIALOG_RECOGNIZED": "Cap jari dikenali",
+      "FINGERPRINT_DIALOG_ICON": "Ikon cap jari",
+      "DIALOG_OPEN_IN_WEB_BROWSER": "Buka Dalam Pelayar Web?",
+      "DIALOG_OK": "OK",
+      "DIALOG_CANCEL": "Batal"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" style="@style/contentsquare_PopUpDialogLayout">
+    <EditText
+        android:id="@+id/developer_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/contentsquare_value_16dp"
+        android:hint="@string/contentsquare_developer_settings_password_hint"
+        android:inputType="textPassword"
+        android:imeOptions="actionGo"
+        android:importantForAutofill="no"/>
+    <Button
+        android:textColor="@color/contentsquare_white_mid"
+        android:id="@+id/developer_password_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/contentsquare_value_16dp"
+        android:text="@string/contentsquare_developer_settings_password_button"
+        android:layout_below="@+id/developer_password"
+        android:layout_centerInParent="true"
+        app:backgroundTint="@color/contentsquare_settings_color_accent"/>
+</RelativeLayout>
