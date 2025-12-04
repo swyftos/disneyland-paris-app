@@ -91,7 +91,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBt5rpseigoHXoBX7I9IV5OTCNDKlHy-i8"/>
+            android:value=""/>
         <meta-data
             android:name="com.contentsquare.android.autostart"
             android:value="false"/>
