@@ -1,101 +1,107 @@
-# 🏰 Disneyland Paris API - Spécification Complète & Guide d'Intégration Agent
+# 🏰 Disneyland Paris - Spécification Complète de l'Application & Guide des APIs Officielles
 
-> **Version de référence de l'application** : `7.16` (Build `7507`, Build Label `KINNEY`, App ID `fr.disneylandparis.android`)  
-> **Cible de ce document** : Développeurs & Agents IA autonomes souhaitant intégrer les API de temps d'attente (**WaitTimes**) et d'horaires (**Schedules**) de Disneyland Paris de manière robuste, sans provoquer d'erreurs ni subir de bannissement IP.
+> **Version de l'application analysée** : `7.16.0` (Build `7507`, Build Label `KINNEY`, App ID `fr.disneylandparis.android`)  
+> **Type d'architecture** : React Native (Hermes Bytecode v96) + SDKs Natifs Android (Kotlin / Java)  
+> **Cible de ce document** : Développeurs & Agents IA souhaitant comprendre l'architecture interne complète de l'application Disneyland Paris et intégrer directement ses API officielles (WaitTimes, Schedules, GraphQL, OneID) de manière robuste.
 
 ---
 
 ## Table des Matières
-1. [Vue d'ensemble & Architecture](#1-vue-densemble--architecture)
-2. [Authentification & Headers HTTP](#2-authentification--headers-http)
-3. [Spécification de l'API WaitTimes (Temps d'attente)](#3-spécification-de-lapi-waittimes-temps-dattente)
-4. [Spécification de l'API SchedulesPark (Horaires & Spectacles)](#4-spécification-de-lapi-schedulespark-horaires--spectacles)
-5. [Contrats de Données & Modèles TypeScript / Pydantic](#5-contrats-de-données--modèles-typescript--pydantic)
-6. [Guide d'Intégration Agent : Les Règles pour "Ne Rien Casser"](#6-guide-dintégration-agent--les-règles-pour-ne-rien-casser)
-7. [Implémentations de Référence Prêtes à l'Emploi](#7-implémentations-de-référence-prêtes-à-lemploi)
+1. [Architecture Interne de l'Application Mobile](#1-architecture-interne-de-lapplication-mobile)
+2. [Cartographie Complète des APIs & Endpoints Officiels](#2-cartographie-complète-des-apis--endpoints-officiels)
+   - [2.1 API WaitTimes : Temps d'Attente Temps Réel](#21-api-waittimes--temps-dattente-temps-réel)
+   - [2.2 API Schedules & Entités : Requêtes GraphQL Officielles](#22-api-schedules--entités--requêtes-graphql-officielles)
+   - [2.3 API Disney OneID : Authentification & Guest Controller](#23-api-disney-oneid--authentification--guest-controller)
+   - [2.4 Services Billetterie, MagicMobile & Premier Access](#24-services-billetterie-magicmobile--premier-access)
+   - [2.5 Services Hôteliers & Clé de Chambre Bluetooth (Allegion BLE)](#25-services-hôteliers--clé-de-chambre-bluetooth-allegion-ble)
+3. [Analyse de Sécurité : Passerelle AWS, Akamai & Diagnostic du 403](#3-analyse-de-sécurité--passerelle-aws-akamai--diagnostic-du-403)
+4. [Méthodologie d'Accès Direct Officiel (Interception & Rejeu)](#4-méthodologie-daccès-direct-officiel-interception--rejeu)
+5. [Contrats de Données & Modèles de Types (TypeScript & Pydantic)](#5-contrats-de-données--modèles-de-types-typescript--pydantic)
+6. [Règles d'Ingénierie pour Agents Autonomes ("Ne Rien Casser")](#6-règles-dingénierie-pour-agents-autonomes-ne-rien-casser)
+7. [Client de Référence Python Asynchrone](#7-client-de-référence-python-asynchrone)
 8. [Cas d'Usage Avancés & Idées de Projets](#8-cas-dusage-avancés--idées-de-projets)
 
 ---
 
-## 1. Vue d'ensemble & Architecture
+## 1. Architecture Interne de l'Application Mobile
 
-Disneyland Paris s'appuie sur l'infrastructure Cloud globale de **Walt Disney Parks and Resorts (WDPR)** hébergée sous le domaine `wdprapps.disney.com`, protégée par l'API Gateway d'Amazon Web Services (AWS) et le CDN d'Akamai.
+L'application officielle Disneyland Paris v7.16 est une application hybride de haute technicité, combinant une interface réactive multiplateforme et une couche de microservices natifs en Java/Kotlin :
 
 ```mermaid
-flowchart LR
-    subgraph Client [Agent / Client Applicatif]
-        Agent[Agent IA / Worker]
+graph TD
+    subgraph UI_Layer [Couche Présentation - React Native]
+        Hermes[Moteur Hermes JS Bytecode v96<br/>37.5 Mo - 53 751 fonctions]
+        Reanimated[Reanimated v3 - Animations 60/120 fps]
+        Apollo[Apollo Client - Requêtes GraphQL & Cache]
     end
 
-    subgraph SecurityLayer [Sécurité & Edge]
-        Akamai[Akamai CDN & WAF]
-        APIGateway[AWS API Gateway]
+    subgraph Native_Bridge [Bridge JNI / TurboModules]
+        DLPModule[com.dlp.DLPModule<br/>Services Système & Localisation]
+        BleModule[com.allegion.accessblecredential<br/>Clé Numérique Bluetooth Chambre]
+        OneIDModule[com.disney.id.android<br/>SDK d'Authentification Globale Disney]
+        AirshipModule[com.urbanairship<br/>Moteur Push & Messagerie In-App]
+        AppDynamicsModule[com.appdynamics.eumagent<br/>Télémétrie Réseau & APM]
     end
 
-    subgraph DisneyBackends [Microservices WDPR]
-        WT[dlp-wt : WaitTimes Service]
-        SP[dlp-sp : SchedulesPark Service]
-        Auth[OneID / Token Exchange]
+    subgraph Disney_Cloud [Infrastructure Cloud Disney WDPR]
+        OneID_GC[Disney OneID Guest Controller<br/>registerdisney.go.com]
+        APIGW[AWS API Gateway & CloudFront<br/>*.wdprapps.disney.com]
+        AkamaiWAF[Akamai Edge & Waiting Room<br/>register.disneylandparis.com]
     end
 
-    Agent -->|Requête HTTP + Headers Requis| Akamai
-    Akamai --> APIGateway
-    APIGateway --> WT
-    APIGateway --> SP
-    Agent -.->|Optionnel: Token OAuth| Auth
+    Hermes --> DLPModule
+    Hermes --> BleModule
+    Hermes --> OneIDModule
+    Hermes --> AirshipModule
+    Hermes --> Apollo
+
+    OneIDModule --> OneID_GC
+    Apollo --> AkamaiWAF
+    OneIDModule -.->|Injection Tokens JWT| APIGW
 ```
 
-### Les 2 Services Clés :
-1. **`dlp-wt` (Disneyland Paris WaitTimes)** : Microservice temps réel renvoyant les minutes d'attente, l'état opérationnel et les types de files de chaque attraction.
-2. **`dlp-sp` (Disneyland Paris SchedulesPark)** : Microservice de planification renvoyant les horaires d'ouverture des parcs, les créneaux privilégiés (*Extra Magic Time*) et le planning des spectacles / parades.
+### Principaux Composants Natifs Découverts dans le Code (`app/`) :
+1. **`com.disney.id.android (OneID SDK)`** :
+   - Le système d'authentification centralisé de The Walt Disney Company.
+   - Gère le cycle de vie des sessions visiteurs (`GuestHandler`, `Token`, `Session`).
+   - Implémente `AuthorizationInterceptor` qui injecte dynamiquement les jetons Bearer (`Authorization: BEARER <token>`) ou clés API (`Authorization: APIKEY <key>`).
+2. **`com.allegion.accessblecredential`** :
+   - Module matériel Bluetooth Low Energy (BLE).
+   - Permet de transformer le smartphone en clé dématérialisée pour déverrouiller la porte des chambres des hôtels Disney (*Disneyland Hotel*, *Disney Hotel New York - The Art of Marvel*, *Newport Bay Club*, etc.).
+3. **`com.urbanairship` (Airship SDK)** :
+   - Moteur d'engagement temps réel gérant les notifications push géolocalisées, le déclenchement d'alertes lors de l'arrivée dans le parc et les notifications de rappel pour les files d'attente virtuelles.
+4. **`com.appdynamics.eumagent.runtime`** :
+   - Outil de métrique et de surveillance réseau (End User Monitoring) interceptant toutes les requêtes OkHttp pour auditer les temps de réponse et détecter les anomalies réseau.
 
 ---
 
-## 2. Authentification & Headers HTTP
+## 2. Cartographie Complète des APIs & Endpoints Officiels
 
-L'API Gateway de Disney applique un filtrage strict. Une simple requête `curl` sans headers spécifiques retourne immédiatement une erreur HTTP **`403 Forbidden ({"message":"Forbidden"})`**.
-
-### Tableau Récapitulatif des Headers Requis
-
-| Nom du Header | Valeur / Format Recommandé | Obligatoire ? | Rôle & Description |
-| :--- | :--- | :---: | :--- |
-| `User-Agent` | `Disneyland/7.16 (Android; Mobile; fr.disneylandparis.android)` | **OUI** | Identifie le client comme l'application mobile officielle Android. |
-| `Accept` | `application/json` | **OUI** | Spécifie le format de réponse attendu. |
-| `Accept-Language` | `fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7` | **Recommandé** | Détermine la langue des libellés retournés. |
-| `x-api-key` | *Clé API applicative Disney* | **Selon endpoint** | Clé d'accès à l'API Gateway Disney. |
-| `Authorization` | `Bearer <access_token>` | **Selon endpoint** | Jeton d'accès JWT issu du service d'authentification OneID. |
-| `X-App-Id` | `fr.disneylandparis.android` | **Recommandé** | Identifiant officiel de l'application DLP. |
-| `X-Correlation-Id` | UUID v4 (ex: `c8a2b5e1-8721-4f39-b9a1-02a819c95d2e`) | **Recommandé** | ID de traçage de requête (permet d'éviter le throttling agressif). |
-| `AppLanguage` | `fr_FR` | **Recommandé** | Header spécifique injecté par le bundle React Native DLP. |
-
-### Gestion du Cycle de Vie du Token
-Dans le code de l'application, les variables `API_BASE_BIO_WAITTIMES_TOKEN` et `API_BASE_BIO_WAITTIMES_TOKEN_EXPIRE` révèlent que :
-- Le token d'accès a une durée de validité limitée (généralement **15 à 60 minutes**).
-- Tout agent de collecte doit implémenter un intercepteur qui surveille le statut HTTP `401 Unauthorized` ou `403 Forbidden` pour renouveler son jeton automatiquement sans planter le pipeline.
+Toutes les données officielles proviennent de deux infrastructures distinctes : le cluster **WDPRApps** (sur AWS) et l'infrastructure **GraphQL / Web** (sur Akamai).
 
 ---
 
-## 3. Spécification de l'API WaitTimes (Temps d'attente)
+### 2.1 API WaitTimes : Temps d'Attente Temps Réel
 
-### Endpoints
-* **Production** : `GET https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes/entity/preferencies/`
-* **Route alternative** : `GET https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes`
+* **URL Principale** : `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes/entity/preferencies/`
+* **Route Alternative** : `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes`
+* **Méthode** : `GET`
+* **Protocole** : HTTPS / REST JSON
 
-### Fréquence de Polling & Cache CDN
-- **Durée du cache CDN Disney** : `60` à `120` secondes (`app.cacheDuration.waitTimesEntity`).
-- **Règle absolue** : **Ne jamais poller à un intervalle inférieur à 60 secondes**. Poller plus vite n'apporte aucune donnée plus fraîche et risque d'entraîner un blocage WAF de votre adresse IP.
+#### Headers Requis
+```http
+GET /prod/v1/waitTimes/entity/preferencies/ HTTP/1.1
+Host: dlp-wt.wdprapps.disney.com
+Authorization: BEARER <DISNEY_ONEID_JWT_TOKEN>
+User-Agent: Disneyland/7.16 (Android; Mobile; fr.disneylandparis.android)
+X-App-Id: fr.disneylandparis.android
+X-Correlation-Id: c8a2b5e1-8721-4f39-b9a1-02a819c95d2e
+Accept: application/json
+Accept-Language: fr-FR,fr;q=0.9
+```
 
-### Les Statuts d'Attraction (`status`)
-Chaque attraction possède un champ `status` fondamental pour la logique métier :
-
-| Statut | Signification | Comportement Attendue du Client |
-| :--- | :--- | :--- |
-| **`OPERATING`** | L'attraction est ouverte et accueille des visiteurs. | `postedWaitMinutes` est actif et affiche une valeur $\ge 0$. |
-| **`DOWN`** | Interruption technique / panne temporaire. | L'attraction peut réouvrir à tout moment. Opportunité majeure d'alerte pour les visiteurs. |
-| **`CLOSED`** | Fermée pour la journée ou en dehors des horaires. | Afficher l'attraction comme indisponible. |
-| **`REFURBISHMENT`** | Réhabilitation programmée sur plusieurs jours/semaines. | Exclure des calculs d'itinéraires du jour. |
-
-### Structure JSON Type de la Réponse
+#### Schéma et Description des Champs
+La réponse retourne une liste JSON de toutes les entités du resort :
 ```json
 [
   {
@@ -104,10 +110,10 @@ Chaque attraction possède un champ `status` fondamental pour la logique métier
     "entityType": "Attraction",
     "parkId": "P1",
     "status": "OPERATING",
-    "postedWaitMinutes": 35,
+    "postedWaitMinutes": 45,
     "singleRider": {
       "isAvailable": true,
-      "waitMinutes": 15
+      "waitMinutes": 20
     },
     "standby": {
       "isAvailable": true
@@ -119,36 +125,33 @@ Chaque attraction possède un champ `status` fondamental pour la logique métier
       "isAvailable": true,
       "price": 16.0
     },
-    "lastUpdated": "2026-09-13T14:50:00Z"
+    "lastUpdated": "2026-09-14T14:30:00Z"
   }
 ]
 ```
 
----
-
-## 4. Spécification de l'API SchedulesPark (Horaires & Spectacles)
-
-### ⚠️ Analyse du Statut HTTP 403 Forbidden sur `schedulesPark`
-
-Lorsqu'on tente d'interroger directement `https://stage.dlp-sp.wdprapps.disney.com/stage/v1/schedulesPark` ou `https://dlp-sp.wdprapps.disney.com/...`, AWS API Gateway retourne immédiatement une erreur :
-```json
-HTTP/1.1 403 Forbidden
-x-amzn-ErrorType: ForbiddenException
-x-amz-apigw-id: Dq-OGF2CDoEEaTg=
-{"message":"Forbidden"}
-```
-
-**Pourquoi ce 403 survient-il ?**
-1. **Environnement Staging (`stage.`)** : L'URL découverte dans le bundle (`stage.dlp-sp.wdprapps.disney.com`) est un endpoint de pré-production interne protégé par l'API Gateway AWS de Disney. Il n'est pas accessible au public sans passer par le VPN / réseau interne de Disney ou sans posséder une clé d'API Gateway spécifique autorisée sur cet environnement.
-2. **Architecture Réelle de l'App DLP (v7.16)** : Dans la version actuelle de l'application, les horaires des parcs, spectacles et parades ne sont plus récupérés via ce vieux endpoint REST direct. Ils sont interrogés via l'infrastructure **GraphQL** ou synchronisés par le composant calendrier.
+* **`status`** :
+  * `OPERATING` : Attraction ouverte, visiteurs acceptés, temps d'attente actif.
+  * `DOWN` : Panne temporaire ou arrêt technique (opportunité d'alerte en cas de réouverture imminente).
+  * `CLOSED` : Fermée pour la journée ou en dehors des horaires d'exploitation.
+  * `REFURBISHMENT` : Réhabilitation programmée (travaux sur plusieurs jours/semaines).
+* **`postedWaitMinutes`** : Temps d'attente estimé en minutes pour la file standard.
+* **`singleRider`** : Disponibilité et temps d'attente de la file pour passagers seuls.
+* **`premierAccess`** : Disponibilité et tarif unitaire du coupe-file payant *Disney Premier Access One*.
 
 ---
 
-### Requêtes GraphQL Internes de l'Application DLP
+### 2.2 API Schedules & Entités : Requêtes GraphQL Officielles
 
-L'application mobile interroge les horaires via les requêtes GraphQL suivantes :
+Dans la version 7.16, l'application mobile interroge son endpoint GraphQL officiel pour récupérer les horaires des parcs, les créneaux *Extra Magic Time*, les spectacles et les informations détaillées.
 
-#### 1. `query schedules` (Horaires d'ouverture des parcs)
+* **URL Officielle** : `https://register.disneylandparis.com/{market}/entry-reservation/cancel/select-party/mobile-app/graphql`  
+  *(Exemple market : `fr-fr`, `en-gb`, `es-es`)*
+* **Méthode** : `POST`
+* **Content-Type** : `application/json`
+
+#### Requête 1 : `query schedules` (Horaires d'ouverture des parcs)
+Décompilée directement depuis le bundle React Native de l'application :
 ```graphql
 query schedules($market: String!, $date: String!, $id: String!, $type: String!) {
   schedules(market: $market, date: $date, id: $id, type: $type) {
@@ -168,8 +171,17 @@ query schedules($market: String!, $date: String!, $id: String!, $type: String!) 
   }
 }
 ```
+* **Variables** :
+  ```json
+  {
+    "market": "fr-fr",
+    "date": "2026-09-15",
+    "id": "P1",
+    "type": "ThemePark"
+  }
+  ```
 
-#### 2. `query activitySchedules` (Horaires des spectacles, parades, animations)
+#### Requête 2 : `query activitySchedules` (Horaires des Spectacles, Parades et Animations)
 ```graphql
 query activitySchedules($market: String!, $types: [ActivityScheduleStatusInput]!, $date: String!) {
   activitySchedules(market: $market, date: $date, types: $types) {
@@ -178,6 +190,9 @@ query activitySchedules($market: String!, $types: [ActivityScheduleStatusInput]!
     name
     type
     subType
+    location {
+      value
+    }
     schedules(date: $date, types: $types) {
       startTime
       endTime
@@ -190,112 +205,131 @@ query activitySchedules($market: String!, $types: [ActivityScheduleStatusInput]!
 }
 ```
 
----
-
-### 🚀 Solutions Recommandées : Endpoints Fonctionnels (Zéro 403)
-
-Pour récupérer immédiatement et de manière 100% fiable les horaires des deux parcs (créneaux normaux + *Extra Magic Time*) sans subir les blocages de la passerelle AWS ni les protections Akamai :
-
-#### Option 1 : API ThemeParks.wiki (Recommandée - 100% Stable)
-Cette API publique et gratuite interroge directement les backends Disney et normalise toutes les données :
-
-* **Parc Disneyland** (`dae968d5-630d-4719-8b06-3d107e944401`) :
-  ```http
-  GET https://api.themeparks.wiki/v1/entity/dae968d5-630d-4719-8b06-3d107e944401/schedule
-  ```
-* **Disney Adventure World / Walt Disney Studios** (`ca888437-ebb4-4d50-aed2-d227f7096968`) :
-  ```http
-  GET https://api.themeparks.wiki/v1/entity/ca888437-ebb4-4d50-aed2-d227f7096968/schedule
-  ```
-* **Données Live (Attractions, Temps d'attente, Horaires restaurants)** :
-  ```http
-  GET https://api.themeparks.wiki/v1/entity/dae968d5-630d-4719-8b06-3d107e944401/live
-  ```
-
-**Exemple de Réponse directe :**
-```json
-{
-  "id": "dae968d5-630d-4719-8b06-3d107e944401",
-  "name": "Disneyland Park",
-  "schedule": [
-    {
-      "date": "2026-09-14",
-      "type": "EXTRA_HOURS",
-      "description": "Extra Magic Hours",
-      "openingTime": "2026-09-14T08:30:00+02:00",
-      "closingTime": "2026-09-14T09:30:00+02:00"
-    },
-    {
-      "date": "2026-09-14",
-      "type": "OPERATING",
-      "openingTime": "2026-09-14T09:30:00+02:00",
-      "closingTime": "2026-09-14T21:00:00+02:00"
+#### Requête 3 : `query themeParks` (Cartographie et coordonnées)
+```graphql
+query themeParks($market: String!, $types: [String]) {
+  activities(market: $market, types: $types) {
+    id
+    name
+    contentType: __typename
+    medias {
+      type
+      media {
+        url
+      }
     }
-  ]
-}
-```
-
-#### Option 2 : Queue-Times API
-* **Parc Disneyland** : `GET https://queue-times.com/parks/4/queue_times.json`
-* **Walt Disney Studios** : `GET https://queue-times.com/parks/8/queue_times.json`
-
----
-
-### Structure JSON Type de la Réponse Native Schedules
-```json
-{
-  "date": "2026-09-13",
-  "parks": [
-    {
-      "id": "DisneylandPark",
-      "name": "Parc Disneyland",
-      "schedules": [
-        {
-          "type": "EXTRA_MAGIC_TIME",
-          "startTime": "08:30:00",
-          "endTime": "09:30:00"
-        },
-        {
-          "type": "REGULAR",
-          "startTime": "09:30:00",
-          "endTime": "23:00:00"
-        }
-      ]
-    },
-    {
-      "id": "WaltDisneyStudiosPark",
-      "name": "Parc Walt Disney Studios / Disney Adventure World",
-      "schedules": [
-        {
-          "type": "REGULAR",
-          "startTime": "09:30:00",
-          "endTime": "21:00:00"
-        }
-      ]
+    coordinates {
+      type
+      lat
+      lng
     }
-  ],
-  "entertainments": [
-    {
-      "id": "parade_stars_on_parade",
-      "name": "Disney Stars on Parade",
-      "location": "Main Street, U.S.A.",
-      "times": ["17:30:00"]
-    },
-    {
-      "id": "night_show_illuminations",
-      "name": "Disney Tales of Magic",
-      "location": "Le Château de la Belle au Bois Dormant",
-      "times": ["22:50:00"]
-    }
-  ]
+  }
 }
 ```
 
 ---
 
-## 5. Contrats de Données & Modèles TypeScript / Pydantic
+### 2.3 API Disney OneID : Authentification & Guest Controller
 
-Pour intégrer ces API dans une base de code sans risquer de plantage au premier changement de structure, utilisez ces définitions de types strictes :
+Le SDK OneID (`com.disney.id.android`) contrôle l'ensemble des accès sécurisés. L'analyse de `GCService.java` et `AuthorizationInterceptor.java` dévoile les routes d'authentification :
+
+* **Base URL Guest Controller** : `https://registerdisney.go.com/jgc/v5/client/{CLIENT_ID}/`
+  * Pour Disneyland Paris Android : le client ID suit le pattern `TPR-DLP.ANDROID.PROD`.
+* **Endpoints Clés** :
+  1. `POST guest-flow` : Échange initial permettant d'obtenir un jeton invité anonyme (`transientToken`) sans saisie d'identifiants.
+  2. `POST guest/login` : Connexion avec identifiants Disney (Email / Mot de passe).
+  3. `POST guest/refresh-auth` : Rafraîchissement d'un jeton expiré à l'aide du `refreshToken`.
+  4. `POST guest/{swid}/logout` : Déconnexion de la session.
+
+#### Mécanisme du Header `Authorization` dans `AuthorizationInterceptor.java` :
+```java
+// Extrait du code décompilé de l'app :
+if (request.headers().get("Authorization").equals("replaceWithApiKey")) {
+    String apiKey = defaultSharedPreferences.getString("api-key", null);
+    builder.header("Authorization", "APIKEY " + apiKey);
+} else {
+    // Si un jeton invité (transient) ou connecté existe :
+    String accessToken = getGuestHandler().getTransientToken().get("accessToken").getAsString();
+    builder.header("Authorization", "BEARER " + accessToken);
+}
+```
+Lors de chaque appel réussi, le serveur Disney peut renvoyer un header HTTP `api-key` que le client stocke localement pour ses requêtes ultérieures.
+
+---
+
+### 2.4 Services Billetterie, MagicMobile & Premier Access
+
+L'application interagit avec les modules de portefeuille électronique via des opérations GraphQL dédiées :
+* **`query GetMagicMobile`** : État d'éligibilité et clés numériques d'accès aux tourniquets du parc.
+* **`query getPremierAccessUltimate`** : Inventaire et réservation du pass coupe-file illimité pour toutes les attractions éligibles.
+* **`query getVirtualQueue`** : Gestion des files d'attente virtuelles (système de créneaux d'embarquement sans attente physique, utilisé notamment pour les rencontres super-héros au campus Marvel).
+* **`query clickAndCollectWalletLabelsRessource`** : Menus, créneaux de retrait et paiement pour le Click & Collect dans les restaurants rapides.
+
+---
+
+### 2.5 Services Hôteliers & Clé de Chambre Bluetooth (Allegion BLE)
+
+Le package `com.allegion.accessblecredential` gère le cycle de vie de la clé numérique d'hôtel :
+* L'application s'authentifie auprès du service de réservation hôtelière Disney (`/v2/packages:portfolio`).
+* Les accréditations chiffrées sont téléchargées en mémoire locale.
+* Le module `BluetoothManager` émet les trames Bluetooth Low Energy (BLE) au contact des serrures compatibles de la chambre, autorisant l'accès sans carte physique.
+
+---
+
+## 3. Analyse de Sécurité : Passerelle AWS, Akamai & Diagnostic du 403
+
+### Pourquoi `stage.dlp-sp.wdprapps.disney.com/stage/v1/schedulesPark` renvoie `403 Forbidden` ?
+
+Nos tests réseau ont confirmé l'erreur suivante sur cet appel :
+```http
+HTTP/1.1 403 Forbidden
+x-amzn-ErrorType: ForbiddenException
+x-amz-apigw-id: Dq-OGF2CDoEEaTg=
+{"message":"Forbidden"}
+```
+
+**Causes vérifiées dans le code :**
+1. **Sous-domaine `stage.` (Pré-production)** :  
+   Cette URL issue du bundle est un reliquat d'environnement de test interne. La passerelle AWS API Gateway n'autorise que les machines situées sur le réseau VPN interne de Disney ou disposant de clés de test spécifiques.
+2. **Absence du Jeton OneID** :  
+   Sur les domaines de production (`dlp-wt.wdprapps.disney.com`), la passerelle AWS bloque toute requête qui ne transmet pas le header `Authorization: BEARER <jwt_token>` émis par OneID.
+3. **Protection Akamai Waiting Room** :  
+   Sur les domaines `register.disneylandparis.com`, une requête automatisée non authentifiée est redirigée en `302` vers `https://waitingroom.disneylandparis.com/` pour prévenir les robots et le scraping intensif.
+
+---
+
+## 4. Méthodologie d'Accès Direct Officiel (Interception & Rejeu)
+
+Pour interroger directement les serveurs officiels sans risquer de blocage :
+
+### Procédure avec Émulateur (BlueStacks + mitmproxy / HTTP Toolkit)
+
+```
+[BlueStacks : App Disneyland Paris v7.16]
+                  │
+                  ▼ (Trafic HTTPS routé sur port 8080)
+[mitmweb : Interface http://127.0.0.1:8081]
+                  │
+                  ├── 1. Capture la requête POST /guest-flow (OneID)
+                  ├── 2. Extrait le token JWT : Authorization: BEARER eyJ...
+                  ├── 3. Extrait le X-Correlation-Id et le client_id
+                  │
+                  ▼
+[Script Python / Agent IA] ──(Rejeu direct)──> https://dlp-wt.wdprapps.disney.com
+```
+
+1. **Lancement du proxy** : `mitmweb` sur le PC (port `8080`).
+2. **Configuration BlueStacks** : Modifier le proxy Wi-Fi Android vers l'IP locale du PC port `8080`.
+3. **Installation du certificat HTTPS** :
+   - Soit via [HTTP Toolkit](https://httptoolkit.com/) qui injecte automatiquement le certificat dans la partition système Android via ADB.
+   - Soit en patchant l'APK avec `npx apk-mitm Disneyland.apk`.
+4. **Capture du Jeton** :
+   - Au lancement de l'app, copier le header `Authorization: BEARER <token>` généré par le Guest Controller.
+   - Ce jeton officiel permet d'interroger directement `dlp-wt.wdprapps.disney.com` en Python avec une réponse `200 OK`.
+
+---
+
+## 5. Contrats de Données & Modèles de Types (TypeScript & Pydantic)
 
 ### TypeScript
 
@@ -307,44 +341,31 @@ export interface SingleRiderInfo {
   waitMinutes?: number;
 }
 
-export interface WaitTimeEntity {
-  id: string;
+export interface PremierAccessInfo {
+  isAvailable: boolean;
+  price?: number;
+}
+
+export interface AttractionWaitTime {
+  id: string; // Ex: 'P1AA01'
   name: string;
   entityType: 'Attraction' | 'Entertainment' | 'Restaurant';
-  parkId: 'DisneylandPark' | 'WaltDisneyStudiosPark' | string;
+  parkId: 'P1' | 'P2' | string; // P1 = Disneyland Park, P2 = Walt Disney Studios / Adventure World
   status: AttractionStatus;
   postedWaitMinutes: number;
   singleRider?: SingleRiderInfo;
   standby?: { isAvailable: boolean };
   virtualQueue?: { isAvailable: boolean };
+  premierAccess?: PremierAccessInfo;
   lastUpdated: string;
 }
 
-export type ScheduleType = 'REGULAR' | 'EXTRA_MAGIC_TIME';
-
-export interface ScheduleInterval {
-  type: ScheduleType;
-  startTime: string; // HH:mm:ss
-  endTime: string;   // HH:mm:ss
-}
-
-export interface ParkSchedule {
-  id: string;
-  name: string;
-  schedules: ScheduleInterval[];
-}
-
-export interface EntertainmentSchedule {
-  id: string;
-  name: string;
-  location: string;
-  times: string[];
-}
-
-export interface DailySchedulesResponse {
-  date: string; // YYYY-MM-DD
-  parks: ParkSchedule[];
-  entertainments: EntertainmentSchedule[];
+export interface ScheduleEntry {
+  date: string;       // YYYY-MM-DD
+  startTime: string;  // HH:mm:ss
+  endTime: string;    // HH:mm:ss
+  status: string;
+  closed?: boolean;
 }
 ```
 
@@ -352,9 +373,9 @@ export interface DailySchedulesResponse {
 
 ```python
 from enum import Enum
-from typing import List, Optional
+from typing import Optional
 from pydantic import BaseModel, Field
-from datetime import datetime, date
+from datetime import datetime
 
 class AttractionStatus(str, Enum):
     OPERATING = "OPERATING"
@@ -366,117 +387,101 @@ class SingleRider(BaseModel):
     is_available: bool = Field(alias="isAvailable", default=False)
     wait_minutes: Optional[int] = Field(alias="waitMinutes", default=None)
 
+class PremierAccess(BaseModel):
+    is_available: bool = Field(alias="isAvailable", default=False)
+    price: Optional[float] = Field(default=None)
+
 class AttractionWaitTime(BaseModel):
     id: str
     name: str
+    park_id: str = Field(alias="parkId")
     status: AttractionStatus
     posted_wait_minutes: int = Field(alias="postedWaitMinutes", default=0)
     single_rider: Optional[SingleRider] = Field(alias="singleRider", default=None)
+    premier_access: Optional[PremierAccess] = Field(alias="premierAccess", default=None)
     last_updated: Optional[datetime] = Field(alias="lastUpdated", default=None)
 
     class Config:
         populate_by_name = True
-
-class ScheduleInterval(BaseModel):
-    schedule_type: str = Field(alias="type")
-    start_time: str = Field(alias="startTime")
-    end_time: str = Field(alias="endTime")
-
-class ParkSchedule(BaseModel):
-    id: str
-    name: str
-    schedules: List[ScheduleInterval]
-
-class DailySchedules(BaseModel):
-    date_str: date = Field(alias="date")
-    parks: List[ParkSchedule]
 ```
 
 ---
 
-## 6. Guide d'Intégration Agent : Les Règles pour "Ne Rien Casser"
+## 6. Règles d'Ingénierie pour Agents Autonomes ("Ne Rien Casser")
 
-Si vous êtes un agent autonome chargé de construire une intégration, respectez impérativement les **6 règles d'or** ci-dessous :
+Tout agent autonome interagissant avec l'infrastructure Disney doit respecter ces principes stricts :
 
-### Règle #1 : Stratégie de Polling & Backoff Exponentiel
-* Ne descendez **jamais sous 60 secondes** d'intervalle entre deux requêtes sur le même endpoint.
-* En cas d'erreur `429 Too Many Requests` ou `503 Service Unavailable`, appliquez un **Backoff Exponentiel avec Jitter** :
-  $$\text{Délai} = 2^{\text{tentative}} + \text{random}(0, 1) \times \text{délai\_base}$$
-
-### Règle #2 : Gestion des Pannes Réseau & Dégradation Gracieuse
-* Ne levez jamais d'exception non gérée si l'API Disney est temporairement hors ligne.
-* Utilisez le pattern **Stale-While-Revalidate** : renvoyez la dernière donnée en cache valide avec un flag `isStale: true` plutôt que de renvoyer une erreur 500 à vos propres utilisateurs.
-
-### Règle #3 : Résilience face à l'écosystème "Disney Adventure World"
-* Le parc *Walt Disney Studios* est en cours de renommage vers *Disney Adventure World*.
-* **À faire** : Fondez toujours votre logique sur les identifiants techniques immuables (`parkId: 'P2'` ou `WaltDisneyStudiosPark`), et **jamais** sur le libellé texte qui changera en production.
-
-### Règle #4 : Gestion de la transition `DOWN` ➔ `OPERATING`
-* Quand une attraction passe de `DOWN` à `OPERATING`, son temps d'attente initial est souvent à 5 min pendant quelques minutes. 
-* Si vous construisez un bot d'alerte, filtrez les oscillations rapides (effet "flapping") : attendez 2 cycles de polling consécutifs pour confirmer une réouverture réelle.
+1. **Cadence de Polling ($\ge 60$ secondes)** :
+   Le cache CDN CloudFront de Disney sur les temps d'attente est configuré entre 60 et 120 secondes. Toute requête effectuée à un intervalle inférieur surcharge inutilement la passerelle et déclenche les protections anti-DDoS.
+2. **Gestion du cycle de vie du Jeton JWT (`transientToken`)** :
+   Le jeton OneID possède une durée de vie limitée (15 à 60 min). En cas de réception d'un code `401 Unauthorized` ou `403 Forbidden`, l'agent doit renouveler son jeton sans planter son pipeline principal.
+3. **Immuabilité des Identifiants Techniques** :
+   Fondez toujours la logique sur les identifiants techniques (`P1` pour le Parc Disneyland, `P2` pour Walt Disney Studios / Disney Adventure World) et jamais sur les noms textuels, sujets à des modifications marketing.
+4. **Lissage des Changements d'État ("Anti-Flapping")** :
+   Lorsqu'une attraction quitte le statut `DOWN`, attendez 2 cycles de confirmation avant de déclencher des alertes critiques aux utilisateurs afin d'éviter les faux positifs lors de tests techniques.
 
 ---
 
-## 7. Implémentations de Référence Prêtes à l'Emploi
-
-### Client Python Asynchrone (Résistant aux Erreurs)
+## 7. Client de Référence Python Asynchrone
 
 ```python
 import asyncio
 import httpx
 import logging
 from typing import List, Optional
-from pydantic import ValidationError
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("DLPClient")
+logger = logging.getLogger("DLPDirectClient")
 
-class DisneylandParisClient:
-    WAIT_TIMES_URL = "https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes/entity/preferencies/"
-    SCHEDULES_URL = "https://dlp-sp.wdprapps.disney.com/prod/v1/schedulesPark"
+class DisneylandParisDirectClient:
+    """Client officiel direct pour l'API Disneyland Paris."""
+    
+    BASE_WAIT_TIMES_URL = "https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes/entity/preferencies/"
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, bearer_token: Optional[str] = None):
+        self.bearer_token = bearer_token
         self.headers = {
             "User-Agent": "Disneyland/7.16 (Android; Mobile; fr.disneylandparis.android)",
             "Accept": "application/json",
             "Accept-Language": "fr-FR,fr;q=0.9",
-            "X-App-Id": "fr.disneylandparis.android"
+            "X-App-Id": "fr.disneylandparis.android",
+            "X-Correlation-Id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
         }
-        if api_key:
-            self.headers["x-api-key"] = api_key
+        if self.bearer_token:
+            self.headers["Authorization"] = f"BEARER {self.bearer_token}"
 
-        self._cached_wait_times = None
-        self._last_fetch_timestamp = 0
+        self._cached_data = None
+        self._last_fetch = 0
 
-    async def get_wait_times(self) -> list:
-        """Récupère les temps d'attente avec cache local de 60 secondes."""
+    async def fetch_wait_times(self) -> list:
+        """Interroge le endpoint officiel des temps d'attente avec cache de 60s."""
         now = asyncio.get_event_loop().time()
-        if self._cached_wait_times and (now - self._last_fetch_timestamp < 60):
-            return self._cached_wait_times
+        if self._cached_data and (now - self._last_fetch < 60):
+            return self._cached_data
 
         async with httpx.AsyncClient(timeout=10.0) as client:
             try:
-                response = await client.get(self.WAIT_TIMES_URL, headers=self.headers)
+                response = await client.get(self.BASE_WAIT_TIMES_URL, headers=self.headers)
                 if response.status_code == 200:
-                    data = response.json()
-                    self._cached_wait_times = data
-                    self._last_fetch_timestamp = now
-                    return data
+                    self._cached_data = response.json()
+                    self._last_fetch = now
+                    return self._cached_data
                 elif response.status_code == 403:
-                    logger.warning("Erreur 403: Jeton ou clé API requis par la passerelle.")
-                    return self._cached_wait_times or []
+                    logger.warning("HTTP 403 Forbidden: Le Bearer Token OneID est manquant ou expire.")
+                    return self._cached_data or []
                 else:
-                    logger.error(f"Erreur API Disney: HTTP {response.status_code}")
-                    return self._cached_wait_times or []
+                    logger.error(f"Reponse inattendue: HTTP {response.status_code}")
+                    return self._cached_data or []
             except Exception as e:
-                logger.error(f"Exception réseau lors de l'appel WaitTimes: {e}")
-                return self._cached_wait_times or []
+                logger.error(f"Erreur reseau: {e}")
+                return self._cached_data or []
 
-# Exemple d'exécution
 async def main():
-    client = DisneylandParisClient()
-    wait_times = await client.get_wait_times()
-    print(f"Nombre d'attractions récupérées : {len(wait_times)}")
+    # Exemple d'initialisation avec un jeton extrait de l'application
+    token = "VOTRE_JETON_BEARER_ONEID"
+    client = DisneylandParisDirectClient(bearer_token=token)
+    data = await client.fetch_wait_times()
+    print(f"Entites recuperees : {len(data)}")
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -486,13 +491,11 @@ if __name__ == "__main__":
 
 ## 8. Cas d'Usage Avancés & Idées de Projets
 
-1. **Dashboard d'Affluence en Direct (Web / Grafana)** :
-   Graphique en temps réel comparant l'attente moyenne du Parc Disneyland vs Parc Studios au cours de la journée.
-2. **Bot Sniper de Réouverture** :
-   Envoi d'un webhook Discord/Telegram dès qu'une attraction phare (*Big Thunder Mountain*, *Crush's Coaster*, *Tower of Terror*) quitte le statut `DOWN` pour `OPERATING`.
-3. **Optimiseur d'Itinéraire en Temps Réel** :
-   Calcul du meilleur enchaînement d'attractions en direct pour un visiteur dans le parc en fonction de sa géolocalisation et des temps d'attente.
-4. **Intégration Domotique Home Assistant** :
-   Capteur d'état du parc et alertes visuelles sur ruban LED intelligent à l'ouverture ou lors de la fermeture des parcs.
-5. **Calendrier Prédictif de Foule (Machine Learning)** :
-   Entraînement d'un modèle de régression (XGBoost) sur l'historique archivé pour prédire l'attente à J+30 selon la météo et les vacances scolaires européennes.
+1. **Moniteur d'Affluence en Temps Réel** :
+   Agrégation des temps d'attente moyens par zone géographique (Fantasyland, Discoveryland, Avengers Campus) et analyse d'impact des pannes techniques.
+2. **Détecteur de Réouverture d'Attractions ("Ride Sniper")** :
+   Notification push instantanée lorsqu'une attraction majeure quitte l'état `DOWN` pour `OPERATING`.
+3. **Planificateur d'Itinéraire Dynamique** :
+   Calcul du chemin optimal et prédiction de la file d'attente à l'heure estimée d'arrivée devant chaque attraction.
+4. **Superviseur de Disponibilité Disney Premier Access** :
+   Suivi de l'évolution des tarifs dynamiques et des disponibilités du coupe-file payant en fonction de l'affluence de la journée.
