@@ -1,0 +1,7 @@
+package com.google.android.gms.internal.mlkit_vision_barcode;
+
+/* JADX INFO: loaded from: classes3.dex */
+abstract class zzek extends zzdz {
+    zzek() {
+    }
+}
