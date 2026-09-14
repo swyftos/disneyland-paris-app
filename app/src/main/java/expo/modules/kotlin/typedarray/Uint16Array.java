@@ -1,0 +1,165 @@
+package expo.modules.kotlin.typedarray;
+
+import com.facebook.react.uimanager.ViewProps;
+import com.tagcommander.lib.p193serverside.schemas.TCEventPropertiesNames;
+import com.urbanairship.actions.ToastAction;
+import com.urbanairship.channel.AttributeMutation;
+import com.urbanairship.json.matchers.ArrayContainsMatcher;
+import expo.modules.kotlin.jni.JavaScriptTypedArray;
+import expo.modules.kotlin.jni.TypedArrayKind;
+import java.nio.ByteBuffer;
+import java.util.Iterator;
+import kotlin.Metadata;
+import kotlin.UShort;
+import kotlin.jvm.internal.Intrinsics;
+import kotlin.jvm.internal.SourceDebugExtension;
+import org.jetbrains.annotations.NotNull;
+
+/* JADX INFO: loaded from: classes5.dex */
+@Metadata(m1835d1 = {"\u0000f\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0006\n\u0002\u0010\b\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0002\b\u0005\n\u0002\u0010\u0012\n\u0002\b\u0003\n\u0002\u0010\n\n\u0002\b\u0002\n\u0002\u0010\t\n\u0000\n\u0002\u0010\u0005\n\u0000\n\u0002\u0010\u0006\n\u0000\n\u0002\u0010\u0007\n\u0000\n\u0002\u0018\u0002\n\u0002\b\r\n\u0002\u0018\u0002\n\u0002\b\u0005\u0018\u00002\u00020\u00012\b\u0012\u0004\u0012\u00020\u00030\u00022\u00020\u0004B\u000f\u0012\u0006\u0010\u0005\u001a\u00020\u0006¢\u0006\u0004\b\u0007\u0010\bJ\u0018\u0010\u000b\u001a\u00020\u00032\u0006\u0010\f\u001a\u00020\rH\u0096\u0002¢\u0006\u0004\b\u000e\u0010\u000fJ \u0010\u0010\u001a\u00020\u00112\u0006\u0010\f\u001a\u00020\r2\u0006\u0010\u0012\u001a\u00020\u0003H\u0096\u0002¢\u0006\u0004\b\u0013\u0010\u0014J!\u0010\u0015\u001a\u00020\u00112\u0006\u0010\u0016\u001a\u00020\u00172\u0006\u0010\u0018\u001a\u00020\r2\u0006\u0010\u0019\u001a\u00020\rH\u0096\u0001J\u0011\u0010\u001a\u001a\u00020\u001b2\u0006\u0010\u0018\u001a\u00020\rH\u0096\u0001J\u0011\u0010\u001c\u001a\u00020\r2\u0006\u0010\u0018\u001a\u00020\rH\u0096\u0001J\u0011\u0010\u001d\u001a\u00020\u001e2\u0006\u0010\u0018\u001a\u00020\rH\u0096\u0001J\u0011\u0010\u001f\u001a\u00020 2\u0006\u0010\u0018\u001a\u00020\rH\u0096\u0001J\u0011\u0010!\u001a\u00020\"2\u0006\u0010\u0018\u001a\u00020\rH\u0096\u0001J\u0011\u0010#\u001a\u00020$2\u0006\u0010\u0018\u001a\u00020\rH\u0096\u0001J\t\u0010%\u001a\u00020&H\u0096\u0001J!\u0010'\u001a\u00020\u00112\u0006\u0010\u0016\u001a\u00020\u00172\u0006\u0010\u0018\u001a\u00020\r2\u0006\u0010\u0019\u001a\u00020\rH\u0096\u0001J\u0019\u0010(\u001a\u00020\u00112\u0006\u0010\u0018\u001a\u00020\r2\u0006\u0010\u0012\u001a\u00020\u001bH\u0096\u0001J\u0019\u0010)\u001a\u00020\u00112\u0006\u0010\u0018\u001a\u00020\r2\u0006\u0010\u0012\u001a\u00020\rH\u0096\u0001J\u0019\u0010*\u001a\u00020\u00112\u0006\u0010\u0018\u001a\u00020\r2\u0006\u0010\u0012\u001a\u00020\u001eH\u0096\u0001J\u0019\u0010+\u001a\u00020\u00112\u0006\u0010\u0018\u001a\u00020\r2\u0006\u0010\u0012\u001a\u00020 H\u0096\u0001J\u0019\u0010,\u001a\u00020\u00112\u0006\u0010\u0018\u001a\u00020\r2\u0006\u0010\u0012\u001a\u00020\"H\u0096\u0001J\u0019\u0010-\u001a\u00020\u00112\u0006\u0010\u0018\u001a\u00020\r2\u0006\u0010\u0012\u001a\u00020$H\u0096\u0001R\u0014\u0010\u0005\u001a\u00020\u0006X\u0096\u0004¢\u0006\b\n\u0000\u001a\u0004\b\t\u0010\nR\u0012\u0010.\u001a\u00020\rX\u0096\u0005¢\u0006\u0006\u001a\u0004\b/\u00100R\u0012\u00101\u001a\u00020\rX\u0096\u0005¢\u0006\u0006\u001a\u0004\b2\u00100R\u0012\u00103\u001a\u000204X\u0096\u0005¢\u0006\u0006\u001a\u0004\b5\u00106R\u0012\u00107\u001a\u00020\rX\u0096\u0005¢\u0006\u0006\u001a\u0004\b8\u00100¨\u00069"}, m1836d2 = {"Lexpo/modules/kotlin/typedarray/Uint16Array;", "Lexpo/modules/kotlin/typedarray/TypedArray;", "Lexpo/modules/kotlin/typedarray/GenericTypedArray;", "Lkotlin/UShort;", "Lexpo/modules/kotlin/typedarray/RawTypedArrayHolder;", "rawArray", "Lexpo/modules/kotlin/jni/JavaScriptTypedArray;", "<init>", "(Lexpo/modules/kotlin/jni/JavaScriptTypedArray;)V", "getRawArray", "()Lexpo/modules/kotlin/jni/JavaScriptTypedArray;", "get", ArrayContainsMatcher.INDEX_KEY, "", "get-BwKQO78", "(I)S", AttributeMutation.ATTRIBUTE_ACTION_SET, "", "value", "set-i8woANY", "(IS)V", "read", "buffer", "", ViewProps.POSITION, TCEventPropertiesNames.TCP_SIZE, "read2Byte", "", "read4Byte", "read8Byte", "", "readByte", "", "readDouble", "", "readFloat", "", "toDirectBuffer", "Ljava/nio/ByteBuffer;", "write", "write2Byte", "write4Byte", "write8Byte", "writeByte", "writeDouble", "writeFloat", "byteLength", "getByteLength", "()I", "byteOffset", "getByteOffset", "kind", "Lexpo/modules/kotlin/jni/TypedArrayKind;", "getKind", "()Lexpo/modules/kotlin/jni/TypedArrayKind;", ToastAction.LENGTH_KEY, "getLength", "expo-modules-core_release"}, m1837k = 1, m1838mv = {2, 0, 0}, m1840xi = 48)
+@SourceDebugExtension({"SMAP\nConcreteTypedArrays.kt\nKotlin\n*S Kotlin\n*F\n+ 1 ConcreteTypedArrays.kt\nexpo/modules/kotlin/typedarray/Uint16Array\n+ 2 ConcreteTypedArrays.kt\nexpo/modules/kotlin/typedarray/ConcreteTypedArraysKt\n*L\n1#1,159:1\n7#2,4:160\n7#2,4:164\n*S KotlinDebug\n*F\n+ 1 ConcreteTypedArrays.kt\nexpo/modules/kotlin/typedarray/Uint16Array\n*L\n84#1:160,4\n89#1:164,4\n*E\n"})
+public final class Uint16Array implements TypedArray, GenericTypedArray<UShort>, RawTypedArrayHolder {
+    private final JavaScriptTypedArray rawArray;
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public int getByteLength() {
+        return this.rawArray.getByteLength();
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public int getByteOffset() {
+        return this.rawArray.getByteOffset();
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    @NotNull
+    public TypedArrayKind getKind() {
+        return this.rawArray.getKind();
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public int getLength() {
+        return this.rawArray.getLength();
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public void read(@NotNull byte[] buffer, int position, int size) {
+        Intrinsics.checkNotNullParameter(buffer, "buffer");
+        this.rawArray.read(buffer, position, size);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public short read2Byte(int position) {
+        return this.rawArray.read2Byte(position);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public int read4Byte(int position) {
+        return this.rawArray.read4Byte(position);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public long read8Byte(int position) {
+        return this.rawArray.read8Byte(position);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public byte readByte(int position) {
+        return this.rawArray.readByte(position);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public double readDouble(int position) {
+        return this.rawArray.readDouble(position);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public float readFloat(int position) {
+        return this.rawArray.readFloat(position);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    @NotNull
+    public ByteBuffer toDirectBuffer() {
+        return this.rawArray.toDirectBuffer();
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public void write(@NotNull byte[] buffer, int position, int size) {
+        Intrinsics.checkNotNullParameter(buffer, "buffer");
+        this.rawArray.write(buffer, position, size);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public void write2Byte(int position, short value) {
+        this.rawArray.write2Byte(position, value);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public void write4Byte(int position, int value) {
+        this.rawArray.write4Byte(position, value);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public void write8Byte(int position, long value) {
+        this.rawArray.write8Byte(position, value);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public void writeByte(int position, byte value) {
+        this.rawArray.writeByte(position, value);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public void writeDouble(int position, double value) {
+        this.rawArray.writeDouble(position, value);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.TypedArray
+    public void writeFloat(int position, float value) {
+        this.rawArray.writeFloat(position, value);
+    }
+
+    /* JADX INFO: renamed from: get-BwKQO78, reason: not valid java name */
+    public short m5262getBwKQO78(int index) {
+        if (index < 0 || index >= getLength()) {
+            throw new IndexOutOfBoundsException();
+        }
+        return UShort.m5362constructorimpl(read2Byte(index * 2));
+    }
+
+    /* JADX INFO: renamed from: set-i8woANY, reason: not valid java name */
+    public void m5263seti8woANY(int index, short value) {
+        if (index < 0 || index >= getLength()) {
+            throw new IndexOutOfBoundsException();
+        }
+        write2Byte(index * 2, value);
+    }
+
+    public Uint16Array(@NotNull JavaScriptTypedArray rawArray) {
+        Intrinsics.checkNotNullParameter(rawArray, "rawArray");
+        this.rawArray = rawArray;
+    }
+
+    @Override // expo.modules.kotlin.typedarray.GenericTypedArray
+    public /* bridge */ /* synthetic */ UShort get(int i) {
+        return UShort.m5361boximpl(m5262getBwKQO78(i));
+    }
+
+    @Override // expo.modules.kotlin.typedarray.RawTypedArrayHolder
+    @NotNull
+    public JavaScriptTypedArray getRawArray() {
+        return this.rawArray;
+    }
+
+    @Override // expo.modules.kotlin.typedarray.GenericTypedArray, java.lang.Iterable
+    @NotNull
+    public Iterator<UShort> iterator() {
+        return GenericTypedArray.DefaultImpls.iterator(this);
+    }
+
+    @Override // expo.modules.kotlin.typedarray.GenericTypedArray
+    public /* bridge */ /* synthetic */ void set(int i, UShort uShort) {
+        m5263seti8woANY(i, uShort.getData());
+    }
+}

@@ -1,0 +1,5 @@
+package androidx.media3.exoplayer.drm;
+
+/* JADX INFO: loaded from: classes.dex */
+public abstract /* synthetic */ class FrameworkMediaDrm$Api31$$ExternalSyntheticApiModelOutline3 {
+}

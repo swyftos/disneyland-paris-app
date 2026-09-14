@@ -1,0 +1,107 @@
+package com.facebook.hermes.intl;
+
+import java.text.RuleBasedCollator;
+import java.util.ArrayList;
+import java.util.Locale;
+
+/* JADX INFO: loaded from: classes3.dex */
+public class PlatformCollatorAndroid implements IPlatformCollator {
+    private RuleBasedCollator mCollator;
+    private LocaleObjectAndroid mLocale;
+
+    @Override // com.facebook.hermes.intl.IPlatformCollator
+    public IPlatformCollator setCaseFirstAttribute(IPlatformCollator.CaseFirst caseFirst) {
+        return this;
+    }
+
+    @Override // com.facebook.hermes.intl.IPlatformCollator
+    public IPlatformCollator setIgnorePunctuation(boolean z) {
+        return this;
+    }
+
+    @Override // com.facebook.hermes.intl.IPlatformCollator
+    public IPlatformCollator setNumericAttribute(boolean z) {
+        return this;
+    }
+
+    @Override // com.facebook.hermes.intl.IPlatformCollator
+    public IPlatformCollator configure(ILocaleObject<?> iLocaleObject) throws JSRangeErrorException {
+        LocaleObjectAndroid localeObjectAndroid = (LocaleObjectAndroid) iLocaleObject;
+        this.mLocale = localeObjectAndroid;
+        this.mCollator = (RuleBasedCollator) java.text.Collator.getInstance(localeObjectAndroid.getLocale());
+        return this;
+    }
+
+    @Override // com.facebook.hermes.intl.IPlatformCollator
+    public int compare(String str, String str2) {
+        return this.mCollator.compare(str, str2);
+    }
+
+    @Override // com.facebook.hermes.intl.IPlatformCollator
+    public IPlatformCollator.Sensitivity getSensitivity() {
+        RuleBasedCollator ruleBasedCollator = this.mCollator;
+        if (ruleBasedCollator == null) {
+            return IPlatformCollator.Sensitivity.LOCALE;
+        }
+        int strength = ruleBasedCollator.getStrength();
+        if (strength == 0) {
+            return IPlatformCollator.Sensitivity.BASE;
+        }
+        if (strength == 1) {
+            return IPlatformCollator.Sensitivity.ACCENT;
+        }
+        return IPlatformCollator.Sensitivity.VARIANT;
+    }
+
+    /* JADX INFO: renamed from: com.facebook.hermes.intl.PlatformCollatorAndroid$1 */
+    static /* synthetic */ class C30651 {
+
+        /* JADX INFO: renamed from: $SwitchMap$com$facebook$hermes$intl$IPlatformCollator$Sensitivity */
+        static final /* synthetic */ int[] f3377x17be7a55;
+
+        static {
+            int[] iArr = new int[IPlatformCollator.Sensitivity.values().length];
+            f3377x17be7a55 = iArr;
+            try {
+                iArr[IPlatformCollator.Sensitivity.BASE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                f3377x17be7a55[IPlatformCollator.Sensitivity.ACCENT.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                f3377x17be7a55[IPlatformCollator.Sensitivity.VARIANT.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                f3377x17be7a55[IPlatformCollator.Sensitivity.CASE.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+        }
+    }
+
+    @Override // com.facebook.hermes.intl.IPlatformCollator
+    public IPlatformCollator setSensitivity(IPlatformCollator.Sensitivity sensitivity) {
+        int i = C30651.f3377x17be7a55[sensitivity.ordinal()];
+        if (i == 1) {
+            this.mCollator.setStrength(0);
+        } else if (i == 2) {
+            this.mCollator.setStrength(1);
+        } else if (i == 3) {
+            this.mCollator.setStrength(2);
+        } else if (i == 4) {
+            this.mCollator.setStrength(0);
+        }
+        return this;
+    }
+
+    @Override // com.facebook.hermes.intl.IPlatformCollator
+    public String[] getAvailableLocales() {
+        ArrayList arrayList = new ArrayList();
+        for (Locale locale : java.text.Collator.getAvailableLocales()) {
+            arrayList.add(locale.toLanguageTag());
+        }
+        return (String[]) arrayList.toArray(new String[arrayList.size()]);
+    }
+}

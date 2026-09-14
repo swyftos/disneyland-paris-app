@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & editors
+.idea/
+.vscode/
+*.iml
+
+# Gradle & Build
+.gradle/
+build/
+*.hprof
