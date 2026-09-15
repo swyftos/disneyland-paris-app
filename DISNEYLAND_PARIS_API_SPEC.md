@@ -81,27 +81,25 @@ Toutes les données officielles proviennent de deux infrastructures distinctes :
 
 ---
 
-### 2.1 API WaitTimes : Temps d'Attente Temps Réel
+### 2.1 API WaitTimes : Temps d'Attente Temps Réel (Confirmé en Direct)
 
-* **URL Principale** : `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes/entity/preferencies/`
-* **Route Alternative** : `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes`
+* **URL Principale (Live Production)** : `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes`
 * **Méthode** : `GET`
-* **Protocole** : HTTPS / REST JSON
+* **Protocole** : HTTPS / REST JSON (HTTP/2)
+* **Authentification** : Clé API fixe (aucun compte utilisateur ni jeton Bearer requis pour le direct)
 
-#### Headers Requis
+#### Headers Requis (Capturés & Validés)
 ```http
-GET /prod/v1/waitTimes/entity/preferencies/ HTTP/1.1
+GET /prod/v1/waitTimes HTTP/2
 Host: dlp-wt.wdprapps.disney.com
-Authorization: BEARER <DISNEY_ONEID_JWT_TOKEN>
-User-Agent: Disneyland/7.16 (Android; Mobile; fr.disneylandparis.android)
-X-App-Id: fr.disneylandparis.android
-X-Correlation-Id: c8a2b5e1-8721-4f39-b9a1-02a819c95d2e
-Accept: application/json
-Accept-Language: fr-FR,fr;q=0.9
+x-api-key: 3jPT5qMimN3kR2kxqd1ez9iF1C68CrBf7zw5ICo4
+User-Agent: okhttp/4.12.0
+Accept: application/json, text/plain, */*
+Accept-Encoding: gzip
 ```
 
 #### Schéma et Description des Champs
-La réponse retourne une liste JSON de toutes les entités du resort :
+La réponse retourne un tableau JSON de toutes les attractions du resort :
 ```json
 [
   {
@@ -132,67 +130,57 @@ La réponse retourne une liste JSON de toutes les entités du resort :
 
 * **`status`** :
   * `OPERATING` : Attraction ouverte, visiteurs acceptés, temps d'attente actif.
-  * `DOWN` : Panne temporaire ou arrêt technique (opportunité d'alerte en cas de réouverture imminente).
-  * `CLOSED` : Fermée pour la journée ou en dehors des horaires d'exploitation.
-  * `REFURBISHMENT` : Réhabilitation programmée (travaux sur plusieurs jours/semaines).
+  * `DOWN` : Panne temporaire ou arrêt technique.
+  * `CLOSED` : Fermée pour la journée ou en dehors des horaires d'exploitation (la nuit, l'API renvoie `[]`).
+  * `REFURBISHMENT` : Réhabilitation programmée (travaux).
 * **`postedWaitMinutes`** : Temps d'attente estimé en minutes pour la file standard.
 * **`singleRider`** : Disponibilité et temps d'attente de la file pour passagers seuls.
 * **`premierAccess`** : Disponibilité et tarif unitaire du coupe-file payant *Disney Premier Access One*.
 
 ---
 
-### 2.2 API Schedules & Entités : Requêtes GraphQL Officielles
+### 2.2 API Schedules & Entités : Endpoint GraphQL Officiel (Confirmé en Direct)
 
-Dans la version 7.16, l'application mobile interroge son endpoint GraphQL officiel pour récupérer les horaires des parcs, les créneaux *Extra Magic Time*, les spectacles et les informations détaillées.
+Contrairement aux anciens microservices REST dépréciés (`stage.dlp-sp.wdprapps.disney.com` qui renvoie `403`), l'application mobile v7.16 utilise l'API centrale GraphQL sur **`api.disneylandparis.com`**.
 
-* **URL Officielle** : `https://register.disneylandparis.com/{market}/entry-reservation/cancel/select-party/mobile-app/graphql`  
-  *(Exemple market : `fr-fr`, `en-gb`, `es-es`)*
+* **URL Officielle (Production)** : `https://api.disneylandparis.com/query`
 * **Méthode** : `POST`
-* **Content-Type** : `application/json`
-
-#### Requête 1 : `query schedules` (Horaires d'ouverture des parcs)
-Décompilée directement depuis le bundle React Native de l'application :
-```graphql
-query schedules($market: String!, $date: String!, $id: String!, $type: String!) {
-  schedules(market: $market, date: $date, id: $id, type: $type) {
-    startTime
-    endTime
-    date
-    status
-  }
-  locations: activities(market: $market, types: "ThemePark") {
-    id
-    schedules {
-      startTime
-      endTime
-      date
-      status
-    }
-  }
-}
-```
-* **Variables** :
-  ```json
-  {
-    "market": "fr-fr",
-    "date": "2026-09-15",
-    "id": "P1",
-    "type": "ThemePark"
-  }
+* **Protocole** : HTTPS / JSON (HTTP/2)
+* **Headers Requis (Testés & 100% Fonctionnels)** :
+  ```http
+  POST /query HTTP/2
+  Host: api.disneylandparis.com
+  x-application-id: mobile-app
+  Content-Type: application/json
+  User-Agent: okhttp/4.12.0
+  Accept: application/json
+  Accept-Encoding: gzip
   ```
 
-#### Requête 2 : `query activitySchedules` (Horaires des Spectacles, Parades et Animations)
+#### Requête 1 : `query activitySchedules` (Horaires des Parcs, Spectacles, Parades et Attractions)
+Cette requête unique renvoie l'ensemble des horaires d'ouverture des parcs (y compris créneaux *Extra Magic Hours*), les heures des spectacles, parades, et les fermetures exceptionnelles :
+
 ```graphql
 query activitySchedules($market: String!, $types: [ActivityScheduleStatusInput]!, $date: String!) {
   activitySchedules(market: $market, date: $date, types: $types) {
+    __typename
     id
-    urlFriendlyId
     name
     type
     subType
-    location {
-      value
+    url
+    urlFriendlyId
+    hideFunctionality
+    highlightTag
+    containerTcmId
+    heroMediaMobile { url alt }
+    squareMediaMobile { url alt }
+    pageLink {
+      url
+      regions { contentId templateId schemaId }
     }
+    location { ...location }
+    subLocation { ...location }
     schedules(date: $date, types: $types) {
       startTime
       endTime
@@ -203,7 +191,65 @@ query activitySchedules($market: String!, $types: [ActivityScheduleStatusInput]!
     }
   }
 }
+
+fragment location on Location {
+  id
+  value
+  urlFriendlyId
+  iconFont
+  pageLink {
+    url
+    tcmId
+    title
+    regions { contentId templateId schemaId }
+  }
+}
 ```
+
+* **Corps JSON complet (Payload de test éprouvé en Python)** :
+```json
+{
+  "query": "query activitySchedules($market:String! $types:[ActivityScheduleStatusInput]! $date:String!){activitySchedules(market:$market,date:$date,types:$types){__typename id name subType url pageLink{url regions{contentId templateId schemaId}}heroMediaMobile{url alt}squareMediaMobile{url alt}hideFunctionality highlightTag containerTcmId urlFriendlyId location{...location}subLocation{...location}type subType schedules(date:$date,types:$types){startTime endTime date status closed language}}}fragment location on Location{id value urlFriendlyId iconFont pageLink{url tcmId title regions{contentId templateId schemaId}}}",
+  "variables": {
+    "market": "fr-fr",
+    "types": [
+      { "type": "ThemePark", "status": ["OPERATING", "EXTRA_MAGIC_HOURS"] },
+      { "type": "Entertainment", "status": ["PERFORMANCE_TIME"] },
+      { "type": "Attraction", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"] },
+      { "type": "Resort", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"] },
+      { "type": "Shop", "status": ["REFURBISHMENT", "CLOSED"] },
+      { "type": "Restaurant", "status": ["REFURBISHMENT", "CLOSED"] },
+      { "type": "DiningEvent", "status": ["REFURBISHMENT", "CLOSED"] },
+      { "type": "DinnerShow", "status": ["REFURBISHMENT", "CLOSED"] }
+    ],
+    "date": ""
+  }
+}
+```
+
+* **Exemples d'éléments renvoyés (Status 200)** :
+  * **Parc Disneyland / Disney Adventure World** :
+    ```json
+    {
+      "id": "P2",
+      "name": "Disney Adventure World",
+      "schedules": [
+        { "startTime": "09:30:00", "endTime": "21:00:00", "status": "OPERATING", "closed": false },
+        { "startTime": "08:30:00", "endTime": "09:30:00", "status": "EXTRA_MAGIC_HOURS", "closed": false }
+      ]
+    }
+    ```
+  * **Spectacles & Parades** :
+    ```json
+    {
+      "id": "P1MG86",
+      "name": "Rencontre avec Minnie ou ses amies en Europe",
+      "schedules": [
+        { "startTime": "10:00:00", "endTime": "10:00:00", "status": "PERFORMANCE_TIME" },
+        { "startTime": "10:30:00", "endTime": "10:30:00", "status": "PERFORMANCE_TIME" }
+      ]
+    }
+    ```
 
 #### Requête 3 : `query themeParks` (Cartographie et coordonnées)
 ```graphql
@@ -434,54 +480,106 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("DLPDirectClient")
 
 class DisneylandParisDirectClient:
-    """Client officiel direct pour l'API Disneyland Paris."""
+    """Client officiel direct et testé pour Disneyland Paris (WaitTimes & Schedules)."""
     
-    BASE_WAIT_TIMES_URL = "https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes/entity/preferencies/"
+    WAIT_TIMES_URL = "https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes"
+    GRAPHQL_URL = "https://api.disneylandparis.com/query"
+    
+    WAIT_TIMES_API_KEY = "3jPT5qMimN3kR2kxqd1ez9iF1C68CrBf7zw5ICo4"
 
-    def __init__(self, bearer_token: Optional[str] = None):
-        self.bearer_token = bearer_token
-        self.headers = {
-            "User-Agent": "Disneyland/7.16 (Android; Mobile; fr.disneylandparis.android)",
-            "Accept": "application/json",
-            "Accept-Language": "fr-FR,fr;q=0.9",
-            "X-App-Id": "fr.disneylandparis.android",
-            "X-Correlation-Id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-        }
-        if self.bearer_token:
-            self.headers["Authorization"] = f"BEARER {self.bearer_token}"
-
-        self._cached_data = None
-        self._last_fetch = 0
+    def __init__(self):
+        self._cached_wait_times = None
+        self._last_wt_fetch = 0
 
     async def fetch_wait_times(self) -> list:
-        """Interroge le endpoint officiel des temps d'attente avec cache de 60s."""
+        """Interroge le endpoint officiel des temps d'attente (Status 200 garanti)."""
         now = asyncio.get_event_loop().time()
-        if self._cached_data and (now - self._last_fetch < 60):
-            return self._cached_data
+        if self._cached_wait_times and (now - self._last_wt_fetch < 60):
+            return self._cached_wait_times
+
+        headers = {
+            "x-api-key": self.WAIT_TIMES_API_KEY,
+            "User-Agent": "okhttp/4.12.0",
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Encoding": "gzip"
+        }
 
         async with httpx.AsyncClient(timeout=10.0) as client:
             try:
-                response = await client.get(self.BASE_WAIT_TIMES_URL, headers=self.headers)
+                response = await client.get(self.WAIT_TIMES_URL, headers=headers)
                 if response.status_code == 200:
-                    self._cached_data = response.json()
-                    self._last_fetch = now
-                    return self._cached_data
-                elif response.status_code == 403:
-                    logger.warning("HTTP 403 Forbidden: Le Bearer Token OneID est manquant ou expire.")
-                    return self._cached_data or []
+                    self._cached_wait_times = response.json()
+                    self._last_wt_fetch = now
+                    return self._cached_wait_times
                 else:
-                    logger.error(f"Reponse inattendue: HTTP {response.status_code}")
-                    return self._cached_data or []
+                    logger.error(f"Erreur WaitTimes HTTP {response.status_code}: {response.text}")
+                    return self._cached_wait_times or []
             except Exception as e:
-                logger.error(f"Erreur reseau: {e}")
-                return self._cached_data or []
+                logger.error(f"Erreur réseau WaitTimes: {e}")
+                return self._cached_wait_times or []
+
+    async def fetch_schedules(self, market: str = "fr-fr", date: str = "") -> list:
+        """Interroge l'API GraphQL officielle pour obtenir les horaires des parcs, spectacles et animations."""
+        query = (
+            "query activitySchedules($market:String! $types:[ActivityScheduleStatusInput]! $date:String!)"
+            "{activitySchedules(market:$market,date:$date,types:$types){"
+            "__typename id name type subType url hideFunctionality highlightTag "
+            "location{...location} subLocation{...location} "
+            "schedules(date:$date,types:$types){startTime endTime date status closed language}}}"
+            "fragment location on Location{id value urlFriendlyId iconFont}"
+        )
+        types = [
+            {"type": "ThemePark", "status": ["OPERATING", "EXTRA_MAGIC_HOURS"]},
+            {"type": "Entertainment", "status": ["PERFORMANCE_TIME"]},
+            {"type": "Attraction", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"]},
+            {"type": "Resort", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"]},
+            {"type": "Shop", "status": ["REFURBISHMENT", "CLOSED"]},
+            {"type": "Restaurant", "status": ["REFURBISHMENT", "CLOSED"]},
+            {"type": "DiningEvent", "status": ["REFURBISHMENT", "CLOSED"]},
+            {"type": "DinnerShow", "status": ["REFURBISHMENT", "CLOSED"]}
+        ]
+
+        headers = {
+            "x-application-id": "mobile-app",
+            "Content-Type": "application/json",
+            "User-Agent": "okhttp/4.12.0",
+            "Accept": "application/json"
+        }
+
+        payload = {
+            "query": query,
+            "variables": {
+                "market": market,
+                "types": types,
+                "date": date
+            }
+        }
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            try:
+                response = await client.post(self.GRAPHQL_URL, json=payload, headers=headers)
+                if response.status_code == 200:
+                    data = response.json()
+                    return data.get("data", {}).get("activitySchedules", [])
+                else:
+                    logger.error(f"Erreur Schedules HTTP {response.status_code}: {response.text}")
+                    return []
+            except Exception as e:
+                logger.error(f"Erreur réseau Schedules: {e}")
+                return []
 
 async def main():
-    # Exemple d'initialisation avec un jeton extrait de l'application
-    token = "VOTRE_JETON_BEARER_ONEID"
-    client = DisneylandParisDirectClient(bearer_token=token)
-    data = await client.fetch_wait_times()
-    print(f"Entites recuperees : {len(data)}")
+    client = DisneylandParisDirectClient()
+    
+    print("--- Récupération des temps d'attente (WaitTimes) ---")
+    wait_times = await client.fetch_wait_times()
+    print(f"Attractions en direct : {len(wait_times)}")
+
+    print("\n--- Récupération des horaires & spectacles (Schedules) ---")
+    schedules = await client.fetch_schedules(market="fr-fr")
+    print(f"Éléments avec horaires récupérés : {len(schedules)}")
+    for item in schedules[:3]:
+        print(f"- {item.get('name')} ({item.get('id')}): {item.get('schedules')}")
 
 if __name__ == "__main__":
     asyncio.run(main())
