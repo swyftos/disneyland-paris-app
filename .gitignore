@@ -12,3 +12,9 @@ desktop.ini
 .gradle/
 build/
 *.hprof
+
+# Auth & Secrets
+authenticated_session.json
+*session*.json
+*token*.json
+scratch/
