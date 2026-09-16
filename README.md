@@ -332,4 +332,4 @@ print(res.json()["data"]["activitySchedules"][:3])
 ---
 
 ## ⚖️ Clause de Non-Responsabilité & Droits
-Ce projet est une étude technique et d'ingénierie inversée à visée éducative et d'interopérabilité. Toutes les marques déposées, noms d'attractions, personnages et services mentionnés appartiennent à **The Walt Disney Company** et **Euro Disney Associés S.C.A.**.
+do what you whant .
