@@ -317,6 +317,124 @@ query restaurants($market: String!, $types: [String]) {
 * **Variables** : `{"market": "fr-fr", "types": ["Restaurant"]}`
 * **Données renvoyées** : 105 restaurants répertoriés (service à table, buffet à volonté, restauration rapide, bars des hôtels et snacks du Disney Village).
 
+##### Disponibilités des Restaurants en Temps Réel (Sans Bearer Token) :
+L'état d'ouverture et les plages horaires de service de chaque restaurant s'obtiennent directement sans aucune authentification :
+```graphql
+query restaurantAvailabilities($market: String!, $types: [ActivityScheduleStatusInput]!, $date: String!) {
+  activitySchedules(market: $market, date: $date, types: $types) {
+    id
+    name
+    subType
+    location { value }
+    subLocation { value }
+    schedules(date: $date, types: $types) {
+      startTime
+      endTime
+      date
+      status
+      closed
+    }
+  }
+}
+```
+* **Variables** :
+  ```json
+  {
+    "market": "fr-fr",
+    "types": [{"type": "Restaurant", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"]}],
+    "date": ""
+  }
+  ```
+* **Statuts Clés Renvoyés** :
+  * `OPERATING` (`closed: false`) : Restaurant ouvert au service avec les heures de début et fin de service (ex: `11:30:00` - `20:00:00`).
+  * `REFURBISHMENT` (`closed: true`) : Restaurant fermé pour réhabilitation/travaux saisonniers (ex: *Yacht Club*, *Plaza Gardens Restaurant*).
+  * `CLOSED` : Fermé ponctuellement pour la journée.
+
+##### Réservation de Tables (DRS - Dining Reservation Service) :
+Pour vérifier la disponibilité de créneaux de table et réserver, Disneyland Paris utilise le microservice officiel AWS WDPRApps :
+
+* **Base URL de Production** : `https://dlp-is-sales-drs-book-dine.wdprapps.disney.com/prod`
+* **API Key Requise** : `AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY`
+* **Niveau d'Autorisation Requis** : `Authorization: Bearer <access_token>` avec portée **High-Trust** (`AUTHZ_GUEST_SECURED_SESSION`). Une session non sécurisée (`AUTHZ_GUEST_UNSECURED_SESSION`) renvoie une erreur `FORBIDDEN_SCOPE`.
+
+###### 1. Endpoint Calendrier des Dates Disponibles (`availableDates`)
+* **URL** : `GET /v4/book-dine/availableDates/{market}?restaurantId={id}&sourceSite=web&scope=Restaurant`
+* **Exemple** : `GET https://dlp-is-sales-drs-book-dine.wdprapps.disney.com/prod/v4/book-dine/availableDates/fr-fr?restaurantId=P1AR00&sourceSite=web&scope=Restaurant`
+* **Paramètres Query** :
+  * `restaurantId` : Identifiant officiel du restaurant (ex: `P1AR00` pour *Captain Jack's*, `P2TR02` pour *Bistrot Chez Rémy*, `P1AR06` pour *Agrabah Café*).
+  * `sourceSite` : `web` ou `mobile`.
+  * `scope` : `Restaurant`.
+
+###### 2. Endpoint Créneaux Horaires Disponibles (`availabilities`)
+* **URL** : `POST /v4/book-dine/availabilities/{market}?scope=Restaurant`
+* **Exemple** : `POST https://dlp-is-sales-drs-book-dine.wdprapps.disney.com/prod/v4/book-dine/availabilities/fr-fr?scope=Restaurant`
+* **Headers Requis** :
+  ```http
+  POST /prod/v4/book-dine/availabilities/fr-fr?scope=Restaurant HTTP/2
+  Host: dlp-is-sales-drs-book-dine.wdprapps.disney.com
+  x-api-key: AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY
+  Authorization: Bearer <access_token_high_trust>
+  Content-Type: application/json
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+  ```
+* **Corps de la Requête (Payload JSON)** :
+  ```json
+  {
+    "restaurantId": "P1AR00",
+    "date": "2026-10-31",
+    "partyMix": 2,
+    "session": 0,
+    "sourceSite": "web"
+  }
+  ```
+  * `restaurantId` : ID du restaurant cible.
+  * `date` : Date au format ISO `YYYY-MM-DD`.
+  * `partyMix` : Nombre total de couverts (adultes + enfants).
+  * `session` : `0` (pour tous les services de la journée) ou ID de service spécifique (`1` pour midi, `2` pour soir).
+  * `sourceSite` : Origine de la requête (`web` ou `mobile`).
+
+* **Contrat de Réponse JSON (`slotList`)** :
+  ```json
+  [
+    {
+      "restaurantId": "P1AR00",
+      "date": "2026-10-31",
+      "startTime": "11:30:00",
+      "endTime": "22:00:00",
+      "mealPeriods": [
+        {
+          "mealPeriod": "LUNCH",
+          "slotList": [
+            { "time": "12:00 PM", "available": "true" },
+            { "time": "12:15 PM", "available": "false" },
+            { "time": "12:30 PM", "available": "true" }
+          ]
+        },
+        {
+          "mealPeriod": "DINNER",
+          "slotList": [
+            { "time": "06:30 PM", "available": "true" },
+            { "time": "07:00 PM", "available": "false" }
+          ]
+        }
+      ]
+    }
+  ]
+  ```
+
+###### 3. Règles Métier de Réservation (Booking Window & Hôtels Disney)
+* **Visiteurs sans hébergement Disney (Grand Public)** :
+  * Les réservations ouvrent exactement **60 jours à l'avance** (vers minuit CET).
+  * Les dates au-delà de 60 jours sont grisées et inaccessibles sans réservation d'hôtel liée.
+* **Visiteurs résidant en Hôtel Disney (Avantage Séjour)** :
+  * Ouverture prioritaire jusqu'à **12 mois à l'avance** dès la confirmation du forfait séjour.
+  * L'association du dossier hôtel s'effectue via le compte MyDisney (`SWID`), débloquant l'accès étendu dans l'API DRS.
+* **Restaurants à Très Forte Demande (Pic d'affluence)** :
+  * Pour les restaurants comme *Captain Jack's*, *Bistrot Chez Rémy* ou *Auberge de Cendrillon*, les créneaux lors des périodes phares (Halloween, Noël, vacances scolaires) affichent rapidement complet (`⊘` sur le calendrier, `available: "false"` sur tous les slots).
+  * Un scanner de désistement automatisé permet d'intercepter les créneaux libérés par annulation en temps réel.
+
+---
+
 #### Requête 6 : `query entertainment` (Spectacles, Parades & Rencontres Personnages - 137 éléments)
 ```graphql
 query entertainment($market: String!, $types: [String]) {
@@ -640,6 +758,139 @@ class AttractionWaitTime(BaseModel):
 
     class Config:
         populate_by_name = True
+
+class DiningSlot(BaseModel):
+    time: str
+    available: str  # "true" | "false"
+
+class MealPeriod(BaseModel):
+    meal_period: str = Field(alias="mealPeriod")
+    slot_list: List[DiningSlot] = Field(alias="slotList", default_factory=list)
+
+class RestaurantAvailability(BaseModel):
+    restaurant_id: str = Field(alias="restaurantId")
+    date: str
+    start_time: str = Field(alias="startTime")
+    end_time: str = Field(alias="endTime")
+    meal_periods: List[MealPeriod] = Field(alias="mealPeriods", default_factory=list)
+
+    class Config:
+        populate_by_name = True
+
+### 5.1 Explication Complète des Schémas JSON
+
+#### 1. Format du Fichier de Session (`authenticated_session.json`)
+Ce fichier stocke l'intégralité du contexte d'authentification Disney OneID et des cookies de session :
+```json
+{
+  "cookies": [
+    {
+      "name": "SWID",
+      "value": "{00000000-0000-0000-0000-000000000000}",
+      "domain": ".disneylandparis.com",
+      "path": "/",
+      "expires": 1821055056,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "TPR-DLP.WEB-PROD.api",
+      "value": "...",
+      "domain": ".disneylandparis.com"
+    }
+  ],
+  "guest": {
+    "profile": {
+      "swid": "{00000000-0000-0000-0000-000000000000}",
+      "email": "user@domain.com",
+      "firstName": "Jean",
+      "lastName": "Dupont"
+    },
+    "token": {
+      "access_token": "<access_token>",
+      "refresh_token": "<refresh_token>",
+      "swid": "{00000000-0000-0000-0000-000000000000}",
+      "ttl": 86400,
+      "refresh_ttl": 15552000,
+      "high_trust_expires_in": 1799,
+      "scope": "AUTHZ_GUEST_SECURED_SESSION",
+      "id_token": "eyJraWQi..."
+    }
+  }
+}
+```
+* **Champs clés** :
+  * `access_token` : Jeton Bearer injecté dans les requêtes DRS et GraphQL sécurisées.
+  * `refresh_token` : Jeton de réarmement silencieux (durée de vie : 180 jours / 6 mois).
+  * `scope` :
+    * `AUTHZ_GUEST_UNSECURED_SESSION` : Session standard (suffisant pour le panier, mais bloqué par le DRS).
+    * `AUTHZ_GUEST_SECURED_SESSION` : Session High-Trust (élevée par mot de passe ou validation OTP 6 chiffres, requise par le DRS).
+  * `high_trust_expires_in` : Durée de validité de l'élévation haute sécurité (~30 minutes / 1800s).
+
+#### 2. Format de Requête & Réponse DRS (`book-dine/availabilities`)
+* **Requête (`POST`)** :
+  ```json
+  {
+    "restaurantId": "P1AR00",
+    "date": "2026-10-31",
+    "partyMix": 2,
+    "session": 0,
+    "sourceSite": "web"
+  }
+  ```
+* **Réponse (`200 OK`)** :
+  ```json
+  [
+    {
+      "restaurantId": "P1AR00",
+      "date": "2026-10-31",
+      "startTime": "11:30:00",
+      "endTime": "22:00:00",
+      "mealPeriods": [
+        {
+          "mealPeriod": "LUNCH",
+          "slotList": [
+            { "time": "12:00 PM", "available": "true" },
+            { "time": "12:15 PM", "available": "false" }
+          ]
+        },
+        {
+          "mealPeriod": "DINNER",
+          "slotList": [
+            { "time": "06:30 PM", "available": "true" },
+            { "time": "07:00 PM", "available": "false" }
+          ]
+        }
+      ]
+    }
+  ]
+  ```
+
+#### 3. Format des Horaires GraphQL (`activitySchedules`)
+* Renvoyé sans authentification via `POST https://api.disneylandparis.com/query` :
+  ```json
+  {
+    "data": {
+      "activitySchedules": [
+        {
+          "id": "P1AR00",
+          "name": "Captain Jack's - Restaurant des Pirates",
+          "subType": "TableService",
+          "schedules": [
+            {
+              "startTime": "11:30:00",
+              "endTime": "22:00:00",
+              "date": "2026-10-31",
+              "status": "OPERATING",
+              "closed": false
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+
 ```
 
 ---
