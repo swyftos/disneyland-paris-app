@@ -13,8 +13,19 @@ desktop.ini
 build/
 *.hprof
 
+# Python
+__pycache__/
+*.py[cod]
+
 # Auth & Secrets
 authenticated_session.json
 *session*.json
 *token*.json
 scratch/
+.env
+.env.*
+!.env.example
+.disney_browser_profile/
+*.profile/
+*code*.txt
+
