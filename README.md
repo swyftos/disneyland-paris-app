@@ -275,6 +275,39 @@ En cas de contrôle imprévu de Disney, une règle de redirection e-mail automat
 
 ---
 
+## 🛠️ Outils & Scripts Inclus
+
+### 1. Gestionnaire d'Authentification Autonome (`auth_manager.py`)
+Maintient une session haute confiance permanente (`AUTHZ_GUEST_SECURED_SESSION`) :
+```bash
+# Vérifier l'état de la session et du jeton
+python auth_manager.py status
+
+# Effectuer une connexion navigateur persistante (avec gestion OTP)
+python auth_manager.py login
+
+# Rafraîchissement silencieux immédiat (< 200ms, sans navigateur)
+python auth_manager.py refresh
+
+# Lancer le démon de maintien de session en tâche de fond
+python auth_manager.py daemon --interval 1800
+```
+
+### 2. Scanner de Disponibilités Restaurants (`dining_scanner.py`)
+Interroge en temps réel les horaires et l'état d'ouverture de tous les restaurants (sans jeton) ou les créneaux de table (avec jeton) :
+```bash
+# Vérifier les horaires des restaurants populaires pour une date
+python dining_scanner.py 2026-10-31 --popular
+
+# Vérifier un restaurant spécifique (ex: Captain Jack's P1AR00)
+python dining_scanner.py 2026-10-31 -r P1AR00
+
+# Scanner avec créneaux de réservation DRS (nécessite session active)
+python dining_scanner.py 2026-10-31 -r P1AR00 --drs --covers 2
+```
+
+---
+
 ## 🚀 Démarrage Rapide (Python)
 
 ### Interroger les Temps d'Attente en Direct (Sans Compte) :
