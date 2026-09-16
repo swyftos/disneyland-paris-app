@@ -174,12 +174,12 @@ class DisneylandAuthManager:
 
         # high trust check
         if require_high_trust:
-            scope = token_info.get("scope", "")
-            if "AUTHZ_GUEST_SECURED_SESSION" not in scope:
-                logger.debug("Token scope is not AUTHZ_GUEST_SECURED_SESSION.")
+            scope = str(token_info.get("scope") or "")
+            ht_exp = token_info.get("high_trust_exp")
+            if not ht_exp and "AUTHZ_GUEST_SECURED_SESSION" not in scope:
+                logger.debug("Token scope is not AUTHZ_GUEST_SECURED_SESSION and no high_trust_exp.")
                 return False
 
-            ht_exp = token_info.get("high_trust_exp")
             if ht_exp:
                 ht_exp_ms = ht_exp if ht_exp > 10_000_000_000 else ht_exp * 1000
                 if ht_exp_ms - (buffer_seconds * 1000) <= now_ms:
@@ -223,14 +223,15 @@ class DisneylandAuthManager:
                         logger.info("Silent token refresh succeeded!")
                         # Merge into session
                         session = self.load_session()
+                        session["token"] = new_token
                         if "guest" in session and isinstance(session["guest"], dict):
                             session["guest"]["token"] = new_token
-                        else:
-                            session["token"] = new_token
                         session["access_token"] = new_token.get("access_token")
                         session["refresh_token"] = new_token.get("refresh_token")
                         session["scope"] = new_token.get("scope")
                         session["swid"] = new_token.get("swid")
+                        session["exp"] = new_token.get("exp")
+                        session["high_trust_exp"] = new_token.get("high_trust_exp")
                         session["last_refresh"] = time.time()
                         self.save_session(session)
                         return True
@@ -691,10 +692,18 @@ class DisneylandAuthManager:
         else:
             print(f"Access Token      : None [EXPIRED / MISSING]")
 
-        scope = token.get("scope", "")
+        scope = str(token.get("scope") or session.get("scope") or "")
         print(f"Scope             : {scope or '(None)'}")
-        is_high_trust = "AUTHZ_GUEST_SECURED_SESSION" in scope
+
+        ht_exp = token.get("high_trust_exp") or session.get("high_trust_exp")
+        now_ts = time.time()
+        is_high_trust = ("AUTHZ_GUEST_SECURED_SESSION" in scope) or bool(ht_exp and (ht_exp / 1000 if ht_exp > 10_000_000_000 else ht_exp) > now_ts)
         print(f"High-Trust State  : {'[SECURED - DRS Enabled]' if is_high_trust else '[UNSECURED - Refreshed Only]'}")
+
+        if ht_exp:
+            ht_ts = ht_exp / 1000 if ht_exp > 10_000_000_000 else ht_exp
+            ht_rem = int((ht_ts - now_ts) / 60)
+            print(f"High-Trust Expiry : {ht_rem} min remaining ({'VALID' if ht_rem > 0 else 'EXPIRED'})")
 
         exp = token.get("exp")
         if exp:
@@ -714,6 +723,37 @@ class DisneylandAuthManager:
         print(f"Cookies Count     : {cookies_count}")
         print("=" * 65 + "\n")
 
+    def get_profile(self) -> Dict[str, Any]:
+        """
+        Fetches the authenticated Disney OneID guest profile via JGC v8.
+        Endpoint: GET https://registerdisney.go.com/jgc/v8/client/TPR-DLP.WEB-PROD/guest/{swid}
+        """
+        token = self.get_valid_token(require_high_trust=False)
+        if not token:
+            logger.error("Cannot fetch profile: No valid token.")
+            return {}
+        swid = self.get_token_info().get("swid")
+        if not swid:
+            logger.error("Cannot fetch profile: SWID not found in token.")
+            return {}
+
+        url = f"https://registerdisney.go.com/jgc/v8/client/TPR-DLP.WEB-PROD/guest/{swid}"
+        headers = {
+            "Authorization": f"BEARER {token}",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        }
+        req = urllib.request.Request(url, headers=headers)
+        ctx = ssl.create_default_context()
+        try:
+            with urllib.request.urlopen(req, context=ctx, timeout=10) as res:
+                if res.status == 200:
+                    data = json.loads(res.read().decode("utf-8"))
+                    profile = data.get("data", {}).get("profile", {})
+                    return profile
+        except Exception as e:
+            logger.warning(f"Failed to fetch profile: {e}")
+        return {}
+
     def run_daemon(self, interval_sec: int = 1800) -> None:
         """Keeps the token permanently alive in the background."""
         logger.info(f"Starting Disneyland Paris Auth Daemon (Refresh interval: {interval_sec}s)...")
@@ -731,7 +771,7 @@ class DisneylandAuthManager:
 
 def main():
     parser = argparse.ArgumentParser(description="Disneyland Paris Autonomous Auth & Session Keeper")
-    parser.add_argument("command", choices=["status", "get-token", "refresh", "login", "daemon"],
+    parser.add_argument("command", choices=["status", "get-token", "refresh", "login", "profile", "daemon"],
                         nargs="?", default="status", help="Command to execute")
     parser.add_argument("--interval", type=int, default=1800, help="Interval for daemon mode (seconds)")
     parser.add_argument("--headful", action="store_true", help="Run browser in headful mode for debugging")
@@ -755,6 +795,12 @@ def main():
         success = manager.full_browser_login(headless=not args.headful)
         manager.print_status()
         sys.exit(0 if success else 1)
+    elif args.command == "profile":
+        prof = manager.get_profile()
+        if prof:
+            print(json.dumps(prof, indent=2))
+        else:
+            sys.exit("Failed to retrieve profile.")
     elif args.command == "daemon":
         manager.run_daemon(interval_sec=args.interval)
 

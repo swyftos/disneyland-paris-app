@@ -129,17 +129,7 @@ class DisneylandDiningScanner:
     # -------------------------------------------------------------------------
     # Private DRS Dining Reservation Microservice (Requires High-Trust Token)
     # -------------------------------------------------------------------------
-    def get_table_slots(
-        self,
-        restaurant_id: str,
-        date_str: str,
-        party_mix: int = 2,
-        token: Optional[str] = None
-    ) -> Optional[List[Dict[str, Any]]]:
-        """
-        Queries DRS table booking microservice for specific slot availability.
-        Requires active High-Trust Bearer Token.
-        """
+    def _get_headers(self, token: Optional[str] = None) -> Optional[Dict[str, str]]:
         bearer_token = token
         if not bearer_token and self.auth_manager:
             try:
@@ -152,19 +142,59 @@ class DisneylandDiningScanner:
             print("[INFO] No active High-Trust Bearer Token available. Run 'python auth_manager.py login' first.")
             return None
 
-        url = f"{DRS_BASE_URL}/v4/book-dine/availabilities/{self.market}?scope=Restaurant"
+        return {
+            "x-api-key": DRS_API_KEY,
+            "Authorization": f"Bearer {bearer_token}",
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        }
+
+    def get_available_dates(self, restaurant_id: str, scope: str = "Restaurant", token: Optional[str] = None) -> List[str]:
+        """
+        Retrieves all open booking calendar dates for a specific restaurant.
+        Endpoint: GET /v4/book-dine/availableDates/{market}?restaurantId={id}&sourceSite=web&scope={scope}
+        """
+        headers = self._get_headers(token)
+        if not headers:
+            return []
+
+        url = f"{DRS_BASE_URL}/v4/book-dine/availableDates/{self.market}?restaurantId={restaurant_id}&sourceSite=web&scope={scope}"
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            with urllib.request.urlopen(req, context=self.ssl_ctx, timeout=15) as res:
+                data = json.loads(res.read().decode("utf-8"))
+                return data.get("availableDates", [])
+        except urllib.error.HTTPError as e:
+            err_msg = e.read().decode("utf-8", errors="ignore")
+            print(f"[ERROR] DRS availableDates HTTP {e.code}: {err_msg[:200]}")
+            return []
+        except Exception as e:
+            print(f"[ERROR] DRS availableDates failed: {e}")
+            return []
+
+    def get_table_slots(
+        self,
+        restaurant_id: str,
+        date_str: str,
+        party_mix: int = 2,
+        scope: str = "Restaurant",
+        token: Optional[str] = None
+    ) -> Optional[List[Dict[str, Any]]]:
+        """
+        Queries DRS table booking microservice for specific slot availability.
+        Endpoint: POST /v4/book-dine/availabilities/{market}?scope={scope}
+        """
+        headers = self._get_headers(token)
+        if not headers:
+            return None
+
+        url = f"{DRS_BASE_URL}/v4/book-dine/availabilities/{self.market}?scope={scope}"
         payload = {
             "restaurantId": restaurant_id,
             "date": date_str,
             "partyMix": party_mix,
             "session": 0,
             "sourceSite": "web"
-        }
-        headers = {
-            "x-api-key": DRS_API_KEY,
-            "Authorization": f"Bearer {bearer_token}",
-            "Content-Type": "application/json",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         }
 
         req = urllib.request.Request(
@@ -180,11 +210,50 @@ class DisneylandDiningScanner:
                 return data
         except urllib.error.HTTPError as e:
             err_msg = e.read().decode("utf-8", errors="ignore")
-            print(f"[ERROR] DRS HTTP {e.code}: {err_msg[:200]}")
+            print(f"[ERROR] DRS availabilities HTTP {e.code}: {err_msg[:200]}")
             return None
         except Exception as e:
             print(f"[ERROR] DRS Call failed: {e}")
             return None
+
+    def retrieve_user_bookings(self, token: Optional[str] = None) -> List[Dict[str, Any]]:
+        """
+        Retrieves active dining reservations for the authenticated visitor account.
+        Endpoint: POST /v4/book-dine/retrieve/{market}
+        """
+        headers = self._get_headers(token)
+        if not headers:
+            return []
+
+        url = f"{DRS_BASE_URL}/v4/book-dine/retrieve/{self.market}"
+        req = urllib.request.Request(url, data=b"{}", headers=headers, method="POST")
+        try:
+            with urllib.request.urlopen(req, context=self.ssl_ctx, timeout=15) as res:
+                return json.loads(res.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            print(f"[ERROR] DRS retrieve HTTP {e.code}: {e.read().decode('utf-8')[:200]}")
+            return []
+        except Exception as e:
+            print(f"[ERROR] DRS retrieve failed: {e}")
+            return []
+
+    def get_restricted_hotel_restaurants(self, token: Optional[str] = None) -> List[Dict[str, Any]]:
+        """
+        Lists hotel restaurants restricted exclusively to hotel package guests.
+        Endpoint: GET /v4/book-dine/restrictedHotelRestaurants
+        """
+        headers = self._get_headers(token)
+        if not headers:
+            return []
+
+        url = f"{DRS_BASE_URL}/v4/book-dine/restrictedHotelRestaurants"
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            with urllib.request.urlopen(req, context=self.ssl_ctx, timeout=15) as res:
+                return json.loads(res.read().decode("utf-8"))
+        except Exception as e:
+            print(f"[ERROR] DRS restrictedHotelRestaurants failed: {e}")
+            return []
 
     # -------------------------------------------------------------------------
     # Display & Formatting Utilities
@@ -247,8 +316,38 @@ def main():
     parser.add_argument("--drs", action="store_true", help="Query real-time DRS booking table slots (requires active token)")
     parser.add_argument("--covers", "-c", type=int, default=2, help="Number of guests for table booking (default: 2)")
 
+    parser.add_argument("--dates", action="store_true", help="Scan open booking calendar dates for restaurant")
+    parser.add_argument("--bookings", action="store_true", help="Retrieve active dining reservations for the authenticated user")
+    parser.add_argument("--restricted", action="store_true", help="List restricted hotel dining establishments")
+
     args = parser.parse_args()
     scanner = DisneylandDiningScanner()
+
+    if args.bookings:
+        print("[*] Retrieving active dining reservations for current account...")
+        user_bookings = scanner.retrieve_user_bookings()
+        if user_bookings:
+            print(json.dumps(user_bookings, indent=2))
+        else:
+            print("[✓] No active dining reservations found for this account.")
+        return
+
+    if args.restricted:
+        print("[*] Fetching restricted hotel dining locations...")
+        res = scanner.get_restricted_hotel_restaurants()
+        print(json.dumps(res, indent=2))
+        return
+
+    if args.dates:
+        rid = args.restaurant.upper() if args.restaurant else "P1AR00"
+        print(f"[*] Scanning open booking dates for restaurant {rid}...")
+        dates = scanner.get_available_dates(rid)
+        if dates:
+            print(f"[✓] {len(dates)} open dates found ({dates[0]} -> {dates[-1]}):")
+            print(", ".join(dates))
+        else:
+            print(f"[-] No open dates found for {rid}.")
+        return
 
     target_ids = None
     if args.restaurant:
