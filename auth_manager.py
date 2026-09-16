@@ -263,7 +263,27 @@ class DisneylandAuthManager:
         os.makedirs(self.profile_dir, exist_ok=True)
         logger.info(f"Launching persistent browser context (Tier 2) in: {self.profile_dir}")
 
+        # Check if currently flagged by rate-limit
+        session = self.load_session()
+        rl_until = session.get("rate_limit_until", 0)
+        if time.time() < rl_until:
+            rem_min = int((rl_until - time.time()) / 60)
+            logger.warning(f"Anti-flag protection active: Account is under Disney cooldown ({rem_min} min remaining).")
+            logger.warning("Aborting browser launch to prevent severe account lockout.")
+            return False
+
         with sync_playwright() as p:
+            import random
+
+            def _human_type(elem, text: str, pg):
+                """Simulates natural human typing with randomized delays to bypass Arkose/Palomino bot detection."""
+                elem.focus()
+                time.sleep(random.uniform(0.15, 0.35))
+                for char in text:
+                    pg.keyboard.press(char)
+                    time.sleep(random.uniform(0.04, 0.11))
+                time.sleep(random.uniform(0.2, 0.4))
+
             context = p.chromium.launch_persistent_context(
                 user_data_dir=self.profile_dir,
                 channel="msedge",
@@ -356,28 +376,30 @@ class DisneylandAuthManager:
 
             if iframe:
                 page.wait_for_timeout(2000)
-                # Check for rate-limiting message
+                # Check for rate-limiting message (flag detection)
                 frame_text = iframe.evaluate("() => document.body ? document.body.innerText : ''")
                 if "d'autres codes pour le moment" in frame_text:
-                    logger.error("Disney OTP Rate Limit Active: 'Nous ne pouvons pas vous envoyer d'autres codes pour le moment.'")
-                    logger.error("Disney requires a cooldown period (~15-30 minutes) before sending new 2FA codes.")
+                    logger.error("Disney Flag Detected: Rate limit triggered. Saving cooldown timer (20 min).")
+                    s = self.load_session()
+                    s["rate_limit_until"] = time.time() + 1200
+                    self.save_session(s)
                     context.close()
                     return False
 
-                # Submit Email if field is present
+                # Submit Email if field is present (with human typing)
                 email_in = iframe.locator("input[type='email'], input[name='email'], #InputIdentityFlowValue, #email")
                 if email_in.count() > 0 and email_in.first.is_visible():
                     logger.info(f"Filling email: {self.email}")
-                    email_in.first.fill(self.email)
+                    _human_type(email_in.first, self.email, page)
                     btn = iframe.locator("button[type='submit'], #BtnSubmit, button:has-text('Continuer')").first
                     btn.click()
                     page.wait_for_timeout(3500)
 
-                # Submit Password if field is present
+                # Submit Password if field is present (with human typing)
                 pwd_in = iframe.locator("input[type='password'], input[name='password'], #InputPassword, #password")
                 if pwd_in.count() > 0 and pwd_in.first.is_visible():
-                    logger.info("Filling password...")
-                    pwd_in.first.fill(self.password)
+                    logger.info("Filling password with stealth typing...")
+                    _human_type(pwd_in.first, self.password, page)
                     btn = iframe.locator("button[type='submit'], #BtnSubmit, button:has-text('Continuer'), button:has-text(\"S'identifier\")").first
                     btn.click()
                     logger.info("Submitted password.")
@@ -386,8 +408,10 @@ class DisneylandAuthManager:
                 # Check if rate-limited after password submission
                 frame_text = iframe.evaluate("() => document.body ? document.body.innerText : ''")
                 if "d'autres codes pour le moment" in frame_text:
-                    logger.error("Disney OTP Rate Limit Active: 'Nous ne pouvons pas vous envoyer d'autres codes pour le moment.'")
-                    logger.error("Disney requires a cooldown period (~15-30 minutes) before sending new 2FA codes.")
+                    logger.error("Disney Flag Detected: Rate limit triggered. Saving cooldown timer (20 min).")
+                    s = self.load_session()
+                    s["rate_limit_until"] = time.time() + 1200
+                    self.save_session(s)
                     context.close()
                     return False
 
