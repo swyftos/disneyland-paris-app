@@ -409,21 +409,77 @@ sequenceDiagram
     JGC-->>App: 200 OK {"data": {"token": {"access_token": "<nouveau>"}}}
 ```
 
-#### Endpoints JGC v8 Découverts & Testés :
+#### Endpoints JGC v8 Découverts & Validés en Direct :
 
-| Méthode & Endpoint | Description | Payload JSON | Réponse Clé |
+| Méthode & Endpoint | Description | Payload JSON | Réponse Clé (Vérifiée en Direct) |
 | :--- | :--- | :--- | :--- |
-| `POST /guest-flow` | Vérifie si l'utilisateur possède un compte Disney | `{"email": "user@example.com"}` | `{"data": {"guestFlow": "LOGIN_FLOW"}}` (ou `REGISTRATION_FLOW`) |
-| `POST /guest/login` | Authentification directe utilisateur | `{"loginValue": "email", "password": "pwd"}` | `token.access_token`, `refresh_token`, `id_token`, `swid` |
-| `POST /guest/refresh-auth` | Renouvelle un `access_token` expiré | `{"refreshToken": "..."}` | Nouvel `access_token` valide sans re-saisie de mot de passe |
-| `POST /otp/redeem` | Validation du code 2FA / OTP (One-Time Password) | `{"passcode": "123456", "sessionIds": [...]}` | Validation du challenge d'identité |
+| `POST /guest-flow` | Détection de compte Disney | `{"email": "user@domain.com"}` | `{"data": {"guestFlow": "LOGIN_FLOW"}}` |
+| `POST /notification/otp/recovery` | Déclenchement du code OTP par e-mail | `?intent=recaptcha&langPref=fr-FR` | `{"data": {"sessionId": "uuid", "expirationTime": 1789519863}}` |
+| `POST /otp/redeem` | Validation du code OTP à 6 chiffres | `{"passcode": "123456", "sessionIds": ["uuid"]}` | `{"data": {"access_token": "...", "swid": "{...}", "ttl": 900}}` |
+| `POST /guest/login/recoveryToken` | Récupération du profil complet après OTP | `?expand=profile&expand=displayNames` | Profil utilisateur (`swid`, `firstName`, `lastName`, `email`, `status: ACTIVE`) |
+| `POST /guest/refresh-auth` | Renouvellement silencieux du jeton | `{"refreshToken": "..."}` | Nouveau `access_token` (`ttl: 86400`) & nouveau `refresh_token` (`refresh_ttl: 15552000`) |
 | `POST /guest/{swid}/logout` | Invalidation serveur de la session | `{}` | Confirmation de déconnexion |
 
-#### Structure du Jeton (`Token.java`) :
-* `access_token` : Jeton JWT utilisé pour interroger les APIs privées (durée de validité `ttl` standard : 3600 secondes / 1 heure).
-* `refresh_token` : Jeton longue durée (durée `refresh_ttl` : 2 592 000 secondes / 30 jours) permettant de générer automatiquement de nouveaux `access_token`.
-* `id_token` : Jeton OpenID Connect contenant les réclamations de profil.
-* `swid` : Identifiant universel unique Disney du compte client (ex: `{12345678-ABCD-EF01-2345-6789ABCDEF01}`).
+#### Exemple Concret de Validation OTP (Réponse Directe Serveur Disney 200 OK) :
+```http
+POST /jgc/v8/client/TPR-DLP.WEB-PROD/otp/redeem?langPref=fr-FR HTTP/2
+Host: registerdisney.go.com
+Content-Type: application/json
+
+{"passcode":"123456","sessionIds":["<otp_session_id>"]}
+```
+```json
+{
+  "data": {
+    "access_token": "<otp_access_token>",
+    "refresh_token": null,
+    "swid": "{00000000-0000-0000-0000-000000000000}",
+    "ttl": 900,
+    "scope": "disneyid-profile-guest-recovery disneyid-profile-guest-recovery-email-otp"
+  },
+  "error": null
+}
+```
+
+#### Exemple Concret de Renouvellement Silencieux (Réponse Serveur Disney 200 OK) :
+```http
+POST /jgc/v8/client/TPR-DLP.WEB-PROD/guest/refresh-auth HTTP/2
+Host: registerdisney.go.com
+Content-Type: application/json
+
+{"refreshToken":"<refresh_token>"}
+```
+```json
+{
+  "data": {
+    "etag": null,
+    "token": {
+      "access_token": "<new_access_token>",
+      "refresh_token": "<new_refresh_token>",
+      "swid": "{00000000-0000-0000-0000-000000000000}",
+      "ttl": 86400,
+      "refresh_ttl": 15552000,
+      "scope": "AUTHZ_GUEST_SECURED_SESSION"
+    }
+  },
+  "error": null
+}
+```
+
+#### Structure Complète du Profil & Jetons Utilisateur (`Token.java`) :
+* `access_token` : Jeton Bearer utilisé pour les requêtes privées (`ttl: 86400` secondes / 24 heures).
+* `refresh_token` : Jeton de renouvellement longue durée (`refresh_ttl: 15552000` secondes / 180 jours) permettant de maintenir la session ouverte pendant 6 mois sans re-saisie de mot de passe ni de code OTP !
+* `id_token` : Jeton signé RSA RS256 JWT émis par `https://authorization.go.com` contenant l'identité vérifiée Disney.
+* `swid` : Identifiant universel unique Disney du compte client (ex: `{00000000-0000-0000-0000-000000000000}`).
+
+#### Cookies de Session Officiels Associés (`.disneylandparis.com`) :
+Lors d'une connexion réussie, Disney positionne un ensemble de cookies de contexte :
+* `SWID` : Identifiant visiteur persistant (`{...}`).
+* `TPR-DLP.WEB-PROD.token` : Jeton complet encodé base64 + JWT.
+* `TPR-DLP.WEB-PROD.api` : Signature d'authentification API OkHttp.
+* `TPR-DLP.WEB-PROD.rt` : Jeton de rotation rapide.
+* `pep_oauth_token` : Jeton OAuth de passerelle e-commerce / billetterie.
+* `QueueITAccepted-SDFrts345E-V3_dlpmarketing` : Jeton d'autorisation coupe-file de la file d'attente Akamai Queue-it.
 
 #### Sécurité & Protection Bot (Arkose Labs & reCAPTCHA Enterprise) :
 Disney protège le endpoint de connexion contre le brute-force et le credential-stuffing via deux mécanismes intégrés dans le bundle :
