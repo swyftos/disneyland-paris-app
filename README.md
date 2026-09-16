@@ -1,4 +1,3 @@
-[DISNEYLAND_PARIS_API_SPEC.md](https://github.com/user-attachments/files/32270146/DISNEYLAND_PARIS_API_SPEC.md)
 # 🏰 Disneyland Paris - Spécification Complète de l'Application & Guide des APIs Officielles
 
 > **Version de l'application analysée** : `7.16.0` (Build `7507`, Build Label `KINNEY`, App ID `fr.disneylandparis.android`)  
@@ -82,27 +81,25 @@ Toutes les données officielles proviennent de deux infrastructures distinctes :
 
 ---
 
-### 2.1 API WaitTimes : Temps d'Attente Temps Réel
+### 2.1 API WaitTimes : Temps d'Attente Temps Réel (Confirmé en Direct)
 
-* **URL Principale** : `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes/entity/preferencies/`
-* **Route Alternative** : `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes`
+* **URL Principale (Live Production)** : `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes`
 * **Méthode** : `GET`
-* **Protocole** : HTTPS / REST JSON
+* **Protocole** : HTTPS / REST JSON (HTTP/2)
+* **Authentification** : Clé API fixe (aucun compte utilisateur ni jeton Bearer requis pour le direct)
 
-#### Headers Requis
+#### Headers Requis (Capturés & Validés)
 ```http
-GET /prod/v1/waitTimes/entity/preferencies/ HTTP/1.1
+GET /prod/v1/waitTimes HTTP/2
 Host: dlp-wt.wdprapps.disney.com
-Authorization: BEARER <DISNEY_ONEID_JWT_TOKEN>
-User-Agent: Disneyland/7.16 (Android; Mobile; fr.disneylandparis.android)
-X-App-Id: fr.disneylandparis.android
-X-Correlation-Id: c8a2b5e1-8721-4f39-b9a1-02a819c95d2e
-Accept: application/json
-Accept-Language: fr-FR,fr;q=0.9
+x-api-key: 3jPT5qMimN3kR2kxqd1ez9iF1C68CrBf7zw5ICo4
+User-Agent: okhttp/4.12.0
+Accept: application/json, text/plain, */*
+Accept-Encoding: gzip
 ```
 
 #### Schéma et Description des Champs
-La réponse retourne une liste JSON de toutes les entités du resort :
+La réponse retourne un tableau JSON de toutes les attractions du resort :
 ```json
 [
   {
@@ -133,67 +130,57 @@ La réponse retourne une liste JSON de toutes les entités du resort :
 
 * **`status`** :
   * `OPERATING` : Attraction ouverte, visiteurs acceptés, temps d'attente actif.
-  * `DOWN` : Panne temporaire ou arrêt technique (opportunité d'alerte en cas de réouverture imminente).
-  * `CLOSED` : Fermée pour la journée ou en dehors des horaires d'exploitation.
-  * `REFURBISHMENT` : Réhabilitation programmée (travaux sur plusieurs jours/semaines).
+  * `DOWN` : Panne temporaire ou arrêt technique.
+  * `CLOSED` : Fermée pour la journée ou en dehors des horaires d'exploitation (la nuit, l'API renvoie `[]`).
+  * `REFURBISHMENT` : Réhabilitation programmée (travaux).
 * **`postedWaitMinutes`** : Temps d'attente estimé en minutes pour la file standard.
 * **`singleRider`** : Disponibilité et temps d'attente de la file pour passagers seuls.
 * **`premierAccess`** : Disponibilité et tarif unitaire du coupe-file payant *Disney Premier Access One*.
 
 ---
 
-### 2.2 API Schedules & Entités : Requêtes GraphQL Officielles
+### 2.2 API Schedules & Entités : Endpoint GraphQL Officiel (Confirmé en Direct)
 
-Dans la version 7.16, l'application mobile interroge son endpoint GraphQL officiel pour récupérer les horaires des parcs, les créneaux *Extra Magic Time*, les spectacles et les informations détaillées.
+Contrairement aux anciens microservices REST dépréciés (`stage.dlp-sp.wdprapps.disney.com` qui renvoie `403`), l'application mobile v7.16 utilise l'API centrale GraphQL sur **`api.disneylandparis.com`**.
 
-* **URL Officielle** : `https://register.disneylandparis.com/{market}/entry-reservation/cancel/select-party/mobile-app/graphql`  
-  *(Exemple market : `fr-fr`, `en-gb`, `es-es`)*
+* **URL Officielle (Production)** : `https://api.disneylandparis.com/query`
 * **Méthode** : `POST`
-* **Content-Type** : `application/json`
-
-#### Requête 1 : `query schedules` (Horaires d'ouverture des parcs)
-Décompilée directement depuis le bundle React Native de l'application :
-```graphql
-query schedules($market: String!, $date: String!, $id: String!, $type: String!) {
-  schedules(market: $market, date: $date, id: $id, type: $type) {
-    startTime
-    endTime
-    date
-    status
-  }
-  locations: activities(market: $market, types: "ThemePark") {
-    id
-    schedules {
-      startTime
-      endTime
-      date
-      status
-    }
-  }
-}
-```
-* **Variables** :
-  ```json
-  {
-    "market": "fr-fr",
-    "date": "2026-09-15",
-    "id": "P1",
-    "type": "ThemePark"
-  }
+* **Protocole** : HTTPS / JSON (HTTP/2)
+* **Headers Requis (Testés & 100% Fonctionnels)** :
+  ```http
+  POST /query HTTP/2
+  Host: api.disneylandparis.com
+  x-application-id: mobile-app
+  Content-Type: application/json
+  User-Agent: okhttp/4.12.0
+  Accept: application/json
+  Accept-Encoding: gzip
   ```
 
-#### Requête 2 : `query activitySchedules` (Horaires des Spectacles, Parades et Animations)
+#### Requête 1 : `query activitySchedules` (Horaires des Parcs, Spectacles, Parades et Attractions)
+Cette requête unique renvoie l'ensemble des horaires d'ouverture des parcs (y compris créneaux *Extra Magic Hours*), les heures des spectacles, parades, et les fermetures exceptionnelles :
+
 ```graphql
 query activitySchedules($market: String!, $types: [ActivityScheduleStatusInput]!, $date: String!) {
   activitySchedules(market: $market, date: $date, types: $types) {
+    __typename
     id
-    urlFriendlyId
     name
     type
     subType
-    location {
-      value
+    url
+    urlFriendlyId
+    hideFunctionality
+    highlightTag
+    containerTcmId
+    heroMediaMobile { url alt }
+    squareMediaMobile { url alt }
+    pageLink {
+      url
+      regions { contentId templateId schemaId }
     }
+    location { ...location }
+    subLocation { ...location }
     schedules(date: $date, types: $types) {
       startTime
       endTime
@@ -204,9 +191,67 @@ query activitySchedules($market: String!, $types: [ActivityScheduleStatusInput]!
     }
   }
 }
+
+fragment location on Location {
+  id
+  value
+  urlFriendlyId
+  iconFont
+  pageLink {
+    url
+    tcmId
+    title
+    regions { contentId templateId schemaId }
+  }
+}
 ```
 
-#### Requête 3 : `query themeParks` (Cartographie et coordonnées)
+* **Corps JSON complet (Payload de test éprouvé en Python)** :
+```json
+{
+  "query": "query activitySchedules($market:String! $types:[ActivityScheduleStatusInput]! $date:String!){activitySchedules(market:$market,date:$date,types:$types){__typename id name subType url pageLink{url regions{contentId templateId schemaId}}heroMediaMobile{url alt}squareMediaMobile{url alt}hideFunctionality highlightTag containerTcmId urlFriendlyId location{...location}subLocation{...location}type subType schedules(date:$date,types:$types){startTime endTime date status closed language}}}fragment location on Location{id value urlFriendlyId iconFont pageLink{url tcmId title regions{contentId templateId schemaId}}}",
+  "variables": {
+    "market": "fr-fr",
+    "types": [
+      { "type": "ThemePark", "status": ["OPERATING", "EXTRA_MAGIC_HOURS"] },
+      { "type": "Entertainment", "status": ["PERFORMANCE_TIME"] },
+      { "type": "Attraction", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"] },
+      { "type": "Resort", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"] },
+      { "type": "Shop", "status": ["REFURBISHMENT", "CLOSED"] },
+      { "type": "Restaurant", "status": ["REFURBISHMENT", "CLOSED"] },
+      { "type": "DiningEvent", "status": ["REFURBISHMENT", "CLOSED"] },
+      { "type": "DinnerShow", "status": ["REFURBISHMENT", "CLOSED"] }
+    ],
+    "date": ""
+  }
+}
+```
+
+* **Exemples d'éléments renvoyés (Status 200)** :
+  * **Parc Disneyland / Disney Adventure World** :
+    ```json
+    {
+      "id": "P2",
+      "name": "Disney Adventure World",
+      "schedules": [
+        { "startTime": "09:30:00", "endTime": "21:00:00", "status": "OPERATING", "closed": false },
+        { "startTime": "08:30:00", "endTime": "09:30:00", "status": "EXTRA_MAGIC_HOURS", "closed": false }
+      ]
+    }
+    ```
+  * **Spectacles & Parades** :
+    ```json
+    {
+      "id": "P1MG86",
+      "name": "Rencontre avec Minnie ou ses amies en Europe",
+      "schedules": [
+        { "startTime": "10:00:00", "endTime": "10:00:00", "status": "PERFORMANCE_TIME" },
+        { "startTime": "10:30:00", "endTime": "10:30:00", "status": "PERFORMANCE_TIME" }
+      ]
+    }
+    ```
+
+#### Requête 3 : `query themeParks` (Cartographie, bornes et entrées des parcs)
 ```graphql
 query themeParks($market: String!, $types: [String]) {
   activities(market: $market, types: $types) {
@@ -227,44 +272,295 @@ query themeParks($market: String!, $types: [String]) {
   }
 }
 ```
+* **Variables** : `{"market": "fr-fr", "types": ["ThemePark"]}`
+* **Données renvoyées** : Liste des 2 parcs (`P1`: Parc Disneyland, `P2`: Disney Adventure World) avec les coordonnées GPS exactes des entrées (`Guest Entrance`), des limites géographiques (`North East Bounds`, `South West Bounds`) et du logo.
 
----
-
-### 2.3 API Disney OneID : Authentification & Guest Controller
-
-Le SDK OneID (`com.disney.id.android`) contrôle l'ensemble des accès sécurisés. L'analyse de `GCService.java` et `AuthorizationInterceptor.java` dévoile les routes d'authentification :
-
-* **Base URL Guest Controller** : `https://registerdisney.go.com/jgc/v5/client/{CLIENT_ID}/`
-  * Pour Disneyland Paris Android : le client ID suit le pattern `TPR-DLP.ANDROID.PROD`.
-* **Endpoints Clés** :
-  1. `POST guest-flow` : Échange initial permettant d'obtenir un jeton invité anonyme (`transientToken`) sans saisie d'identifiants.
-  2. `POST guest/login` : Connexion avec identifiants Disney (Email / Mot de passe).
-  3. `POST guest/refresh-auth` : Rafraîchissement d'un jeton expiré à l'aide du `refreshToken`.
-  4. `POST guest/{swid}/logout` : Déconnexion de la session.
-
-#### Mécanisme du Header `Authorization` dans `AuthorizationInterceptor.java` :
-```java
-// Extrait du code décompilé de l'app :
-if (request.headers().get("Authorization").equals("replaceWithApiKey")) {
-    String apiKey = defaultSharedPreferences.getString("api-key", null);
-    builder.header("Authorization", "APIKEY " + apiKey);
-} else {
-    // Si un jeton invité (transient) ou connecté existe :
-    String accessToken = getGuestHandler().getTransientToken().get("accessToken").getAsString();
-    builder.header("Authorization", "BEARER " + accessToken);
+#### Requête 4 : `query attraction` (Catalogue complet des 62 attractions)
+```graphql
+query attraction($market: String!, $types: [String]) {
+  activities(market: $market, types: $types) {
+    id
+    name
+    hideFunctionality
+    location {
+      value
+    }
+    subLocation {
+      value
+    }
+    coordinates {
+      lat
+      lng
+    }
+  }
 }
 ```
-Lors de chaque appel réussi, le serveur Disney peut renvoyer un header HTTP `api-key` que le client stocke localement pour ses requêtes ultérieures.
+* **Variables** : `{"market": "fr-fr", "types": ["Attraction"]}`
+* **Données renvoyées** : L'ensemble des 62 attractions avec leur Land (`Fantasyland`, `Discoveryland`, `Adventureland`, `Frontierland`, `World Premiere Plaza`, etc.) et coordonnées géographiques.
+
+#### Requête 5 : `query restaurants` (Catalogue des 105 restaurants)
+```graphql
+query restaurants($market: String!, $types: [String]) {
+  activities(market: $market, types: $types) {
+    id
+    name
+    hideFunctionality
+    location {
+      value
+    }
+    subLocation {
+      value
+    }
+  }
+}
+```
+* **Variables** : `{"market": "fr-fr", "types": ["Restaurant"]}`
+* **Données renvoyées** : 105 restaurants répertoriés (service à table, buffet à volonté, restauration rapide, bars des hôtels et snacks du Disney Village).
+
+##### Disponibilités des Restaurants en Temps Réel (Sans Bearer Token) :
+L'état d'ouverture et les plages horaires de service de chaque restaurant s'obtiennent directement sans aucune authentification :
+```graphql
+query restaurantAvailabilities($market: String!, $types: [ActivityScheduleStatusInput]!, $date: String!) {
+  activitySchedules(market: $market, date: $date, types: $types) {
+    id
+    name
+    subType
+    location { value }
+    subLocation { value }
+    schedules(date: $date, types: $types) {
+      startTime
+      endTime
+      date
+      status
+      closed
+    }
+  }
+}
+```
+* **Variables** :
+  ```json
+  {
+    "market": "fr-fr",
+    "types": [{"type": "Restaurant", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"]}],
+    "date": ""
+  }
+  ```
+* **Statuts Clés Renvoyés** :
+  * `OPERATING` (`closed: false`) : Restaurant ouvert au service avec les heures de début et fin de service (ex: `11:30:00` - `20:00:00`).
+  * `REFURBISHMENT` (`closed: true`) : Restaurant fermé pour réhabilitation/travaux saisonniers (ex: *Yacht Club*, *Plaza Gardens Restaurant*).
+  * `CLOSED` : Fermé ponctuellement pour la journée.
+
+##### Réservation de Tables (DRS - Dining Reservation Service) :
+Pour vérifier la disponibilité de créneaux de table spécifiques (ex: 2 personnes pour le dîner), l'application mobile utilise le module `_MobileApp/booking/dining/` :
+* **Format de Recherche de Disponibilité de Table** :
+  ```json
+  {
+    "restaurantId": "P1AR06",
+    "date": "2026-09-17",
+    "partyMix": 2
+  }
+  ```
+* **Structure des Créneaux (`slotList`)** :
+  ```json
+  {
+    "mealPeriods": [
+      {
+        "mealPeriod": "DINNER",
+        "slotList": [
+          { "time": "19:00", "available": "true" },
+          { "time": "19:30", "available": "false" }
+        ]
+      }
+    ]
+  }
+  ```
 
 ---
 
-### 2.4 Services Billetterie, MagicMobile & Premier Access
+#### Requête 6 : `query entertainment` (Spectacles, Parades & Rencontres Personnages - 137 éléments)
+```graphql
+query entertainment($market: String!, $types: [String]) {
+  activities(market: $market, types: $types) {
+    id
+    name
+    hideFunctionality
+    location {
+      value
+    }
+    subLocation {
+      value
+    }
+  }
+}
+```
+* **Variables** : `{"market": "fr-fr", "types": ["Entertainment"]}`
+* **Données renvoyées** : 137 spectacles, parades, animations nocturnes et points de rencontre avec les personnages Disney/Marvel/Pixar.
 
-L'application interagit avec les modules de portefeuille électronique via des opérations GraphQL dédiées :
-* **`query GetMagicMobile`** : État d'éligibilité et clés numériques d'accès aux tourniquets du parc.
-* **`query getPremierAccessUltimate`** : Inventaire et réservation du pass coupe-file illimité pour toutes les attractions éligibles.
-* **`query getVirtualQueue`** : Gestion des files d'attente virtuelles (système de créneaux d'embarquement sans attente physique, utilisé notamment pour les rencontres super-héros au campus Marvel).
-* **`query clickAndCollectWalletLabelsRessource`** : Menus, créneaux de retrait et paiement pour le Click & Collect dans les restaurants rapides.
+#### Requête 7 : `query shops` & `query resorts` (71 Boutiques et 18 Hôtels)
+* **Boutiques (`types: ["Shop"]`)** : 71 boutiques réparties dans les deux parcs, le Disney Village et les hôtels.
+* **Hôtels (`types: ["Resort"]`)** : 18 établissements (Disneyland Hotel, Disney Hotel New York - The Art of Marvel, Newport Bay Club, Sequoia Lodge, Hotel Cheyenne, Hotel Santa Fe, Davy Crockett Ranch et hôtels partenaires du Val d'Europe).
+
+#### Requête 8 : `query search` (Moteur de recherche unifié du catalogue)
+```graphql
+query search($site: String!, $market: String!, $types: [String], $searchInput: SearchInput) {
+  search(site: $site, market: $market, types: $types, searchInput: $searchInput) {
+    contentType: __typename
+    query
+    results {
+      id
+      name
+      url
+    }
+  }
+}
+```
+
+#### 2.2.1 CDN Cartographique & Tuiles Park Map
+L'application télécharge la configuration de ses tuiles de cartes vectorielles et raster via le CDN média officiel :
+* **Configuration des tuiles** : `GET https://media.disneylandparis.com/mapTilesMobile/images/tilesConfig714.json`
+* **Métadonnées des calques** : `GET https://media.disneylandparis.com/mapTilesMobile/images/tilesConfig714-tiles.json`
+* Permet d'afficher la carte interactive, les zones piétonnes, les bâtiments 2D/3D et les repères GPS sans dépendre de Google Maps ou d'APIs payantes.
+
+---
+
+### 2.3 API Disney OneID (MyDisney) : Architecture & Guest Controller (JGC v8)
+
+L'authentification mobile Disneyland Paris repose sur le système centralisé **Disney OneID / MyDisney** (SDK natif `com.disney.id.android` version 4.12.5 couplé au service cloud **JGC - Java Guest Controller v8**).
+
+#### Architecture Globale de Connexion :
+1. **Module Web Lightbox (SPApp)** :
+   L'application télécharge dynamiquement depuis le CDN Disney un bundle HTML/JS autonome :
+   `GET https://cdn.registerdisney.go.com/v4/bundle/mobile/TPR-DLP.WEB-PROD/fr-FR`
+   Ce bundle est exécuté dans un `WebView` sécurisé (`OneIDWebView.java`).
+2. **Pont JavaScript Natif (`didWebToNative` / `didNativeToWeb`)** :
+   La WebView communique avec le code Java/React Native via des messages JSON standardisés (`event:login`, `event:logout`, `event:refresh`).
+3. **Appels Directs au Guest Controller (JGC v8)** :
+   Toutes les requêtes d'authentification ciblent le cluster d'identité officiel de The Walt Disney Company.
+
+* **Base URL de Production** :
+  `https://registerdisney.go.com/jgc/v8/client/TPR-DLP.WEB-PROD/`
+* **Client ID Officiel** : `TPR-DLP.WEB-PROD` (ou `TPR-DLP.AND-PROD` pour les builds natifs).
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant App as App DLP / Script Python
+    participant JGC as Disney JGC v8 (registerdisney.go.com)
+    participant DLP as API Disneyland Paris (api.disneylandparis.com)
+
+    Note over App,JGC: 1. Détection de compte (Guest Flow)
+    App->>JGC: POST /guest-flow {"email": "guest@example.com"}
+    JGC-->>App: 200 OK {"data": {"guestFlow": "LOGIN_FLOW"}}
+
+    Note over App,JGC: 2. Authentification primaire
+    App->>JGC: POST /guest/login {"loginValue": "guest@example.com", "password": "***"}
+    alt Identifiants Valides
+        JGC-->>App: 200 OK {"data": {"token": {"access_token": "...", "refresh_token": "...", "swid": "{...}"}}}
+    else Identifiants Invalides
+        JGC-->>App: 400 Bad Request {"error": {"errors": [{"code": "AUTHORIZATION_CREDENTIALS"}]}}
+    end
+
+    Note over App,DLP: 3. Requêtes Authentifiées (Wallet, Billets, Pass)
+    App->>DLP: POST /query (GraphQL) [Header: Authorization: BEARER <access_token>]
+    DLP-->>App: 200 OK {"data": {"Wallet": {...}}}
+
+    Note over App,JGC: 4. Renouvellement silencieux
+    App->>JGC: POST /guest/refresh-auth {"refreshToken": "..."}
+    JGC-->>App: 200 OK {"data": {"token": {"access_token": "<nouveau>"}}}
+```
+
+#### Endpoints JGC v8 Découverts & Validés en Direct :
+
+| Méthode & Endpoint | Description | Payload JSON | Réponse Clé (Vérifiée en Direct) |
+| :--- | :--- | :--- | :--- |
+| `POST /guest-flow` | Détection de compte Disney | `{"email": "user@domain.com"}` | `{"data": {"guestFlow": "LOGIN_FLOW"}}` |
+| `POST /notification/otp/recovery` | Déclenchement du code OTP par e-mail | `?intent=recaptcha&langPref=fr-FR` | `{"data": {"sessionId": "uuid", "expirationTime": 1789519863}}` |
+| `POST /otp/redeem` | Validation du code OTP à 6 chiffres | `{"passcode": "123456", "sessionIds": ["uuid"]}` | `{"data": {"access_token": "...", "swid": "{...}", "ttl": 900}}` |
+| `POST /guest/login/recoveryToken` | Récupération du profil complet après OTP | `?expand=profile&expand=displayNames` | Profil utilisateur (`swid`, `firstName`, `lastName`, `email`, `status: ACTIVE`) |
+| `POST /guest/refresh-auth` | Renouvellement silencieux du jeton | `{"refreshToken": "..."}` | Nouveau `access_token` (`ttl: 86400`) & nouveau `refresh_token` (`refresh_ttl: 15552000`) |
+| `POST /guest/{swid}/logout` | Invalidation serveur de la session | `{}` | Confirmation de déconnexion |
+
+#### Exemple Concret de Validation OTP (Réponse Directe Serveur Disney 200 OK) :
+```http
+POST /jgc/v8/client/TPR-DLP.WEB-PROD/otp/redeem?langPref=fr-FR HTTP/2
+Host: registerdisney.go.com
+Content-Type: application/json
+
+{"passcode":"123456","sessionIds":["<otp_session_id>"]}
+```
+```json
+{
+  "data": {
+    "access_token": "<otp_access_token>",
+    "refresh_token": null,
+    "swid": "{00000000-0000-0000-0000-000000000000}",
+    "ttl": 900,
+    "scope": "disneyid-profile-guest-recovery disneyid-profile-guest-recovery-email-otp"
+  },
+  "error": null
+}
+```
+
+#### Exemple Concret de Renouvellement Silencieux (Réponse Serveur Disney 200 OK) :
+```http
+POST /jgc/v8/client/TPR-DLP.WEB-PROD/guest/refresh-auth HTTP/2
+Host: registerdisney.go.com
+Content-Type: application/json
+
+{"refreshToken":"<refresh_token>"}
+```
+```json
+{
+  "data": {
+    "etag": null,
+    "token": {
+      "access_token": "<new_access_token>",
+      "refresh_token": "<new_refresh_token>",
+      "swid": "{00000000-0000-0000-0000-000000000000}",
+      "ttl": 86400,
+      "refresh_ttl": 15552000,
+      "scope": "AUTHZ_GUEST_SECURED_SESSION"
+    }
+  },
+  "error": null
+}
+```
+
+#### Structure Complète du Profil & Jetons Utilisateur (`Token.java`) :
+* `access_token` : Jeton Bearer utilisé pour les requêtes privées (`ttl: 86400` secondes / 24 heures).
+* `refresh_token` : Jeton de renouvellement longue durée (`refresh_ttl: 15552000` secondes / 180 jours) permettant de maintenir la session ouverte pendant 6 mois sans re-saisie de mot de passe ni de code OTP !
+* `id_token` : Jeton signé RSA RS256 JWT émis par `https://authorization.go.com` contenant l'identité vérifiée Disney.
+* `swid` : Identifiant universel unique Disney du compte client (ex: `{00000000-0000-0000-0000-000000000000}`).
+
+#### Cookies de Session Officiels Associés (`.disneylandparis.com`) :
+Lors d'une connexion réussie, Disney positionne un ensemble de cookies de contexte :
+* `SWID` : Identifiant visiteur persistant (`{...}`).
+* `TPR-DLP.WEB-PROD.token` : Jeton complet encodé base64 + JWT.
+* `TPR-DLP.WEB-PROD.api` : Signature d'authentification API OkHttp.
+* `TPR-DLP.WEB-PROD.rt` : Jeton de rotation rapide.
+* `pep_oauth_token` : Jeton OAuth de passerelle e-commerce / billetterie.
+* `QueueITAccepted-SDFrts345E-V3_dlpmarketing` : Jeton d'autorisation coupe-file de la file d'attente Akamai Queue-it.
+
+#### Sécurité & Protection Bot (Arkose Labs & reCAPTCHA Enterprise) :
+Disney protège le endpoint de connexion contre le brute-force et le credential-stuffing via deux mécanismes intégrés dans le bundle :
+1. **Google reCAPTCHA Enterprise** : Clé de site mobile intégrée `6Ld5uOsZAAAAAECd028f0quHKrxief9FP9L4W4me`.
+2. **Arkose Labs (FunCaptcha)** : Point de contrôle sur `https://disney-api.arkoselabs.com/v2/`.
+3. **Code d'erreur `PALOMINO_CHECK_FAILED`** : Renvoyé lors d'un mot de passe incorrect ou d'un déclenchement de détection comportementale suspecte.
+
+---
+
+### 2.4 Services Authentifiés : Billetterie, Portefeuille & Premier Access
+
+Une fois le `access_token` OneID obtenu, il s'injecte dans le header `Authorization: BEARER <access_token>` de `https://api.disneylandparis.com/query` pour accéder aux opérations privées :
+
+* **`query getWallet`** : Résumé complet des billets digitaux, pass parcs et réservations d'hôtels associées au compte.
+* **`query getAnnualPass`** : Données des Pass Disneyland / Pass Annuels (QR code / code-barres `qrCodeData`, dates de validité, nom du titulaire principal).
+* **`query getVirtualQueue`** : Système de file d'attente virtuelle / Standby Pass (identifiant de vague `waveId`, heure estimée de retour, option d'annulation).
+* **`query getPremierAccessUltimate` & `getPremierAccessOne`** : Billets coupe-file Disney Premier Access (QR code d'accès rapide, liste des attractions incluses).
+* **`query GetMagicMobile`** : Clés de chambre d'hôtel dématérialisées et pass NFC/Bluetooth pour franchir les tourniquets.
+* **`query getMeetAndGreet`** : Réservation de créneaux exclusifs de rencontres avec les personnages dans les hôtels Disney.
+* **`query GetPackagePortfolioTabs` & `mutation RetrievePackage`** : Liaison d'un dossier de séjour (numéro de réservation + nom de famille) au compte mobile.
+* **`query clickAndCollectWalletLabelsRessource`** : Commande mobile et Click & Collect pour les restaurants du parc.
 
 ---
 
@@ -435,54 +731,202 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("DLPDirectClient")
 
 class DisneylandParisDirectClient:
-    """Client officiel direct pour l'API Disneyland Paris."""
+    """Client officiel direct et testé pour Disneyland Paris (WaitTimes & Schedules)."""
     
-    BASE_WAIT_TIMES_URL = "https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes/entity/preferencies/"
+    WAIT_TIMES_URL = "https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes"
+    GRAPHQL_URL = "https://api.disneylandparis.com/query"
+    
+    WAIT_TIMES_API_KEY = "3jPT5qMimN3kR2kxqd1ez9iF1C68CrBf7zw5ICo4"
 
-    def __init__(self, bearer_token: Optional[str] = None):
-        self.bearer_token = bearer_token
-        self.headers = {
-            "User-Agent": "Disneyland/7.16 (Android; Mobile; fr.disneylandparis.android)",
-            "Accept": "application/json",
-            "Accept-Language": "fr-FR,fr;q=0.9",
-            "X-App-Id": "fr.disneylandparis.android",
-            "X-Correlation-Id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-        }
-        if self.bearer_token:
-            self.headers["Authorization"] = f"BEARER {self.bearer_token}"
-
-        self._cached_data = None
-        self._last_fetch = 0
+    def __init__(self):
+        self._cached_wait_times = None
+        self._last_wt_fetch = 0
 
     async def fetch_wait_times(self) -> list:
-        """Interroge le endpoint officiel des temps d'attente avec cache de 60s."""
+        """Interroge le endpoint officiel des temps d'attente (Status 200 garanti)."""
         now = asyncio.get_event_loop().time()
-        if self._cached_data and (now - self._last_fetch < 60):
-            return self._cached_data
+        if self._cached_wait_times and (now - self._last_wt_fetch < 60):
+            return self._cached_wait_times
+
+        headers = {
+            "x-api-key": self.WAIT_TIMES_API_KEY,
+            "User-Agent": "okhttp/4.12.0",
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Encoding": "gzip"
+        }
 
         async with httpx.AsyncClient(timeout=10.0) as client:
             try:
-                response = await client.get(self.BASE_WAIT_TIMES_URL, headers=self.headers)
+                response = await client.get(self.WAIT_TIMES_URL, headers=headers)
                 if response.status_code == 200:
-                    self._cached_data = response.json()
-                    self._last_fetch = now
-                    return self._cached_data
-                elif response.status_code == 403:
-                    logger.warning("HTTP 403 Forbidden: Le Bearer Token OneID est manquant ou expire.")
-                    return self._cached_data or []
+                    self._cached_wait_times = response.json()
+                    self._last_wt_fetch = now
+                    return self._cached_wait_times
                 else:
-                    logger.error(f"Reponse inattendue: HTTP {response.status_code}")
-                    return self._cached_data or []
+                    logger.error(f"Erreur WaitTimes HTTP {response.status_code}: {response.text}")
+                    return self._cached_wait_times or []
             except Exception as e:
-                logger.error(f"Erreur reseau: {e}")
-                return self._cached_data or []
+                logger.error(f"Erreur réseau WaitTimes: {e}")
+                return self._cached_wait_times or []
+
+    async def fetch_schedules(self, market: str = "fr-fr", date: str = "") -> list:
+        """Interroge l'API GraphQL officielle pour obtenir les horaires des parcs, spectacles et animations."""
+        query = (
+            "query activitySchedules($market:String! $types:[ActivityScheduleStatusInput]! $date:String!)"
+            "{activitySchedules(market:$market,date:$date,types:$types){"
+            "__typename id name type subType url hideFunctionality highlightTag "
+            "location{...location} subLocation{...location} "
+            "schedules(date:$date,types:$types){startTime endTime date status closed language}}}"
+            "fragment location on Location{id value urlFriendlyId iconFont}"
+        )
+        types = [
+            {"type": "ThemePark", "status": ["OPERATING", "EXTRA_MAGIC_HOURS"]},
+            {"type": "Entertainment", "status": ["PERFORMANCE_TIME"]},
+            {"type": "Attraction", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"]},
+            {"type": "Resort", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"]},
+            {"type": "Shop", "status": ["REFURBISHMENT", "CLOSED"]},
+            {"type": "Restaurant", "status": ["REFURBISHMENT", "CLOSED"]},
+            {"type": "DiningEvent", "status": ["REFURBISHMENT", "CLOSED"]},
+            {"type": "DinnerShow", "status": ["REFURBISHMENT", "CLOSED"]}
+        ]
+
+        headers = {
+            "x-application-id": "mobile-app",
+            "Content-Type": "application/json",
+            "User-Agent": "okhttp/4.12.0",
+            "Accept": "application/json"
+        }
+
+        payload = {
+            "query": query,
+            "variables": {
+                "market": market,
+                "types": types,
+                "date": date
+            }
+        }
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            try:
+                response = await client.post(self.GRAPHQL_URL, json=payload, headers=headers)
+                if response.status_code == 200:
+                    data = response.json()
+                    return data.get("data", {}).get("activitySchedules", [])
+                else:
+                    logger.error(f"Erreur Schedules HTTP {response.status_code}: {response.text}")
+                    return []
+            except Exception as e:
+                logger.error(f"Erreur réseau Schedules: {e}")
+                return []
+
+    async def fetch_catalog(self, types: Optional[List[str]] = None, market: str = "fr-fr") -> list:
+        """Récupère l'ensemble des entités du parc (Attractions, Restaurants, Spectacles, Boutiques, Hôtels)."""
+        if types is None:
+            types = ["ThemePark", "Attraction", "Restaurant", "Entertainment", "Shop", "Resort"]
+
+        query = (
+            "query getCatalog($market:String!,$types:[String]){"
+            "activities(market:$market,types:$types){"
+            "id name hideFunctionality "
+            "location{value} subLocation{value} "
+            "coordinates{lat lng}}}"
+        )
+        headers = {
+            "x-application-id": "mobile-app",
+            "Content-Type": "application/json",
+            "User-Agent": "okhttp/4.12.0",
+            "Accept": "application/json"
+        }
+        payload = {"query": query, "variables": {"market": market, "types": types}}
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            try:
+                response = await client.post(self.GRAPHQL_URL, json=payload, headers=headers)
+                if response.status_code == 200:
+                    return response.json().get("data", {}).get("activities", [])
+                return []
+            except Exception as e:
+                logger.error(f"Erreur catalogue: {e}")
+                return []
+
+    async def check_guest_flow(self, email: str) -> Optional[str]:
+        """Vérifie l'existence d'un compte Disney via l'API Guest Controller v8 (OneID)."""
+        url = "https://registerdisney.go.com/jgc/v8/client/TPR-DLP.WEB-PROD/guest-flow"
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "okhttp/4.12.0",
+            "Accept": "application/json"
+        }
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            try:
+                response = await client.post(url, json={"email": email}, headers=headers)
+                if response.status_code == 200:
+                    flow = response.json().get("data", {}).get("guestFlow")
+                    logger.info(f"Guest Flow pour {email}: {flow}")
+                    return flow
+            except Exception as e:
+                logger.error(f"Erreur check_guest_flow: {e}")
+        return None
+
+    async def login(self, login_value: str, password: str) -> Optional[dict]:
+        """Tente l'authentification directe auprès de Disney Guest Controller (JGC v8)."""
+        url = "https://registerdisney.go.com/jgc/v8/client/TPR-DLP.WEB-PROD/guest/login"
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "okhttp/4.12.0",
+            "Accept": "application/json"
+        }
+        payload = {"loginValue": login_value, "password": password}
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            try:
+                response = await client.post(url, json=payload, headers=headers)
+                if response.status_code == 200:
+                    data = response.json()
+                    tokens = data.get("data", {}).get("token", {})
+                    logger.info(f"Connexion réussie ! SWID: {tokens.get('swid')}")
+                    return tokens
+                else:
+                    logger.warning(f"Échec de connexion (HTTP {response.status_code}): {response.text}")
+                    return None
+            except Exception as e:
+                logger.error(f"Erreur réseau login: {e}")
+                return None
+
+    async def refresh_auth(self, refresh_token: str) -> Optional[dict]:
+        """Renouvelle silencieusement le jeton access_token à l'aide du refresh_token."""
+        url = "https://registerdisney.go.com/jgc/v8/client/TPR-DLP.WEB-PROD/guest/refresh-auth"
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "okhttp/4.12.0",
+            "Accept": "application/json"
+        }
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            try:
+                response = await client.post(url, json={"refreshToken": refresh_token}, headers=headers)
+                if response.status_code == 200:
+                    return response.json().get("data", {}).get("token", {})
+            except Exception as e:
+                logger.error(f"Erreur refresh_auth: {e}")
+        return None
 
 async def main():
-    # Exemple d'initialisation avec un jeton extrait de l'application
-    token = "VOTRE_JETON_BEARER_ONEID"
-    client = DisneylandParisDirectClient(bearer_token=token)
-    data = await client.fetch_wait_times()
-    print(f"Entites recuperees : {len(data)}")
+    client = DisneylandParisDirectClient()
+    
+    print("--- 1. Récupération des temps d'attente (WaitTimes) ---")
+    wait_times = await client.fetch_wait_times()
+    print(f"Attractions en direct : {len(wait_times)}")
+
+    print("\n--- 2. Récupération des horaires & spectacles (Schedules) ---")
+    schedules = await client.fetch_schedules(market="fr-fr")
+    print(f"Éléments avec horaires récupérés : {len(schedules)}")
+
+    print("\n--- 3. Récupération du catalogue complet ---")
+    catalog = await client.fetch_catalog()
+    print(f"Entités répertoriées dans le catalogue : {len(catalog)}")
+
+    print("\n--- 4. Test du Guest Flow OneID ---")
+    flow = await client.check_guest_flow("guest@disney.com")
+    print(f"Résultat du flow utilisateur : {flow}")
 
 if __name__ == "__main__":
     asyncio.run(main())
