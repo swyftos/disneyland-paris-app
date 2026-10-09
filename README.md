@@ -332,4 +332,4 @@ print(res.json()["data"]["activitySchedules"][:3])
 ---
 
 ## ⚖️ Clause de Non-Responsabilité & Droits
-do what you whant .
+do what you want .
