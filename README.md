@@ -8,7 +8,7 @@
 
 Spécification technique complète, décompilation et intégration directe des APIs officielles de l'application mobile **Disneyland Paris (version 7.16, Build 7507, codename KINNEY, ID `fr.disneylandparis.android`)**.
 
-Ce dépôt documente l'accès direct aux microservices officiels de Disneyland Paris **sans aucun scraper tiers ni passerelle intermédiaire** (pas de ThemeParks.wiki, pas de Queue-Times, pas de serveurs relais).
+Ce dépôt documente l'accès direct aux microservices officiels de Disneyland Paris **sans aucun scraper tiers ni passerelle intermédiaire** 
 
 ---
 
