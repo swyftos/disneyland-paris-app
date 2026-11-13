@@ -329,6 +329,8 @@ print(res.json()["data"]["activitySchedules"][:3])
 * [**`app/`**](file:///c:/Users/elia/Documents/disneyland-paris-app/app) : Sources décompilées de l'application Android v7.16 (React Native Hermes bytecode décompilé, TurboModules Kotlin/Java, configuration ProGuard et Manifest).
 * [**`assets/`**](file:///c:/Users/elia/Documents/disneyland-paris-app/assets) : Fichiers statiques originaux et configurations de build.
 
+## not updated to the latest version
+
 ---
 
 ## ⚖️ Clause de Non-Responsabilité & Droits
