@@ -1,8 +1,22 @@
 # 🏰 Disneyland Paris - Spécification Complète de l'Application & Guide des APIs Officielles
 
-> **Version de l'application analysée** : `7.16.0` (Build `7507`, Build Label `KINNEY`, App ID `fr.disneylandparis.android`)  
-> **Type d'architecture** : React Native (Hermes Bytecode v96) + SDKs Natifs Android (Kotlin / Java)  
-> **Cible de ce document** : Développeurs & Agents IA souhaitant comprendre l'architecture interne complète de l'application Disneyland Paris et intégrer directement ses API officielles (WaitTimes, Schedules, GraphQL, OneID) de manière robuste.
+> **Dernière version analysée** : `7.17.2` (`versionCode 1017172292`, `minSdkVersion 29` / Android 10+, `targetSdkVersion 36`, App ID `fr.disneylandparis.android` — diff complet depuis `7.16.0`)  
+> **Type d'architecture** : React Native + Expo SDK 53 (Hermes Bytecode v96) + SDKs Natifs Android (Kotlin / Java)  
+> **Cible de ce document** : Développeurs & Agents IA souhaitant comprendre l'architecture interne complète de l'application Disneyland Paris et intégrer directement ses API officielles (WaitTimes, Schedules, GraphQL, DRS, OneID) de manière robuste.
+
+---
+
+## 0. Nouveautés & Diff `7.16.0` → `7.17.2`
+
+| Catégorie | Changement observé dans la `v7.17.2` |
+| :--- | :--- |
+| **Build & SDK** | `version: 7.17.2` (`versionCode 1017172292`), packaging **Split APKs**, `minSdkVersion` relevé à **29 (Android 10)**, `targetSdkVersion: 36`. |
+| **GraphQL `activities`** | Ajout du champ `medias { type media { url } }` sur les entités retournées par `query activities`. |
+| **GraphQL `page`** | Ajout du champ `borderColor` dans `StandardGlobal.keyReasons`. |
+| **Pass & Réservations** | Ajout de `AP_RESERVATIONS_QUERY_KEY` (*Disneyland Pass*) ; retrait de `getMagicPassSummaryQuery`, `FEATURE_TICKET_LINKING` et `RNPassKitHelper`. |
+| **Cartographie** | `tilesConfig714.json` → `tilesConfig717.json` (+2 307 tuiles zoom 17) ; ajout de `ORION_PREMIER_ACCESS_ICON`, `REFURBISHMENT_POI_ICON`, `PIN_TEARDROP_PATH_D`. |
+| **Sécurité / Logs** | Ajout de masquage PII (`********`) sur `/bookings/`, `/orders/`, `/pass/apple/`, `/pass/id/`, `/payment/`, `/reservations/`, `/ticket/`, `/unlink/`. Suppression de `/guest/profile/consent` et `OLCI_NOTIFICATIONS_CONSENT_SECTION`. |
+| **Stack Technique** | Migration réseau vers `ExpoNetwork` (remplace `RNCNetInfo` / `generate_204`), `ExpoLinearGradient`, support Android Edge-to-Edge (`IS_ANDROID_EDGE_TO_EDGE`), bandeau *Pull-to-refresh* sur `virtualQueue`. |
 
 ---
 
@@ -1125,6 +1139,164 @@ if __name__ == "__main__":
 
 ---
 
+## 7.5 Microservice Disney DRS (Dining Reservation Service — Tables & Restaurants)
+
+Le système de réservation de restaurants de Disneyland Paris (accessible sur l'application mobile et sur `bookrestaurants.disneylandparis.com`) s'appuie sur le microservice AWS DRS hébergé sur le domaine privé **`dlp-is-sales-drs-book-dine.wdprapps.disney.com`**.
+
+* **Base URL** : `https://dlp-is-sales-drs-book-dine.wdprapps.disney.com/prod/v4/book-dine`
+* **Clé API Requise** : `x-api-key: AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY`
+* **Authentification** : Requiert un jeton Bearer OneID en état **High-Trust** (`AUTHZ_GUEST_SECURED_SESSION`). Un jeton non sécurisé ou expiré renvoie `403 FORBIDDEN_SCOPE`.
+
+### Endpoints DRS Testés & Vérifiés
+
+#### 1. Calendrier des Dates Disponibles (`availableDates`)
+Renvoie la liste exacte des dates ouvertes à la réservation pour un restaurant (jusqu'à 62 jours à l'avance pour les visiteurs standard).
+```http
+GET /prod/v4/book-dine/availableDates/{market}?restaurantId={restaurantId}&sourceSite=web&scope=Restaurant HTTP/1.1
+Host: dlp-is-sales-drs-book-dine.wdprapps.disney.com
+x-api-key: AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY
+Authorization: Bearer <HIGH_TRUST_ACCESS_TOKEN>
+```
+*Exemple de Réponse :*
+```json
+{
+  "restaurantId": "P1AR00",
+  "availableDates": [
+    "2026-09-18",
+    "2026-09-19",
+    "...",
+    "2026-10-31",
+    "2026-11-18"
+  ]
+}
+```
+
+#### 2. Créneaux de Réservation en Direct (`availabilities`)
+Interroge la disponibilité en temps réel de chaque quart d'heure pour le déjeuner et le dîner.
+```http
+POST /prod/v4/book-dine/availabilities/{market}?scope=Restaurant HTTP/1.1
+Host: dlp-is-sales-drs-book-dine.wdprapps.disney.com
+x-api-key: AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY
+Authorization: Bearer <HIGH_TRUST_ACCESS_TOKEN>
+Content-Type: application/json
+
+{
+  "restaurantId": "P1AR00",
+  "date": "2026-10-31",
+  "partyMix": 2,
+  "session": 0,
+  "sourceSite": "web"
+}
+```
+*Structure de Réponse :*
+```json
+[
+  {
+    "restaurantId": "P1AR00",
+    "startTime": "2026-10-31 11:30:00.0",
+    "endTime": "2026-10-31 22:00:00.0",
+    "status": "OPERATING",
+    "mealPeriods": [
+      {
+        "mealPeriod": "Lunch",
+        "slotList": [
+          { "time": "04:00 PM", "available": "true" },
+          { "time": "04:15 PM", "available": "true" },
+          { "time": "04:30 PM", "available": "true" },
+          { "time": "05:15 PM", "available": "false" }
+        ]
+      }
+    ]
+  }
+]
+```
+
+#### 3. Récupération des Réservations du Visiteur (`retrieve`)
+Récupère les réservations de table actives associées au compte Disney connecté.
+```http
+POST /prod/v4/book-dine/retrieve/{market} HTTP/1.1
+Host: dlp-is-sales-drs-book-dine.wdprapps.disney.com
+x-api-key: AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY
+Authorization: Bearer <HIGH_TRUST_ACCESS_TOKEN>
+Content-Type: application/json
+
+{}
+```
+
+#### 4. Restaurants d'Hôtel Réservés (`restrictedHotelRestaurants`)
+Liste les restaurants soumis à une restriction stricte (réservés uniquement aux résidents des hôtels Disney).
+```http
+GET /prod/v4/book-dine/restrictedHotelRestaurants HTTP/1.1
+Host: dlp-is-sales-drs-book-dine.wdprapps.disney.com
+x-api-key: AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY
+```
+*Réponse constatée en production :*
+```json
+[
+  {
+    "hotelCode": "DDLH",
+    "restaurants": ["H01R01"]
+  }
+]
+```
+*(H01R01 correspond à La Table de Lumière au Disneyland Hotel).*
+
+#### 5. Création d'une Réservation de Table (`book`)
+```http
+POST /prod/v4/book-dine/book/{market} HTTP/1.1
+Host: dlp-is-sales-drs-book-dine.wdprapps.disney.com
+x-api-key: AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY
+Authorization: Bearer <HIGH_TRUST_ACCESS_TOKEN>
+Content-Type: application/json
+
+{
+  "fp1": "",
+  "fp2": "",
+  "fp3": "",
+  "session": 0,
+  "restaurantId": "P1AR00",
+  "slot": "04:00 PM",
+  "sourceSite": "web",
+  "newsLetter": false,
+  "phoneNumber": "+33600000000",
+  "partyMix": "2",
+  "email": "guest@example.com",
+  "externalid": "{00000000-0000-0000-0000-000000000000}",
+  "surName": "Doe",
+  "foreName": "John",
+  "birthDate": "1990-01-01",
+  "date": "2026-10-31",
+  "title": " ",
+  "country": "FR",
+  "language": "fr-FR",
+  "message": ""
+}
+```
+*Réponse :* Renvoie `{ "data": { "bookId": "..." } }`.
+
+---
+
+## 7.6 API Profil Privé OneID JGC v8 & Cycle de Vie des Jetons
+
+Disney OneID segmente strictement les jetons en 3 durées de vie distinctes :
+
+| Type de Jeton | Durée de Validité | Scope Associé | Capacités Débloquées |
+| :--- | :--- | :--- | :--- |
+| **High-Trust Bearer** | **30 minutes** (`1800s`) | `AUTHZ_GUEST_SECURED_SESSION` | Réservations DRS (availabilities, book, cancel, retrieve) |
+| **Standard Bearer** | **24 heures** (`86400s`) | `AUTHZ_GUEST_UNSECURED_SESSION` | Consultation du profil OneID, wallet, entitlements |
+| **Refresh Token** | **180 jours** (`15552000s`) | N/A | Rotation silencieuse sans navigateur via `/guest/refresh-auth` |
+
+### Consultation du Profil Visiteur Connecté (`/guest/{swid}`)
+```http
+GET /jgc/v8/client/TPR-DLP.WEB-PROD/guest/{swid} HTTP/1.1
+Host: registerdisney.go.com
+Authorization: BEARER <ACCESS_TOKEN>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+```
+*Renvoie le profil complet du visiteur : nom, prénom, email vérifié, date d'anniversaire, pays détecté, statut actif et abonnements marketing.*
+
+---
+
 ## 8. Cas d'Usage Avancés & Idées de Projets
 
 1. **Moniteur d'Affluence en Temps Réel** :
@@ -1135,3 +1307,5 @@ if __name__ == "__main__":
    Calcul du chemin optimal et prédiction de la file d'attente à l'heure estimée d'arrivée devant chaque attraction.
 4. **Superviseur de Disponibilité Disney Premier Access** :
    Suivi de l'évolution des tarifs dynamiques et des disponibilités du coupe-file payant en fonction de l'affluence de la journée.
+5. **Sniper de Tables de Restaurant (DRS Automated Table Snatcher)** :
+   Surveillance continue à la seconde via `dining_scanner.py` des annulations de tables très convoitées (Captain Jack's, Bistrot Chez Rémy) avec notification ou réservation instantanée.
