@@ -1,0 +1,16 @@
+query restaurantAvailabilities($market: String!, $types: [ActivityScheduleStatusInput]!, $date: String!) {
+  activitySchedules(market: $market, date: $date, types: $types) {
+    id
+    name
+    subType
+    location { value }
+    subLocation { value }
+    schedules(date: $date, types: $types) {
+      startTime
+      endTime
+      date
+      status
+      closed
+    }
+  }
+}

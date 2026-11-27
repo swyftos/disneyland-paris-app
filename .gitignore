@@ -29,3 +29,8 @@ scratch/
 *.profile/
 *code*.txt
 
+
+# REST Client environments (may contain tokens)
+http-client.env.json
+http-client.private.env.json
+*.private.env.json

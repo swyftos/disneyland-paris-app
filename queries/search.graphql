@@ -1,0 +1,11 @@
+query search($site: String!, $market: String!, $types: [String], $searchInput: SearchInput) {
+  search(site: $site, market: $market, types: $types, searchInput: $searchInput) {
+    contentType: __typename
+    query
+    results {
+      id
+      name
+      url
+    }
+  }
+}

@@ -1,0 +1,61 @@
+# Requêtes AUTHENTIFIÉES (compte MyDisney requis)
+#
+# 1. python auth_manager.py login      (ou refresh)
+# 2. python auth_manager.py get-token  → copier la valeur dans @accessToken ci-dessous
+#    (ou définir les variables dans un environnement REST Client : http-client.env.json, ignoré par git)
+#
+# ⚠️ Ne jamais committer ce fichier avec un vrai jeton.
+# ⚠️ Les endpoints DRS exigent un jeton High-Trust (fenêtre de 30 min) : sinon 403 FORBIDDEN_SCOPE.
+
+@drsKey = AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY
+@drs = https://dlp-is-sales-drs-book-dine.wdprapps.disney.com/prod/v4/book-dine
+@jgc = https://registerdisney.go.com/jgc/v8/client/TPR-DLP.WEB-PROD
+@market = fr-fr
+@accessToken = <ACCESS_TOKEN>
+@refreshToken = <REFRESH_TOKEN>
+@swid = {00000000-0000-0000-0000-000000000000}
+@restaurantId = P1AR00
+
+### DRS : dates ouvertes pour un restaurant — spec §2.3.1
+GET {{drs}}/availableDates/{{market}}?restaurantId={{restaurantId}}&sourceSite=web&scope=Restaurant
+x-api-key: {{drsKey}}
+Authorization: Bearer {{accessToken}}
+
+### DRS : créneaux pour une date — spec §2.3.2
+POST {{drs}}/availabilities/{{market}}?scope=Restaurant
+x-api-key: {{drsKey}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "restaurantId": "{{restaurantId}}",
+  "date": "2026-12-20",
+  "partyMix": 2,
+  "session": 0,
+  "sourceSite": "web"
+}
+
+### DRS : mes réservations — spec §2.3.3
+POST {{drs}}/retrieve/{{market}}
+x-api-key: {{drsKey}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{}
+
+### DRS : restaurants réservés aux hôtels (Bearer requis depuis 2026-11) — spec §2.3.4
+GET {{drs}}/restrictedHotelRestaurants
+x-api-key: {{drsKey}}
+Authorization: Bearer {{accessToken}}
+
+### OneID : profil du visiteur — spec §2.4.4
+GET {{jgc}}/guest/{{swid}}
+Authorization: BEARER {{accessToken}}
+
+### OneID : renouvellement silencieux (sauvegarder le nouveau refresh_token !) — spec §2.4.3
+POST {{jgc}}/guest/refresh-auth
+Content-Type: application/json
+
+{ "refreshToken": "{{refreshToken}}" }
+
+# DRS book (création de réservation réelle) volontairement absent : voir spec §2.3.5.

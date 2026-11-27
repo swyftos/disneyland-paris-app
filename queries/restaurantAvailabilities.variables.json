@@ -1,0 +1,14 @@
+{
+  "market": "fr-fr",
+  "types": [
+    {
+      "type": "Restaurant",
+      "status": [
+        "OPERATING",
+        "REFURBISHMENT",
+        "CLOSED"
+      ]
+    }
+  ],
+  "date": ""
+}
