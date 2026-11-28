@@ -1,0 +1,18 @@
+query themeParks($market: String!, $types: [String]) {
+  activities(market: $market, types: $types) {
+    id
+    name
+    contentType: __typename
+    medias {
+      type
+      media {
+        url
+      }
+    }
+    coordinates {
+      type
+      lat
+      lng
+    }
+  }
+}

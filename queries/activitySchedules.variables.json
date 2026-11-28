@@ -1,0 +1,63 @@
+{
+  "market": "fr-fr",
+  "types": [
+    {
+      "type": "ThemePark",
+      "status": [
+        "OPERATING",
+        "EXTRA_MAGIC_HOURS"
+      ]
+    },
+    {
+      "type": "Entertainment",
+      "status": [
+        "PERFORMANCE_TIME"
+      ]
+    },
+    {
+      "type": "Attraction",
+      "status": [
+        "OPERATING",
+        "REFURBISHMENT",
+        "CLOSED"
+      ]
+    },
+    {
+      "type": "Resort",
+      "status": [
+        "OPERATING",
+        "REFURBISHMENT",
+        "CLOSED"
+      ]
+    },
+    {
+      "type": "Shop",
+      "status": [
+        "REFURBISHMENT",
+        "CLOSED"
+      ]
+    },
+    {
+      "type": "Restaurant",
+      "status": [
+        "REFURBISHMENT",
+        "CLOSED"
+      ]
+    },
+    {
+      "type": "DiningEvent",
+      "status": [
+        "REFURBISHMENT",
+        "CLOSED"
+      ]
+    },
+    {
+      "type": "DinnerShow",
+      "status": [
+        "REFURBISHMENT",
+        "CLOSED"
+      ]
+    }
+  ],
+  "date": ""
+}

@@ -18,12 +18,14 @@ Spécification technique complète, rétro-ingénierie et intégration directe d
 
 ## 📑 Table des Matières
 1. [Nouveautés v7.16 → v7.17.2](#-nouveautés-v716--v7172)
-2. [Architecture & Cartographie des APIs](#-architecture--cartographie-des-apis)
-3. [Explication Détaillée des Schémas JSON](#-explication-détaillée-des-schémas-json)
-4. [Authentification Disney OneID & Device Trust](#-authentification-disney-oneid--device-trust)
-5. [Outils & Scripts Inclus](#-outils--scripts-inclus)
-6. [Démarrage Rapide (Python)](#-démarrage-rapide-python)
-7. [Structure du Dépôt](#-structure-du-dépôt)
+2. [Installation](#-installation)
+3. [Architecture & Cartographie des APIs](#-architecture--cartographie-des-apis)
+4. [Schémas JSON Essentiels](#-schémas-json-essentiels)
+5. [Authentification Disney OneID & Device Trust](#-authentification-disney-oneid--device-trust)
+6. [Outils & Scripts Inclus](#-outils--scripts-inclus)
+7. [Démarrage Rapide (Python)](#-démarrage-rapide-python)
+8. [Erreurs Fréquentes](#-erreurs-fréquentes)
+9. [Structure du Dépôt](#-structure-du-dépôt)
 
 ---
 
@@ -36,6 +38,24 @@ Spécification technique complète, rétro-ingénierie et intégration directe d
 * **Pass & Réservations** : Ajout de `AP_RESERVATIONS_QUERY_KEY` (*Disneyland Pass*) ; retrait de `getMagicPassSummaryQuery`, `FEATURE_TICKET_LINKING` et `RNPassKitHelper`.
 * **Cartographie** : Passage de `tilesConfig714.json` à `tilesConfig717.json` (+2 307 tuiles zoom 17) et ajout de `ORION_PREMIER_ACCESS_ICON` / `REFURBISHMENT_POI_ICON`.
 * **Sécurité & Stack** : Masquage PII (`********`) dans les logs pour `/bookings/`, `/orders/`, `/pass/`, `/payment/`, `/reservations/`, `/ticket/`, `/unlink/`. Migration vers `ExpoNetwork`, `ExpoLinearGradient` et Android Edge-to-Edge.
+
+➡️ Diff complet et historique des versions : [**`CHANGELOG.md`**](./CHANGELOG.md).
+
+---
+
+## 📦 Installation
+
+**Prérequis** : Python 3.10+, et Microsoft Edge installé pour `auth_manager.py login` (le navigateur est lancé via Playwright avec `channel="msedge"`).
+
+```bash
+git clone https://github.com/0x3fx22/disneyland-paris-app.git
+cd disneyland-paris-app
+pip install -r requirements.txt
+cp .env.example .env          # puis renseigner DISNEY_EMAIL / DISNEY_PASSWORD (et IMAP_* pour l'OTP automatique)
+python auth_manager.py login  # première connexion : crée authenticated_session.json et .disney_browser_profile/
+```
+
+> Les endpoints publics (WaitTimes, GraphQL horaires/catalogue) ne nécessitent **aucun compte** : seuls DRS et le profil exigent `login`.
 
 ---
 
@@ -66,6 +86,14 @@ graph TD
 ```
 
 ### Endpoints Officiels Clés
+Index complet avec date de dernière vérification : [spec §2.0](./DISNEYLAND_PARIS_API_SPEC.md#20-index-des-endpoints).
+
+> 🧪 **Explorer l'API sans écrire de code** :
+> * [`openapi.yaml`](./openapi.yaml) : contrat OpenAPI 3.1 (à coller dans [Swagger Editor](https://editor.swagger.io) ou `npx @redocly/cli preview-docs openapi.yaml`).
+> * [`requests/public.http`](./requests/public.http) : requêtes prêtes à exécuter (extension VS Code *REST Client* ou JetBrains HTTP Client). [`requests/authenticated.http`](./requests/authenticated.http) pour DRS et OneID.
+> * [`queries/`](./queries) : requêtes GraphQL `.graphql` et leurs variables `.variables.json`.
+> * `python tools/verify_endpoints.py` : vérifie que les endpoints publics répondent toujours comme documenté.
+
 | Service | Protocole | Endpoint | Authentification Requise |
 | :--- | :--- | :--- | :--- |
 | **Temps d'Attente (`waitTimes`)** | REST / JSON | `https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes` | `x-api-key` statique |
@@ -78,7 +106,9 @@ graph TD
 
 ---
 
-## 📊 Explication Détaillée des Schémas JSON
+## 📊 Schémas JSON Essentiels
+
+Résumé des champs les plus utilisés. Schémas complets, types TypeScript et modèles Pydantic : [spec §5](./DISNEYLAND_PARIS_API_SPEC.md#5-contrats-de-données--modèles-de-types-typescript--pydantic).
 
 ### 1. Fichier de Session (`authenticated_session.json`)
 Conserve l'état d'authentification, les jetons et les cookies pour les requêtes privées :
@@ -90,7 +120,7 @@ Conserve l'état d'authentification, les jetons et les cookies pour les requête
 ### 2. Réservations de Tables DRS (`slotList`)
 Renvoyé par `POST /prod/v4/book-dine/availabilities/{market}?scope=Restaurant` :
 * **`restaurantId`** : ID technique (ex. `P1AR00` = Captain Jack's, `P2TR02` = Bistrot Chez Rémy, `P1AR06` = Agrabah Café).
-* **`mealPeriods`** : Découpage par service (`Lunch`, `Dinner`) contenant `slotList` par tranches de 15 minutes (`time` en AM/PM, `available`: `"true"` / `"false"`).
+* **`mealPeriods`** : Découpage par service (`Lunch`, `Dinner`) contenant `slotList` par tranches de 15 minutes (`time` en AM/PM, `available` : **chaîne** `"true"` / `"false"`, pas un booléen). Détail : [spec §2.3.2](./DISNEYLAND_PARIS_API_SPEC.md#232-créneaux-de-réservation-availabilities).
 
 ### 3. Horaires & Statuts GraphQL (`activitySchedules`)
 Renvoyé par `POST https://api.disneylandparis.com/query` (sans jeton) :
@@ -110,7 +140,7 @@ Renvoyé par `GET https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes` :
 
 ---
 
-## 🛠️ Outils & Scripts Inclus
+## 🛠 Outils & Scripts Inclus
 
 ### 1. [`auth_manager.py`](./auth_manager.py)
 ```bash
@@ -149,9 +179,28 @@ for ride in httpx.get(url, headers=headers).json()[:5]:
 
 ---
 
+## 🩺 Erreurs Fréquentes
+
+| Symptôme | Cause probable | Solution |
+| :--- | :--- | :--- |
+| `403 {"message":"Forbidden"}` | `x-api-key` manquante ou incorrecte | Vérifier la clé propre au service (WaitTimes ≠ DRS) |
+| `403 FORBIDDEN_SCOPE` (DRS) | Fenêtre High-Trust de 30 min expirée | `python auth_manager.py login` |
+| `401 Unauthorized` | `access_token` expiré (24 h) | `python auth_manager.py refresh` |
+| `PALOMINO_CHECK_FAILED` | Mot de passe incorrect ou limitation Disney | Attendre la fin du cooldown (`python auth_manager.py status`) |
+
+Liste complète : [spec §3.1](./DISNEYLAND_PARIS_API_SPEC.md#31-codes-derreur--résolution).
+
+---
+
 ## 📂 Structure du Dépôt
 
-* [**`DISNEYLAND_PARIS_API_SPEC.md`**](./DISNEYLAND_PARIS_API_SPEC.md) : Spécification technique complète (GraphQL, WaitTimes, DRS, OneID, diff v7.17.2).
+* [**`DISNEYLAND_PARIS_API_SPEC.md`**](./DISNEYLAND_PARIS_API_SPEC.md) : Spécification technique complète (GraphQL, WaitTimes, DRS, OneID, codes d'erreur).
+* [**`CHANGELOG.md`**](./CHANGELOG.md) : Différences entre versions de l'application analysées.
+* [**`requirements.txt`**](./requirements.txt) & [**`.env.example`**](./.env.example) : Dépendances Python et modèle de configuration.
+* [**`openapi.yaml`**](./openapi.yaml) : Contrat OpenAPI 3.1 des endpoints REST et GraphQL.
+* [**`queries/`**](./queries) : Requêtes GraphQL et variables prêtes à l'emploi.
+* [**`requests/`**](./requests) : Collection de requêtes exécutables (`.http`).
+* [**`tools/verify_endpoints.py`**](./tools/verify_endpoints.py) : Vérification automatique des endpoints publics (lancée chaque semaine par GitHub Actions).
 * [**`auth_manager.py`**](./auth_manager.py) & [**`dining_scanner.py`**](./dining_scanner.py) : Outils CLI prêts à l'emploi.
 * [**`assets/`**](./assets) : Fichiers de configuration extraits (`app.config` v7.17.2).
 * [**`app/`**](./app) : Arborescence décompilée de référence (la version complète décompilée v7.17.2 est publiée dans [**GitHub Releases**](../../releases)).

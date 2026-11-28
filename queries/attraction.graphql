@@ -1,0 +1,17 @@
+query attraction($market: String!, $types: [String]) {
+  activities(market: $market, types: $types) {
+    id
+    name
+    hideFunctionality
+    location {
+      value
+    }
+    subLocation {
+      value
+    }
+    coordinates {
+      lat
+      lng
+    }
+  }
+}

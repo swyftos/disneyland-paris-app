@@ -1,0 +1,60 @@
+# Requêtes PUBLIQUES (aucun compte requis)
+# Exécutables avec l'extension VS Code « REST Client » (humao.rest-client)
+# ou JetBrains HTTP Client : cliquer sur « Send Request » au-dessus de chaque bloc.
+
+@waitTimesKey = 3jPT5qMimN3kR2kxqd1ez9iF1C68CrBf7zw5ICo4
+@market = fr-fr
+
+### WaitTimes : temps d'attente (renvoie [] hors horaires d'ouverture) — spec §2.1
+GET https://dlp-wt.wdprapps.disney.com/prod/v1/waitTimes
+x-api-key: {{waitTimesKey}}
+User-Agent: okhttp/4.12.0
+Accept: application/json
+
+### GraphQL : les 2 parcs avec coordonnées GPS — spec §2.2 Requête 2
+POST https://api.disneylandparis.com/query
+x-application-id: mobile-app
+Content-Type: application/json
+User-Agent: okhttp/4.12.0
+
+{
+  "query": "query themeParks($market: String!, $types: [String]) { activities(market: $market, types: $types) { id name contentType: __typename medias { type media { url } } coordinates { type lat lng } } }",
+  "variables": { "market": "{{market}}", "types": ["ThemePark"] }
+}
+
+### GraphQL : catalogue des attractions — spec §2.2 Requête 3
+POST https://api.disneylandparis.com/query
+x-application-id: mobile-app
+Content-Type: application/json
+User-Agent: okhttp/4.12.0
+
+{
+  "query": "query attraction($market: String!, $types: [String]) { activities(market: $market, types: $types) { id name hideFunctionality location { value } subLocation { value } coordinates { lat lng } } }",
+  "variables": { "market": "{{market}}", "types": ["Attraction"] }
+}
+
+### GraphQL : horaires d'ouverture des restaurants — spec §2.2 Requête 4
+POST https://api.disneylandparis.com/query
+x-application-id: mobile-app
+Content-Type: application/json
+User-Agent: okhttp/4.12.0
+
+{
+  "query": "query restaurantAvailabilities($market: String!, $types: [ActivityScheduleStatusInput]!, $date: String!) { activitySchedules(market: $market, date: $date, types: $types) { id name subType location { value } subLocation { value } schedules(date: $date, types: $types) { startTime endTime date status closed } } }",
+  "variables": { "market": "{{market}}", "types": [{ "type": "Restaurant", "status": ["OPERATING", "REFURBISHMENT", "CLOSED"] }], "date": "" }
+}
+
+### GraphQL : horaires des parcs uniquement (version allégée de activitySchedules) — spec §2.2 Requête 1
+POST https://api.disneylandparis.com/query
+x-application-id: mobile-app
+Content-Type: application/json
+User-Agent: okhttp/4.12.0
+
+{
+  "query": "query activitySchedules($market: String!, $types: [ActivityScheduleStatusInput]!, $date: String!) { activitySchedules(market: $market, date: $date, types: $types) { id name type schedules(date: $date, types: $types) { startTime endTime date status closed } } }",
+  "variables": { "market": "{{market}}", "types": [{ "type": "ThemePark", "status": ["OPERATING", "EXTRA_MAGIC_HOURS"] }], "date": "" }
+}
+
+### CDN : configuration des tuiles de carte — spec §2.2.8
+GET https://media.disneylandparis.com/mapTilesMobile/images/tilesConfig717.json
+User-Agent: okhttp/4.12.0

@@ -1,0 +1,535 @@
+openapi: 3.1.0
+info:
+  title: Disneyland Paris — APIs de l'application mobile (non officiel)
+  version: "7.17.2"
+  summary: Contrat REST/GraphQL observé dans l'application fr.disneylandparis.android v7.17.2.
+  description: |
+    Description OpenAPI des endpoints documentés dans `DISNEYLAND_PARIS_API_SPEC.md`.
+
+    **Extensions propres à ce fichier**
+    * `x-last-verified` : dernière date d'appel réussi en production.
+    * `x-source` : `observed` (réponse réelle capturée) ou `inferred` (déduit du code décompilé, jamais appelé).
+
+    **Visualiser** : `npx @redocly/cli preview-docs openapi.yaml` ou coller le fichier dans https://editor.swagger.io.
+
+    Plusieurs hôtes sont utilisés : chaque chemin déclare son propre `servers`.
+tags:
+  - name: WaitTimes
+    description: Temps d'attente temps réel (spec §2.1)
+  - name: GraphQL
+    description: API GraphQL centrale (spec §2.2). Requêtes prêtes à l'emploi dans `queries/`.
+  - name: CDN
+    description: Fichiers statiques de la carte (spec §2.2.8)
+  - name: DRS
+    description: Réservation de tables (spec §2.3)
+  - name: OneID
+    description: Authentification Disney OneID / JGC v8 (spec §2.4)
+
+components:
+  securitySchemes:
+    waitTimesKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: "Clé statique WaitTimes : `3jPT5qMimN3kR2kxqd1ez9iF1C68CrBf7zw5ICo4`"
+    drsKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: "Clé statique DRS : `AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY`"
+    applicationId:
+      type: apiKey
+      in: header
+      name: x-application-id
+      description: "Toujours `mobile-app`."
+    bearer:
+      type: http
+      scheme: bearer
+      description: "`access_token` OneID standard (24 h, `AUTHZ_GUEST_UNSECURED_SESSION` ou mieux)."
+    highTrustBearer:
+      type: http
+      scheme: bearer
+      description: "`access_token` OneID en **High-Trust** (`AUTHZ_GUEST_SECURED_SESSION`, fenêtre de 30 min). Sinon `403 FORBIDDEN_SCOPE`."
+
+  parameters:
+    market:
+      name: market
+      in: path
+      required: true
+      description: Marché / langue.
+      schema: { type: string, example: fr-fr }
+    restaurantIdQuery:
+      name: restaurantId
+      in: query
+      required: true
+      description: ID technique du restaurant (voir spec §2.7).
+      schema: { $ref: "#/components/schemas/RestaurantId" }
+
+  schemas:
+    RestaurantId:
+      type: string
+      pattern: "^(P1|P2|D01|H0\\d)[A-Z]?R\\d{2}$"
+      examples: [P1AR00, P2TR02, H01R01]
+    OperatingStatus:
+      type: string
+      enum: [OPERATING, DOWN, CLOSED, REFURBISHMENT]
+    ScheduleStatus:
+      type: string
+      enum: [OPERATING, EXTRA_MAGIC_HOURS, PERFORMANCE_TIME, REFURBISHMENT, CLOSED]
+    StringBoolean:
+      type: string
+      enum: ["true", "false"]
+      description: Booléen encodé en chaîne (comparer à `"true"`, pas à `true`).
+
+    WaitTime:
+      type: object
+      required: [id, status]
+      properties:
+        id: { type: string, example: P1AA01 }
+        name: { type: string, example: Big Thunder Mountain }
+        entityType: { type: string, example: Attraction }
+        parkId: { type: string, enum: [P1, P2] }
+        status: { $ref: "#/components/schemas/OperatingStatus" }
+        postedWaitMinutes: { type: integer, description: Attente file standard (min). }
+        singleRider:
+          type: object
+          properties:
+            isAvailable: { type: boolean }
+            waitMinutes: { type: integer }
+        standby:
+          type: object
+          properties: { isAvailable: { type: boolean } }
+        virtualQueue:
+          type: object
+          properties: { isAvailable: { type: boolean } }
+        premierAccess:
+          type: object
+          properties:
+            isAvailable: { type: boolean }
+            price: { type: number, description: Tarif Premier Access One (EUR). }
+        lastUpdated: { type: string, format: date-time }
+
+    GraphQLRequest:
+      type: object
+      required: [query]
+      properties:
+        query: { type: string, description: "Contenu d'un fichier de `queries/`." }
+        variables: { type: object, additionalProperties: true }
+        operationName: { type: string }
+    GraphQLResponse:
+      type: object
+      properties:
+        data: { type: [object, "null"], additionalProperties: true }
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message: { type: string }
+
+    AvailabilitiesRequest:
+      type: object
+      required: [restaurantId, date, partyMix, session, sourceSite]
+      properties:
+        restaurantId: { $ref: "#/components/schemas/RestaurantId" }
+        date: { type: string, format: date, example: "2026-10-31" }
+        partyMix: { type: integer, minimum: 1, description: "Couverts (adultes + enfants)." }
+        session: { type: integer, enum: [0, 1, 2], description: "0 = tous les services, 1 = midi, 2 = soir." }
+        sourceSite: { type: string, enum: [web, mobile] }
+    Slot:
+      type: object
+      properties:
+        time: { type: string, pattern: "^\\d{2}:\\d{2} (AM|PM)$", example: "04:00 PM" }
+        available: { $ref: "#/components/schemas/StringBoolean" }
+    MealPeriod:
+      type: object
+      properties:
+        mealPeriod: { type: string, description: "`Lunch`, `Dinner` (casse variable : comparer sans casse)." }
+        slotList: { type: array, items: { $ref: "#/components/schemas/Slot" } }
+    RestaurantAvailability:
+      type: object
+      properties:
+        restaurantId: { $ref: "#/components/schemas/RestaurantId" }
+        startTime: { type: string, example: "2026-10-31 11:30:00.0" }
+        endTime: { type: string, example: "2026-10-31 22:00:00.0" }
+        status: { $ref: "#/components/schemas/OperatingStatus" }
+        mealPeriods: { type: array, items: { $ref: "#/components/schemas/MealPeriod" } }
+    BookRequest:
+      type: object
+      required: [restaurantId, date, slot, partyMix, session, sourceSite, email, externalid, surName, foreName, country, language]
+      properties:
+        restaurantId: { $ref: "#/components/schemas/RestaurantId" }
+        date: { type: string, format: date }
+        slot: { type: string, example: "04:00 PM", description: "Valeur `time` d'un créneau `available: \"true\"`." }
+        partyMix: { type: string, example: "2", description: "Chaîne ici, alors que c'est un entier dans `availabilities`." }
+        session: { type: integer, enum: [0, 1, 2] }
+        sourceSite: { type: string, enum: [web, mobile] }
+        email: { type: string, format: email }
+        externalid: { type: string, description: "SWID du compte, accolades incluses.", example: "{00000000-0000-0000-0000-000000000000}" }
+        surName: { type: string }
+        foreName: { type: string }
+        birthDate: { type: string, format: date }
+        phoneNumber: { type: string, example: "+33600000000" }
+        title: { type: string }
+        country: { type: string, example: FR }
+        language: { type: string, example: fr-FR }
+        message: { type: string }
+        newsLetter: { type: boolean }
+        fp1: { type: string, description: Empreinte anti-fraude (vide côté web). }
+        fp2: { type: string }
+        fp3: { type: string }
+
+    OneIDToken:
+      type: object
+      properties:
+        access_token: { type: string }
+        refresh_token: { type: [string, "null"] }
+        swid: { type: string, example: "{00000000-0000-0000-0000-000000000000}" }
+        ttl: { type: integer, description: "Secondes : 86400 (standard), 900 (OTP recovery)." }
+        refresh_ttl: { type: integer, example: 15552000 }
+        scope: { type: string, example: AUTHZ_GUEST_SECURED_SESSION }
+        high_trust_expires_in: { type: integer, example: 1799 }
+        id_token: { type: string, description: JWT RS256 émis par authorization.go.com }
+    OneIDEnvelope:
+      type: object
+      properties:
+        data: { type: [object, "null"], additionalProperties: true }
+        error:
+          type: [object, "null"]
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code: { type: string, examples: [AUTHORIZATION_CREDENTIALS, PALOMINO_CHECK_FAILED] }
+
+  responses:
+    GatewayForbidden:
+      description: "`x-api-key` absente/invalide (AWS API Gateway) ou scope insuffisant (`FORBIDDEN_SCOPE`)."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: { message: { type: string, example: Forbidden } }
+    Unauthorized:
+      description: "`access_token` expiré → `POST /guest/refresh-auth`."
+
+paths:
+  /prod/v1/waitTimes:
+    servers: [{ url: https://dlp-wt.wdprapps.disney.com }]
+    get:
+      tags: [WaitTimes]
+      operationId: getWaitTimes
+      summary: Temps d'attente de toutes les attractions
+      description: Renvoie `[]` en dehors des horaires d'ouverture. Cache CDN de 60 à 120 s, inutile d'appeler plus d'une fois par minute.
+      x-source: observed
+      x-last-verified: "2026-11-27"
+      security: [{ waitTimesKey: [] }]
+      parameters:
+        - { name: User-Agent, in: header, schema: { type: string, default: okhttp/4.12.0 } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/WaitTime" } }
+        "403": { $ref: "#/components/responses/GatewayForbidden" }
+
+  /query:
+    servers: [{ url: https://api.disneylandparis.com }]
+    post:
+      tags: [GraphQL]
+      operationId: graphql
+      summary: Point d'entrée GraphQL unique
+      description: |
+        **Publiques** (sans jeton, vérifiées le 2026-11-27) : `activitySchedules`, `themeParks`, `attraction`,
+        `restaurants`, `restaurantAvailabilities`, `entertainment`. Fichiers dans `queries/`.
+
+        **Privées** (Bearer requis, `x-source: inferred`) : `getWallet`, `getAnnualPass`, `getVirtualQueue`,
+        `getPremierAccessUltimate`, `getPremierAccessOne`, `GetMagicMobile`… (spec §2.5).
+
+        Les erreurs GraphQL sont renvoyées avec un HTTP 200 et un tableau `errors`.
+      x-source: observed
+      x-last-verified: "2026-11-27"
+      security:
+        - applicationId: []
+        - applicationId: []
+          bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/GraphQLRequest" }
+            examples:
+              themeParks:
+                summary: Les 2 parcs avec coordonnées
+                value:
+                  query: "query themeParks($market: String!, $types: [String]) { activities(market: $market, types: $types) { id name contentType: __typename coordinates { type lat lng } } }"
+                  variables: { market: fr-fr, types: [ThemePark] }
+      responses:
+        "200":
+          description: OK (y compris en cas d'erreur GraphQL, voir `errors`)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GraphQLResponse" }
+
+  /mapTilesMobile/images/tilesConfig717.json:
+    servers: [{ url: https://media.disneylandparis.com }]
+    get:
+      tags: [CDN]
+      operationId: getTilesConfig
+      summary: Configuration des tuiles de carte (v7.17)
+      x-source: observed
+      x-last-verified: "2026-11-27"
+      security: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { lastUpdate: { type: string, format: date, example: "2026-08-03" } }
+
+  /prod/v4/book-dine/availableDates/{market}:
+    servers: [{ url: https://dlp-is-sales-drs-book-dine.wdprapps.disney.com }]
+    get:
+      tags: [DRS]
+      operationId: drsAvailableDates
+      summary: Dates ouvertes à la réservation pour un restaurant
+      x-source: observed
+      x-last-verified: "2026-09-16"
+      security: [{ drsKey: [], highTrustBearer: [] }]
+      parameters:
+        - $ref: "#/components/parameters/market"
+        - $ref: "#/components/parameters/restaurantIdQuery"
+        - { name: sourceSite, in: query, required: true, schema: { type: string, enum: [web, mobile] } }
+        - { name: scope, in: query, required: true, schema: { type: string, enum: [Restaurant] } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  restaurantId: { $ref: "#/components/schemas/RestaurantId" }
+                  availableDates: { type: array, items: { type: string, format: date } }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/GatewayForbidden" }
+
+  /prod/v4/book-dine/availabilities/{market}:
+    servers: [{ url: https://dlp-is-sales-drs-book-dine.wdprapps.disney.com }]
+    post:
+      tags: [DRS]
+      operationId: drsAvailabilities
+      summary: Créneaux par quart d'heure pour une date
+      x-source: observed
+      x-last-verified: "2026-09-16"
+      security: [{ drsKey: [], highTrustBearer: [] }]
+      parameters:
+        - $ref: "#/components/parameters/market"
+        - { name: scope, in: query, required: true, schema: { type: string, enum: [Restaurant] } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AvailabilitiesRequest" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/RestaurantAvailability" } }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/GatewayForbidden" }
+
+  /prod/v4/book-dine/retrieve/{market}:
+    servers: [{ url: https://dlp-is-sales-drs-book-dine.wdprapps.disney.com }]
+    post:
+      tags: [DRS]
+      operationId: drsRetrieve
+      summary: Réservations de table actives du compte connecté
+      x-source: observed
+      x-last-verified: "2026-09-16"
+      security: [{ drsKey: [], highTrustBearer: [] }]
+      parameters: [{ $ref: "#/components/parameters/market" }]
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, example: {} }
+      responses:
+        "200": { description: Liste des réservations (schéma non documenté) }
+        "403": { $ref: "#/components/responses/GatewayForbidden" }
+
+  /prod/v4/book-dine/restrictedHotelRestaurants:
+    servers: [{ url: https://dlp-is-sales-drs-book-dine.wdprapps.disney.com }]
+    get:
+      tags: [DRS]
+      operationId: drsRestrictedHotelRestaurants
+      summary: Restaurants réservés aux résidents des hôtels Disney
+      description: "Le 2026-11-27, un appel sans `Authorization` renvoie `400 Missing required request parameters: [Authorization]` (ce n'était pas le cas en 2026-09)."
+      x-source: observed
+      x-last-verified: "2026-11-27"
+      security: [{ drsKey: [], bearer: [] }]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hotelCode: { type: string, example: DDLH }
+                    restaurants: { type: array, items: { $ref: "#/components/schemas/RestaurantId" } }
+        "400": { description: "En-tête `Authorization` manquant." }
+
+  /prod/v4/book-dine/book/{market}:
+    servers: [{ url: https://dlp-is-sales-drs-book-dine.wdprapps.disney.com }]
+    post:
+      tags: [DRS]
+      operationId: drsBook
+      summary: "⚠️ Crée une vraie réservation"
+      x-source: observed
+      x-last-verified: "2026-09-16"
+      security: [{ drsKey: [], highTrustBearer: [] }]
+      parameters: [{ $ref: "#/components/parameters/market" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BookRequest" }
+      responses:
+        "200":
+          description: Réservation créée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties: { bookId: { type: string } }
+        "403": { $ref: "#/components/responses/GatewayForbidden" }
+
+  /jgc/v8/client/TPR-DLP.WEB-PROD/guest-flow:
+    servers: [{ url: https://registerdisney.go.com }]
+    post:
+      tags: [OneID]
+      operationId: oneidGuestFlow
+      summary: Détecte si un e-mail possède un compte Disney
+      x-source: observed
+      x-last-verified: "2026-09-15"
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: { email: { type: string, format: email } }
+      responses:
+        "200":
+          description: "`data.guestFlow` = `LOGIN_FLOW` (compte existant)…"
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OneIDEnvelope" }
+
+  /jgc/v8/client/TPR-DLP.WEB-PROD/otp/redeem:
+    servers: [{ url: https://registerdisney.go.com }]
+    post:
+      tags: [OneID]
+      operationId: oneidOtpRedeem
+      summary: Valide un code OTP à 6 chiffres reçu par e-mail
+      x-source: observed
+      x-last-verified: "2026-09-15"
+      security: []
+      parameters:
+        - { name: langPref, in: query, schema: { type: string, example: fr-FR } }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [passcode, sessionIds]
+              properties:
+                passcode: { type: string, pattern: "^\\d{6}$" }
+                sessionIds: { type: array, items: { type: string, format: uuid } }
+      responses:
+        "200":
+          description: "Jeton de recovery (`ttl: 900`, `refresh_token: null`)"
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/OneIDEnvelope"
+                  - properties: { data: { $ref: "#/components/schemas/OneIDToken" } }
+
+  /jgc/v8/client/TPR-DLP.WEB-PROD/guest/refresh-auth:
+    servers: [{ url: https://registerdisney.go.com }]
+    post:
+      tags: [OneID]
+      operationId: oneidRefresh
+      summary: Renouvelle access_token et refresh_token (rotation)
+      description: "La réponse contient un nouveau `refresh_token` : toujours le sauvegarder à la place de l'ancien."
+      x-source: observed
+      x-last-verified: "2026-09-15"
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties: { refreshToken: { type: string } }
+      responses:
+        "200":
+          description: Nouveaux jetons
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/OneIDEnvelope"
+                  - properties:
+                      data:
+                        type: object
+                        properties: { token: { $ref: "#/components/schemas/OneIDToken" } }
+
+  /jgc/v8/client/TPR-DLP.WEB-PROD/guest/{swid}:
+    servers: [{ url: https://registerdisney.go.com }]
+    get:
+      tags: [OneID]
+      operationId: oneidGuestProfile
+      summary: Profil du visiteur connecté
+      x-source: observed
+      x-last-verified: "2026-09-16"
+      security: [{ bearer: [] }]
+      parameters:
+        - { name: swid, in: path, required: true, schema: { type: string }, description: "SWID avec accolades, URL-encodé." }
+      responses:
+        "200":
+          description: Profil (nom, prénom, e-mail, date de naissance, pays, statut, abonnements)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OneIDEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /jgc/v8/client/TPR-DLP.WEB-PROD/guest/{swid}/logout:
+    servers: [{ url: https://registerdisney.go.com }]
+    post:
+      tags: [OneID]
+      operationId: oneidLogout
+      summary: Invalide la session côté serveur
+      x-source: observed
+      security: [{ bearer: [] }]
+      parameters:
+        - { name: swid, in: path, required: true, schema: { type: string } }
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, example: {} }
+      responses:
+        "200": { description: Déconnecté }

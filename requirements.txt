@@ -1,0 +1,8 @@
+# auth_manager.py : connexion navigateur persistante (login / Device Trust)
+playwright>=1.40
+
+# Exemples du README et client de référence (DISNEYLAND_PARIS_API_SPEC.md §7)
+httpx>=0.27
+
+# Modèles de données de la spec (DISNEYLAND_PARIS_API_SPEC.md §5) — optionnel
+pydantic>=2.0

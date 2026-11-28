@@ -688,7 +688,8 @@ class DisneylandAuthManager:
         access_token = token.get("access_token")
         if access_token:
             masked = f"{access_token[:6]}...{access_token[-6:]}" if len(access_token) > 12 else access_token
-            print(f"Access Token      : {masked} [ACTIVE]")
+            state = "ACTIVE" if self.is_token_valid(require_high_trust=False, buffer_seconds=0) else "EXPIRED"
+            print(f"Access Token      : {masked} [{state}]")
         else:
             print(f"Access Token      : None [EXPIRED / MISSING]")
 
