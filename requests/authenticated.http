@@ -3,9 +3,7 @@
 # 1. python auth_manager.py login      (ou refresh)
 # 2. python auth_manager.py get-token  → copier la valeur dans @accessToken ci-dessous
 #    (ou définir les variables dans un environnement REST Client : http-client.env.json, ignoré par git)
-#
-# ⚠️ Ne jamais committer ce fichier avec un vrai jeton.
-# ⚠️ Les endpoints DRS exigent un jeton High-Trust (fenêtre de 30 min) : sinon 403 FORBIDDEN_SCOPE.
+
 
 @drsKey = AaQHDoRgDa66dl2PQuTEe9DjyBlH8ylV4LxnldFY
 @drs = https://dlp-is-sales-drs-book-dine.wdprapps.disney.com/prod/v4/book-dine
